@@ -28,4 +28,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "proctor"
 
-include(":proctor")
+include(":proctor", ":proctor-report")

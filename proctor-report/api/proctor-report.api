@@ -1,0 +1,104 @@
+public final class com/jantursky/proctor/report/CaseDiff {
+	public final fun getBase ()Lcom/jantursky/proctor/CaseResult;
+	public final fun getChange ()Lcom/jantursky/proctor/report/Change;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getInput ()Ljava/lang/String;
+	public final fun getOther ()Lcom/jantursky/proctor/CaseResult;
+	public final fun getScoreDelta ()Ljava/lang/Double;
+}
+
+public final class com/jantursky/proctor/report/Change : java/lang/Enum {
+	public static final field Improved Lcom/jantursky/proctor/report/Change;
+	public static final field NotComparable Lcom/jantursky/proctor/report/Change;
+	public static final field OnlyInBase Lcom/jantursky/proctor/report/Change;
+	public static final field OnlyInOther Lcom/jantursky/proctor/report/Change;
+	public static final field Regressed Lcom/jantursky/proctor/report/Change;
+	public static final field Same Lcom/jantursky/proctor/report/Change;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/proctor/report/Change;
+	public static fun values ()[Lcom/jantursky/proctor/report/Change;
+}
+
+public final class com/jantursky/proctor/report/DiffAxis : java/lang/Enum {
+	public static final field Backend Lcom/jantursky/proctor/report/DiffAxis;
+	public static final field Device Lcom/jantursky/proctor/report/DiffAxis;
+	public static final field ModelVersion Lcom/jantursky/proctor/report/DiffAxis;
+	public static final field OsVersion Lcom/jantursky/proctor/report/DiffAxis;
+	public static final field Platform Lcom/jantursky/proctor/report/DiffAxis;
+	public static final field PromptVersion Lcom/jantursky/proctor/report/DiffAxis;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getLabel ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/proctor/report/DiffAxis;
+	public static fun values ()[Lcom/jantursky/proctor/report/DiffAxis;
+}
+
+public final class com/jantursky/proctor/report/Report {
+	public static final field Companion Lcom/jantursky/proctor/report/Report$Companion;
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDiffs ()Ljava/util/List;
+	public final fun getRuns ()Ljava/util/List;
+	public final fun toHtml ()Ljava/lang/String;
+	public final fun toMarkdown ()Ljava/lang/String;
+	public final fun verdict (Lcom/jantursky/proctor/report/VerdictOptions;)Lcom/jantursky/proctor/report/Verdict;
+	public static synthetic fun verdict$default (Lcom/jantursky/proctor/report/Report;Lcom/jantursky/proctor/report/VerdictOptions;ILjava/lang/Object;)Lcom/jantursky/proctor/report/Verdict;
+}
+
+public final class com/jantursky/proctor/report/Report$Companion {
+	public final fun of (Ljava/util/List;Lcom/jantursky/proctor/RunResult;)Lcom/jantursky/proctor/report/Report;
+	public static synthetic fun of$default (Lcom/jantursky/proctor/report/Report$Companion;Ljava/util/List;Lcom/jantursky/proctor/RunResult;ILjava/lang/Object;)Lcom/jantursky/proctor/report/Report;
+}
+
+public final class com/jantursky/proctor/report/ReportJob {
+	public static final field INSTANCE Lcom/jantursky/proctor/report/ReportJob;
+	public final fun run (Ljava/nio/file/Path;Ljava/nio/file/Path;Ljava/lang/String;Lcom/jantursky/proctor/report/VerdictOptions;)Lcom/jantursky/proctor/report/ReportOutput;
+	public static synthetic fun run$default (Lcom/jantursky/proctor/report/ReportJob;Ljava/nio/file/Path;Ljava/nio/file/Path;Ljava/lang/String;Lcom/jantursky/proctor/report/VerdictOptions;ILjava/lang/Object;)Lcom/jantursky/proctor/report/ReportOutput;
+}
+
+public final class com/jantursky/proctor/report/ReportOutput {
+	public final fun getHtml ()Ljava/nio/file/Path;
+	public final fun getMarkdown ()Ljava/nio/file/Path;
+	public final fun getVerdict ()Lcom/jantursky/proctor/report/Verdict;
+}
+
+public final class com/jantursky/proctor/report/ResultFiles {
+	public static final field INSTANCE Lcom/jantursky/proctor/report/ResultFiles;
+	public final fun read (Ljava/nio/file/Path;)Lcom/jantursky/proctor/RunResult;
+	public final fun readAll (Ljava/nio/file/Path;)Ljava/util/List;
+}
+
+public final class com/jantursky/proctor/report/RunDiff {
+	public static final field Companion Lcom/jantursky/proctor/report/RunDiff$Companion;
+	public final fun describe ()Ljava/lang/String;
+	public final fun getAxes ()Ljava/util/List;
+	public final fun getBase ()Lcom/jantursky/proctor/RunResult;
+	public final fun getCases ()Ljava/util/List;
+	public final fun getImprovements ()I
+	public final fun getOther ()Lcom/jantursky/proctor/RunResult;
+	public final fun getRegressions ()I
+	public final fun getScoreDelta ()Ljava/lang/Double;
+}
+
+public final class com/jantursky/proctor/report/RunDiff$Companion {
+	public final fun of (Lcom/jantursky/proctor/RunResult;Lcom/jantursky/proctor/RunResult;)Lcom/jantursky/proctor/report/RunDiff;
+}
+
+public final class com/jantursky/proctor/report/Verdict {
+	public final fun getPassed ()Z
+	public final fun getReasons ()Ljava/util/List;
+}
+
+public final class com/jantursky/proctor/report/VerdictOptions {
+	public fun <init> ()V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun copy (ZZ)Lcom/jantursky/proctor/report/VerdictOptions;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/report/VerdictOptions;ZZILjava/lang/Object;)Lcom/jantursky/proctor/report/VerdictOptions;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFailOnNotGraded ()Z
+	public final fun getFailOnRegression ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
