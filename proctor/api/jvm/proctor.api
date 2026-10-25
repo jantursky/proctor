@@ -1,0 +1,535 @@
+public final class com/jantursky/proctor/Attempt {
+	public static final field Companion Lcom/jantursky/proctor/Attempt$Companion;
+	public fun <init> (Ljava/lang/String;JLcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;JLcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()J
+	public final fun component3 ()Lcom/jantursky/proctor/Status;
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;JLcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/util/List;Ljava/lang/String;)Lcom/jantursky/proctor/Attempt;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/Attempt;Ljava/lang/String;JLcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/Attempt;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGraders ()Ljava/util/List;
+	public final fun getLatencyMillis ()J
+	public final fun getNote ()Ljava/lang/String;
+	public final fun getOutput ()Ljava/lang/String;
+	public final fun getScore ()Ljava/lang/Double;
+	public final fun getStatus ()Lcom/jantursky/proctor/Status;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/Attempt$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/Attempt$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/Attempt;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/Attempt;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/Attempt$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/AvailabilityState : java/lang/Enum {
+	public static final field Available Lcom/jantursky/proctor/AvailabilityState;
+	public static final field Companion Lcom/jantursky/proctor/AvailabilityState$Companion;
+	public static final field Downloadable Lcom/jantursky/proctor/AvailabilityState;
+	public static final field Downloading Lcom/jantursky/proctor/AvailabilityState;
+	public static final field Unavailable Lcom/jantursky/proctor/AvailabilityState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/proctor/AvailabilityState;
+	public static fun values ()[Lcom/jantursky/proctor/AvailabilityState;
+}
+
+public final class com/jantursky/proctor/AvailabilityState$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/jantursky/proctor/BackendAvailability {
+}
+
+public final class com/jantursky/proctor/BackendAvailability$Available : com/jantursky/proctor/BackendAvailability {
+	public static final field INSTANCE Lcom/jantursky/proctor/BackendAvailability$Available;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/BackendAvailability$Downloadable : com/jantursky/proctor/BackendAvailability {
+	public static final field INSTANCE Lcom/jantursky/proctor/BackendAvailability$Downloadable;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/BackendAvailability$Downloading : com/jantursky/proctor/BackendAvailability {
+	public static final field INSTANCE Lcom/jantursky/proctor/BackendAvailability$Downloading;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/BackendAvailability$Unavailable : com/jantursky/proctor/BackendAvailability {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/jantursky/proctor/BackendAvailability$Unavailable;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/BackendAvailability$Unavailable;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/BackendAvailability$Unavailable;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getReason ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/jantursky/proctor/BackendException : java/lang/Exception {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/jantursky/proctor/BackendException$Backgrounded : com/jantursky/proctor/BackendException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/jantursky/proctor/BackendException$Failed : com/jantursky/proctor/BackendException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/jantursky/proctor/BackendException$QuotaExceeded : com/jantursky/proctor/BackendException {
+	public fun <init> ()V
+	public synthetic fun <init> (Lkotlin/time/Duration;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlin/time/Duration;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getRetryAfter-FghU774 ()Lkotlin/time/Duration;
+}
+
+public final class com/jantursky/proctor/BackendException$Unavailable : com/jantursky/proctor/BackendException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getReason ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/CaseBuilder {
+	public final fun expect (Ljava/lang/Object;)V
+}
+
+public final class com/jantursky/proctor/CaseResult {
+	public static final field Companion Lcom/jantursky/proctor/CaseResult$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/Double;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/Double;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lcom/jantursky/proctor/Status;
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun component6 ()Ljava/lang/Double;
+	public final fun component7 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/Double;Ljava/util/List;)Lcom/jantursky/proctor/CaseResult;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/CaseResult;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/Double;Ljava/util/List;ILjava/lang/Object;)Lcom/jantursky/proctor/CaseResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttempts ()Ljava/util/List;
+	public final fun getExpected ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getInput ()Ljava/lang/String;
+	public final fun getMeanScore ()Ljava/lang/Double;
+	public final fun getSpread ()Ljava/lang/Double;
+	public final fun getStatus ()Lcom/jantursky/proctor/Status;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/CaseResult$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/CaseResult$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/CaseResult;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/CaseResult;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/CaseResult$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/jantursky/proctor/EmbeddingProvider {
+	public abstract fun embed (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/jantursky/proctor/Environment {
+	public static final field Companion Lcom/jantursky/proctor/Environment$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/jantursky/proctor/Environment;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/Environment;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/Environment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackend ()Ljava/lang/String;
+	public final fun getDeviceModel ()Ljava/lang/String;
+	public final fun getModelVersion ()Ljava/lang/String;
+	public final fun getOsVersion ()Ljava/lang/String;
+	public final fun getPlatform ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/Environment$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/Environment$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/Environment;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/Environment;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/Environment$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/EvalCase {
+	public final fun getExpected ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getInput ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/EvalRunner {
+	public fun <init> (Lcom/jantursky/proctor/ModelBackend;Lcom/jantursky/proctor/RunnerConfig;Lkotlin/time/Clock;)V
+	public synthetic fun <init> (Lcom/jantursky/proctor/ModelBackend;Lcom/jantursky/proctor/RunnerConfig;Lkotlin/time/Clock;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun run (Lcom/jantursky/proctor/EvalSuite;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun run$default (Lcom/jantursky/proctor/EvalRunner;Lcom/jantursky/proctor/EvalSuite;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun runAll (Lcom/jantursky/proctor/EvalSuite;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/jantursky/proctor/EvalSuite {
+	public final fun getCases ()Ljava/util/List;
+	public final fun getGraders ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPrompts ()Ljava/util/List;
+	public final fun getRepeat ()I
+	public final fun getSampling ()Lcom/jantursky/proctor/Sampling;
+	public final fun prompt (Ljava/lang/String;)Lcom/jantursky/proctor/PromptVariant;
+}
+
+public final class com/jantursky/proctor/EvalSuiteBuilder {
+	public final fun case (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun case$default (Lcom/jantursky/proctor/EvalSuiteBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun graders (Lkotlin/jvm/functions/Function1;)V
+	public final fun passWhen (Lkotlin/jvm/functions/Function1;)V
+	public final fun prompt (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun repeat (I)V
+	public final fun sampling (Lcom/jantursky/proctor/Sampling;)V
+}
+
+public final class com/jantursky/proctor/FakeBackend : com/jantursky/proctor/ModelBackend {
+	public fun <init> (Lcom/jantursky/proctor/BackendAvailability;Lcom/jantursky/proctor/Environment;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/jantursky/proctor/BackendAvailability;Lcom/jantursky/proctor/Environment;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun availability (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun environment (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun generate (Ljava/lang/String;Lcom/jantursky/proctor/Sampling;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getPrompts ()Ljava/util/List;
+}
+
+public final class com/jantursky/proctor/Grade {
+	public static final field Companion Lcom/jantursky/proctor/Grade$Companion;
+	public fun <init> (Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;)V
+	public final fun component1 ()Lcom/jantursky/proctor/Status;
+	public final fun component2 ()Ljava/lang/Double;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;)Lcom/jantursky/proctor/Grade;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/Grade;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/Grade;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRationale ()Ljava/lang/String;
+	public final fun getScore ()Ljava/lang/Double;
+	public final fun getStatus ()Lcom/jantursky/proctor/Status;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/Grade$Companion {
+	public final fun failed (DLjava/lang/String;)Lcom/jantursky/proctor/Grade;
+	public static synthetic fun failed$default (Lcom/jantursky/proctor/Grade$Companion;DLjava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/Grade;
+	public final fun notGraded (Ljava/lang/String;)Lcom/jantursky/proctor/Grade;
+	public final fun passed (DLjava/lang/String;)Lcom/jantursky/proctor/Grade;
+	public static synthetic fun passed$default (Lcom/jantursky/proctor/Grade$Companion;DLjava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/Grade;
+}
+
+public final class com/jantursky/proctor/GradeContext {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/jantursky/proctor/GradeContext;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/GradeContext;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/GradeContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExpected ()Ljava/lang/String;
+	public final fun getInput ()Ljava/lang/String;
+	public final fun getOutput ()Ljava/lang/String;
+	public final fun getPrompt ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/jantursky/proctor/Grader {
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun grade (Lcom/jantursky/proctor/GradeContext;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/jantursky/proctor/GraderResult {
+	public static final field Companion Lcom/jantursky/proctor/GraderResult$Companion;
+	public fun <init> (Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/jantursky/proctor/Status;
+	public final fun component3 ()Ljava/lang/Double;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;)Lcom/jantursky/proctor/GraderResult;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/GraderResult;Ljava/lang/String;Lcom/jantursky/proctor/Status;Ljava/lang/Double;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/GraderResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getRationale ()Ljava/lang/String;
+	public final fun getScore ()Ljava/lang/Double;
+	public final fun getStatus ()Lcom/jantursky/proctor/Status;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/GraderResult$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/GraderResult$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/GraderResult;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/GraderResult;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/GraderResult$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/GradersBuilder {
+	public final fun add (Lcom/jantursky/proctor/Grader;)V
+	public final fun exactMatch (Z)V
+	public static synthetic fun exactMatch$default (Lcom/jantursky/proctor/GradersBuilder;ZILjava/lang/Object;)V
+	public final fun llmJudge (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)V
+	public final fun regex (Lkotlin/text/Regex;)V
+	public final fun semanticSimilarity (Lcom/jantursky/proctor/EmbeddingProvider;D)V
+	public static synthetic fun semanticSimilarity$default (Lcom/jantursky/proctor/GradersBuilder;Lcom/jantursky/proctor/EmbeddingProvider;DILjava/lang/Object;)V
+}
+
+public final class com/jantursky/proctor/GradersKt {
+	public static final fun exactMatchGrader (Z)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun exactMatchGrader$default (ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun jsonSchemaGrader (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun jsonSchemaGrader$default (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;ILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun llmJudgeGrader (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)Lcom/jantursky/proctor/Grader;
+	public static final fun regexGrader (Lkotlin/text/Regex;)Lcom/jantursky/proctor/Grader;
+	public static final fun semanticSimilarityGrader (Lcom/jantursky/proctor/EmbeddingProvider;D)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun semanticSimilarityGrader$default (Lcom/jantursky/proctor/EmbeddingProvider;DILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+}
+
+public abstract interface class com/jantursky/proctor/Judge {
+	public abstract fun judge (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/jantursky/proctor/ModelBackend {
+	public abstract fun availability (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun environment (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun generate (Ljava/lang/String;Lcom/jantursky/proctor/Sampling;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface annotation class com/jantursky/proctor/ProctorDsl : java/lang/annotation/Annotation {
+}
+
+public final class com/jantursky/proctor/PromptVariant {
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun render (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/ResultKt {
+	public static final fun getProctorJson ()Lkotlinx/serialization/json/Json;
+}
+
+public final class com/jantursky/proctor/RunAbortedException : java/lang/Exception {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/jantursky/proctor/RunResult {
+	public static final field Companion Lcom/jantursky/proctor/RunResult$Companion;
+	public static final field SCHEMA_VERSION I
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Environment;Lcom/jantursky/proctor/Sampling;ILjava/lang/String;Lcom/jantursky/proctor/AvailabilityState;Ljava/lang/String;Lcom/jantursky/proctor/Summary;Ljava/util/List;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Environment;Lcom/jantursky/proctor/Sampling;ILjava/lang/String;Lcom/jantursky/proctor/AvailabilityState;Ljava/lang/String;Lcom/jantursky/proctor/Summary;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component10 ()Lcom/jantursky/proctor/Summary;
+	public final fun component11 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lcom/jantursky/proctor/Environment;
+	public final fun component5 ()Lcom/jantursky/proctor/Sampling;
+	public final fun component6 ()I
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Lcom/jantursky/proctor/AvailabilityState;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (ILjava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Environment;Lcom/jantursky/proctor/Sampling;ILjava/lang/String;Lcom/jantursky/proctor/AvailabilityState;Ljava/lang/String;Lcom/jantursky/proctor/Summary;Ljava/util/List;)Lcom/jantursky/proctor/RunResult;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/RunResult;ILjava/lang/String;Ljava/lang/String;Lcom/jantursky/proctor/Environment;Lcom/jantursky/proctor/Sampling;ILjava/lang/String;Lcom/jantursky/proctor/AvailabilityState;Ljava/lang/String;Lcom/jantursky/proctor/Summary;Ljava/util/List;ILjava/lang/Object;)Lcom/jantursky/proctor/RunResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun fileName ()Ljava/lang/String;
+	public final fun getAvailability ()Lcom/jantursky/proctor/AvailabilityState;
+	public final fun getAvailabilityReason ()Ljava/lang/String;
+	public final fun getCases ()Ljava/util/List;
+	public final fun getEnvironment ()Lcom/jantursky/proctor/Environment;
+	public final fun getPromptVersion ()Ljava/lang/String;
+	public final fun getRepeat ()I
+	public final fun getSampling ()Lcom/jantursky/proctor/Sampling;
+	public final fun getSchemaVersion ()I
+	public final fun getStartedAt ()Ljava/lang/String;
+	public final fun getSuite ()Ljava/lang/String;
+	public final fun getSummary ()Lcom/jantursky/proctor/Summary;
+	public fun hashCode ()I
+	public final fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/RunResult$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/RunResult$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/RunResult;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/RunResult;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/RunResult$Companion {
+	public final fun fromJson (Ljava/lang/String;)Lcom/jantursky/proctor/RunResult;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/RunnerConfig {
+	public fun <init> ()V
+	public synthetic fun <init> (IJIJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IJIJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getConcurrency ()I
+	public final fun getInitialBackoff-UwyO8pc ()J
+	public final fun getMaxBackoff-UwyO8pc ()J
+	public final fun getMaxQuotaRetries ()I
+	public final fun getRequestDelay-UwyO8pc ()J
+}
+
+public final class com/jantursky/proctor/Sampling {
+	public static final field Companion Lcom/jantursky/proctor/Sampling$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Double;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)Lcom/jantursky/proctor/Sampling;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/Sampling;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/jantursky/proctor/Sampling;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMaxOutputTokens ()Ljava/lang/Integer;
+	public final fun getSeed ()Ljava/lang/Integer;
+	public final fun getTemperature ()Ljava/lang/Double;
+	public final fun getTopK ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/Sampling$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/Sampling$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/Sampling;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/Sampling;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/Sampling$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/Status : java/lang/Enum {
+	public static final field Companion Lcom/jantursky/proctor/Status$Companion;
+	public static final field Failed Lcom/jantursky/proctor/Status;
+	public static final field NotGraded Lcom/jantursky/proctor/Status;
+	public static final field Passed Lcom/jantursky/proctor/Status;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/proctor/Status;
+	public static fun values ()[Lcom/jantursky/proctor/Status;
+}
+
+public final class com/jantursky/proctor/Status$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/SuiteKt {
+	public static final fun evalSuite (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/jantursky/proctor/EvalSuite;
+}
+
+public final class com/jantursky/proctor/SuiteScore {
+	public final fun getFailed ()I
+	public final fun getNotGraded ()I
+	public final fun getPassRate ()D
+	public final fun getPassed ()I
+	public final fun getScore ()D
+	public final fun getTotal ()I
+}
+
+public final class com/jantursky/proctor/Summary {
+	public static final field Companion Lcom/jantursky/proctor/Summary$Companion;
+	public fun <init> (IIIILjava/lang/Double;Z)V
+	public synthetic fun <init> (IIIILjava/lang/Double;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun component6 ()Z
+	public final fun copy (IIIILjava/lang/Double;Z)Lcom/jantursky/proctor/Summary;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/Summary;IIIILjava/lang/Double;ZILjava/lang/Object;)Lcom/jantursky/proctor/Summary;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFailed ()I
+	public final fun getMeanScore ()Ljava/lang/Double;
+	public final fun getNotGraded ()I
+	public final fun getPassed ()I
+	public final fun getSuitePassed ()Z
+	public final fun getTotal ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/jantursky/proctor/Summary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/jantursky/proctor/Summary$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/jantursky/proctor/Summary;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/jantursky/proctor/Summary;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/jantursky/proctor/Summary$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+

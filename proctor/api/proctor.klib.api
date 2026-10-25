@@ -1,0 +1,592 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <proctor:proctor>
+open annotation class com.jantursky.proctor/ProctorDsl : kotlin/Annotation { // com.jantursky.proctor/ProctorDsl|null[0]
+    constructor <init>() // com.jantursky.proctor/ProctorDsl.<init>|<init>(){}[0]
+}
+
+final enum class com.jantursky.proctor/AvailabilityState : kotlin/Enum<com.jantursky.proctor/AvailabilityState> { // com.jantursky.proctor/AvailabilityState|null[0]
+    enum entry Available // com.jantursky.proctor/AvailabilityState.Available|null[0]
+    enum entry Downloadable // com.jantursky.proctor/AvailabilityState.Downloadable|null[0]
+    enum entry Downloading // com.jantursky.proctor/AvailabilityState.Downloading|null[0]
+    enum entry Unavailable // com.jantursky.proctor/AvailabilityState.Unavailable|null[0]
+
+    final val entries // com.jantursky.proctor/AvailabilityState.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.proctor/AvailabilityState> // com.jantursky.proctor/AvailabilityState.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.proctor/AvailabilityState // com.jantursky.proctor/AvailabilityState.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.proctor/AvailabilityState> // com.jantursky.proctor/AvailabilityState.values|values#static(){}[0]
+
+    final object Companion : kotlinx.serialization.internal/SerializerFactory { // com.jantursky.proctor/AvailabilityState.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/AvailabilityState> // com.jantursky.proctor/AvailabilityState.Companion.serializer|serializer(){}[0]
+        final fun serializer(kotlin/Array<out kotlinx.serialization/KSerializer<*>>...): kotlinx.serialization/KSerializer<*> // com.jantursky.proctor/AvailabilityState.Companion.serializer|serializer(kotlin.Array<out|kotlinx.serialization.KSerializer<*>>...){}[0]
+    }
+}
+
+final enum class com.jantursky.proctor/Status : kotlin/Enum<com.jantursky.proctor/Status> { // com.jantursky.proctor/Status|null[0]
+    enum entry Failed // com.jantursky.proctor/Status.Failed|null[0]
+    enum entry NotGraded // com.jantursky.proctor/Status.NotGraded|null[0]
+    enum entry Passed // com.jantursky.proctor/Status.Passed|null[0]
+
+    final val entries // com.jantursky.proctor/Status.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.proctor/Status> // com.jantursky.proctor/Status.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.proctor/Status // com.jantursky.proctor/Status.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.proctor/Status> // com.jantursky.proctor/Status.values|values#static(){}[0]
+
+    final object Companion : kotlinx.serialization.internal/SerializerFactory { // com.jantursky.proctor/Status.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/Status> // com.jantursky.proctor/Status.Companion.serializer|serializer(){}[0]
+        final fun serializer(kotlin/Array<out kotlinx.serialization/KSerializer<*>>...): kotlinx.serialization/KSerializer<*> // com.jantursky.proctor/Status.Companion.serializer|serializer(kotlin.Array<out|kotlinx.serialization.KSerializer<*>>...){}[0]
+    }
+}
+
+abstract fun interface com.jantursky.proctor/EmbeddingProvider { // com.jantursky.proctor/EmbeddingProvider|null[0]
+    abstract suspend fun embed(kotlin/String): kotlin.collections/List<kotlin/Float> // com.jantursky.proctor/EmbeddingProvider.embed|embed(kotlin.String){}[0]
+}
+
+abstract fun interface com.jantursky.proctor/Judge { // com.jantursky.proctor/Judge|null[0]
+    abstract suspend fun judge(kotlin/String): kotlin/String // com.jantursky.proctor/Judge.judge|judge(kotlin.String){}[0]
+}
+
+abstract interface com.jantursky.proctor/Grader { // com.jantursky.proctor/Grader|null[0]
+    abstract val name // com.jantursky.proctor/Grader.name|{}name[0]
+        abstract fun <get-name>(): kotlin/String // com.jantursky.proctor/Grader.name.<get-name>|<get-name>(){}[0]
+
+    abstract suspend fun grade(com.jantursky.proctor/GradeContext): com.jantursky.proctor/Grade // com.jantursky.proctor/Grader.grade|grade(com.jantursky.proctor.GradeContext){}[0]
+}
+
+abstract interface com.jantursky.proctor/ModelBackend { // com.jantursky.proctor/ModelBackend|null[0]
+    abstract suspend fun availability(): com.jantursky.proctor/BackendAvailability // com.jantursky.proctor/ModelBackend.availability|availability(){}[0]
+    abstract suspend fun environment(): com.jantursky.proctor/Environment // com.jantursky.proctor/ModelBackend.environment|environment(){}[0]
+    abstract suspend fun generate(kotlin/String, com.jantursky.proctor/Sampling): kotlin/String // com.jantursky.proctor/ModelBackend.generate|generate(kotlin.String;com.jantursky.proctor.Sampling){}[0]
+}
+
+sealed interface com.jantursky.proctor/BackendAvailability { // com.jantursky.proctor/BackendAvailability|null[0]
+    final class Unavailable : com.jantursky.proctor/BackendAvailability { // com.jantursky.proctor/BackendAvailability.Unavailable|null[0]
+        constructor <init>(kotlin/String) // com.jantursky.proctor/BackendAvailability.Unavailable.<init>|<init>(kotlin.String){}[0]
+
+        final val reason // com.jantursky.proctor/BackendAvailability.Unavailable.reason|{}reason[0]
+            final fun <get-reason>(): kotlin/String // com.jantursky.proctor/BackendAvailability.Unavailable.reason.<get-reason>|<get-reason>(){}[0]
+
+        final fun component1(): kotlin/String // com.jantursky.proctor/BackendAvailability.Unavailable.component1|component1(){}[0]
+        final fun copy(kotlin/String = ...): com.jantursky.proctor/BackendAvailability.Unavailable // com.jantursky.proctor/BackendAvailability.Unavailable.copy|copy(kotlin.String){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/BackendAvailability.Unavailable.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.proctor/BackendAvailability.Unavailable.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.proctor/BackendAvailability.Unavailable.toString|toString(){}[0]
+    }
+
+    final object Available : com.jantursky.proctor/BackendAvailability { // com.jantursky.proctor/BackendAvailability.Available|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/BackendAvailability.Available.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.proctor/BackendAvailability.Available.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.proctor/BackendAvailability.Available.toString|toString(){}[0]
+    }
+
+    final object Downloadable : com.jantursky.proctor/BackendAvailability { // com.jantursky.proctor/BackendAvailability.Downloadable|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/BackendAvailability.Downloadable.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.proctor/BackendAvailability.Downloadable.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.proctor/BackendAvailability.Downloadable.toString|toString(){}[0]
+    }
+
+    final object Downloading : com.jantursky.proctor/BackendAvailability { // com.jantursky.proctor/BackendAvailability.Downloading|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/BackendAvailability.Downloading.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.proctor/BackendAvailability.Downloading.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.proctor/BackendAvailability.Downloading.toString|toString(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/Attempt { // com.jantursky.proctor/Attempt|null[0]
+    constructor <init>(kotlin/String? = ..., kotlin/Long = ..., com.jantursky.proctor/Status, kotlin/Double? = ..., kotlin.collections/List<com.jantursky.proctor/GraderResult> = ..., kotlin/String? = ...) // com.jantursky.proctor/Attempt.<init>|<init>(kotlin.String?;kotlin.Long;com.jantursky.proctor.Status;kotlin.Double?;kotlin.collections.List<com.jantursky.proctor.GraderResult>;kotlin.String?){}[0]
+
+    final val graders // com.jantursky.proctor/Attempt.graders|{}graders[0]
+        final fun <get-graders>(): kotlin.collections/List<com.jantursky.proctor/GraderResult> // com.jantursky.proctor/Attempt.graders.<get-graders>|<get-graders>(){}[0]
+    final val latencyMillis // com.jantursky.proctor/Attempt.latencyMillis|{}latencyMillis[0]
+        final fun <get-latencyMillis>(): kotlin/Long // com.jantursky.proctor/Attempt.latencyMillis.<get-latencyMillis>|<get-latencyMillis>(){}[0]
+    final val note // com.jantursky.proctor/Attempt.note|{}note[0]
+        final fun <get-note>(): kotlin/String? // com.jantursky.proctor/Attempt.note.<get-note>|<get-note>(){}[0]
+    final val output // com.jantursky.proctor/Attempt.output|{}output[0]
+        final fun <get-output>(): kotlin/String? // com.jantursky.proctor/Attempt.output.<get-output>|<get-output>(){}[0]
+    final val score // com.jantursky.proctor/Attempt.score|{}score[0]
+        final fun <get-score>(): kotlin/Double? // com.jantursky.proctor/Attempt.score.<get-score>|<get-score>(){}[0]
+    final val status // com.jantursky.proctor/Attempt.status|{}status[0]
+        final fun <get-status>(): com.jantursky.proctor/Status // com.jantursky.proctor/Attempt.status.<get-status>|<get-status>(){}[0]
+
+    final fun component1(): kotlin/String? // com.jantursky.proctor/Attempt.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.jantursky.proctor/Attempt.component2|component2(){}[0]
+    final fun component3(): com.jantursky.proctor/Status // com.jantursky.proctor/Attempt.component3|component3(){}[0]
+    final fun component4(): kotlin/Double? // com.jantursky.proctor/Attempt.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/List<com.jantursky.proctor/GraderResult> // com.jantursky.proctor/Attempt.component5|component5(){}[0]
+    final fun component6(): kotlin/String? // com.jantursky.proctor/Attempt.component6|component6(){}[0]
+    final fun copy(kotlin/String? = ..., kotlin/Long = ..., com.jantursky.proctor/Status = ..., kotlin/Double? = ..., kotlin.collections/List<com.jantursky.proctor/GraderResult> = ..., kotlin/String? = ...): com.jantursky.proctor/Attempt // com.jantursky.proctor/Attempt.copy|copy(kotlin.String?;kotlin.Long;com.jantursky.proctor.Status;kotlin.Double?;kotlin.collections.List<com.jantursky.proctor.GraderResult>;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/Attempt.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/Attempt.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/Attempt.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/Attempt> { // com.jantursky.proctor/Attempt.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/Attempt.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/Attempt.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/Attempt.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/Attempt // com.jantursky.proctor/Attempt.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/Attempt) // com.jantursky.proctor/Attempt.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.Attempt){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/Attempt.Companion|null[0]
+        final val $childSerializers // com.jantursky.proctor/Attempt.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/Attempt> // com.jantursky.proctor/Attempt.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/CaseBuilder { // com.jantursky.proctor/CaseBuilder|null[0]
+    final fun expect(kotlin/Any) // com.jantursky.proctor/CaseBuilder.expect|expect(kotlin.Any){}[0]
+}
+
+final class com.jantursky.proctor/CaseResult { // com.jantursky.proctor/CaseResult|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String? = ..., com.jantursky.proctor/Status, kotlin/Double? = ..., kotlin/Double? = ..., kotlin.collections/List<com.jantursky.proctor/Attempt>) // com.jantursky.proctor/CaseResult.<init>|<init>(kotlin.String;kotlin.String;kotlin.String?;com.jantursky.proctor.Status;kotlin.Double?;kotlin.Double?;kotlin.collections.List<com.jantursky.proctor.Attempt>){}[0]
+
+    final val attempts // com.jantursky.proctor/CaseResult.attempts|{}attempts[0]
+        final fun <get-attempts>(): kotlin.collections/List<com.jantursky.proctor/Attempt> // com.jantursky.proctor/CaseResult.attempts.<get-attempts>|<get-attempts>(){}[0]
+    final val expected // com.jantursky.proctor/CaseResult.expected|{}expected[0]
+        final fun <get-expected>(): kotlin/String? // com.jantursky.proctor/CaseResult.expected.<get-expected>|<get-expected>(){}[0]
+    final val id // com.jantursky.proctor/CaseResult.id|{}id[0]
+        final fun <get-id>(): kotlin/String // com.jantursky.proctor/CaseResult.id.<get-id>|<get-id>(){}[0]
+    final val input // com.jantursky.proctor/CaseResult.input|{}input[0]
+        final fun <get-input>(): kotlin/String // com.jantursky.proctor/CaseResult.input.<get-input>|<get-input>(){}[0]
+    final val meanScore // com.jantursky.proctor/CaseResult.meanScore|{}meanScore[0]
+        final fun <get-meanScore>(): kotlin/Double? // com.jantursky.proctor/CaseResult.meanScore.<get-meanScore>|<get-meanScore>(){}[0]
+    final val spread // com.jantursky.proctor/CaseResult.spread|{}spread[0]
+        final fun <get-spread>(): kotlin/Double? // com.jantursky.proctor/CaseResult.spread.<get-spread>|<get-spread>(){}[0]
+    final val status // com.jantursky.proctor/CaseResult.status|{}status[0]
+        final fun <get-status>(): com.jantursky.proctor/Status // com.jantursky.proctor/CaseResult.status.<get-status>|<get-status>(){}[0]
+
+    final fun component1(): kotlin/String // com.jantursky.proctor/CaseResult.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.jantursky.proctor/CaseResult.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // com.jantursky.proctor/CaseResult.component3|component3(){}[0]
+    final fun component4(): com.jantursky.proctor/Status // com.jantursky.proctor/CaseResult.component4|component4(){}[0]
+    final fun component5(): kotlin/Double? // com.jantursky.proctor/CaseResult.component5|component5(){}[0]
+    final fun component6(): kotlin/Double? // com.jantursky.proctor/CaseResult.component6|component6(){}[0]
+    final fun component7(): kotlin.collections/List<com.jantursky.proctor/Attempt> // com.jantursky.proctor/CaseResult.component7|component7(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String? = ..., com.jantursky.proctor/Status = ..., kotlin/Double? = ..., kotlin/Double? = ..., kotlin.collections/List<com.jantursky.proctor/Attempt> = ...): com.jantursky.proctor/CaseResult // com.jantursky.proctor/CaseResult.copy|copy(kotlin.String;kotlin.String;kotlin.String?;com.jantursky.proctor.Status;kotlin.Double?;kotlin.Double?;kotlin.collections.List<com.jantursky.proctor.Attempt>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/CaseResult.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/CaseResult.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/CaseResult.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/CaseResult> { // com.jantursky.proctor/CaseResult.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/CaseResult.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/CaseResult.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/CaseResult.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/CaseResult // com.jantursky.proctor/CaseResult.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/CaseResult) // com.jantursky.proctor/CaseResult.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.CaseResult){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/CaseResult.Companion|null[0]
+        final val $childSerializers // com.jantursky.proctor/CaseResult.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/CaseResult> // com.jantursky.proctor/CaseResult.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/Environment { // com.jantursky.proctor/Environment|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String, kotlin/String? = ..., kotlin/String) // com.jantursky.proctor/Environment.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String?;kotlin.String){}[0]
+
+    final val backend // com.jantursky.proctor/Environment.backend|{}backend[0]
+        final fun <get-backend>(): kotlin/String // com.jantursky.proctor/Environment.backend.<get-backend>|<get-backend>(){}[0]
+    final val deviceModel // com.jantursky.proctor/Environment.deviceModel|{}deviceModel[0]
+        final fun <get-deviceModel>(): kotlin/String // com.jantursky.proctor/Environment.deviceModel.<get-deviceModel>|<get-deviceModel>(){}[0]
+    final val modelVersion // com.jantursky.proctor/Environment.modelVersion|{}modelVersion[0]
+        final fun <get-modelVersion>(): kotlin/String? // com.jantursky.proctor/Environment.modelVersion.<get-modelVersion>|<get-modelVersion>(){}[0]
+    final val osVersion // com.jantursky.proctor/Environment.osVersion|{}osVersion[0]
+        final fun <get-osVersion>(): kotlin/String // com.jantursky.proctor/Environment.osVersion.<get-osVersion>|<get-osVersion>(){}[0]
+    final val platform // com.jantursky.proctor/Environment.platform|{}platform[0]
+        final fun <get-platform>(): kotlin/String // com.jantursky.proctor/Environment.platform.<get-platform>|<get-platform>(){}[0]
+
+    final fun component1(): kotlin/String // com.jantursky.proctor/Environment.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.jantursky.proctor/Environment.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.jantursky.proctor/Environment.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // com.jantursky.proctor/Environment.component4|component4(){}[0]
+    final fun component5(): kotlin/String // com.jantursky.proctor/Environment.component5|component5(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String = ...): com.jantursky.proctor/Environment // com.jantursky.proctor/Environment.copy|copy(kotlin.String;kotlin.String;kotlin.String;kotlin.String?;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/Environment.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/Environment.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/Environment.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/Environment> { // com.jantursky.proctor/Environment.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/Environment.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/Environment.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/Environment.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/Environment // com.jantursky.proctor/Environment.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/Environment) // com.jantursky.proctor/Environment.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.Environment){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/Environment.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/Environment> // com.jantursky.proctor/Environment.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/EvalCase { // com.jantursky.proctor/EvalCase|null[0]
+    final val expected // com.jantursky.proctor/EvalCase.expected|{}expected[0]
+        final fun <get-expected>(): kotlin/String? // com.jantursky.proctor/EvalCase.expected.<get-expected>|<get-expected>(){}[0]
+    final val id // com.jantursky.proctor/EvalCase.id|{}id[0]
+        final fun <get-id>(): kotlin/String // com.jantursky.proctor/EvalCase.id.<get-id>|<get-id>(){}[0]
+    final val input // com.jantursky.proctor/EvalCase.input|{}input[0]
+        final fun <get-input>(): kotlin/String // com.jantursky.proctor/EvalCase.input.<get-input>|<get-input>(){}[0]
+}
+
+final class com.jantursky.proctor/EvalRunner { // com.jantursky.proctor/EvalRunner|null[0]
+    constructor <init>(com.jantursky.proctor/ModelBackend, com.jantursky.proctor/RunnerConfig = ..., kotlin.time/Clock = ...) // com.jantursky.proctor/EvalRunner.<init>|<init>(com.jantursky.proctor.ModelBackend;com.jantursky.proctor.RunnerConfig;kotlin.time.Clock){}[0]
+
+    final suspend fun run(com.jantursky.proctor/EvalSuite, kotlin/String = ...): com.jantursky.proctor/RunResult // com.jantursky.proctor/EvalRunner.run|run(com.jantursky.proctor.EvalSuite;kotlin.String){}[0]
+    final suspend fun runAll(com.jantursky.proctor/EvalSuite): kotlin.collections/List<com.jantursky.proctor/RunResult> // com.jantursky.proctor/EvalRunner.runAll|runAll(com.jantursky.proctor.EvalSuite){}[0]
+}
+
+final class com.jantursky.proctor/EvalSuite { // com.jantursky.proctor/EvalSuite|null[0]
+    final val cases // com.jantursky.proctor/EvalSuite.cases|{}cases[0]
+        final fun <get-cases>(): kotlin.collections/List<com.jantursky.proctor/EvalCase> // com.jantursky.proctor/EvalSuite.cases.<get-cases>|<get-cases>(){}[0]
+    final val graders // com.jantursky.proctor/EvalSuite.graders|{}graders[0]
+        final fun <get-graders>(): kotlin.collections/List<com.jantursky.proctor/Grader> // com.jantursky.proctor/EvalSuite.graders.<get-graders>|<get-graders>(){}[0]
+    final val name // com.jantursky.proctor/EvalSuite.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.jantursky.proctor/EvalSuite.name.<get-name>|<get-name>(){}[0]
+    final val prompts // com.jantursky.proctor/EvalSuite.prompts|{}prompts[0]
+        final fun <get-prompts>(): kotlin.collections/List<com.jantursky.proctor/PromptVariant> // com.jantursky.proctor/EvalSuite.prompts.<get-prompts>|<get-prompts>(){}[0]
+    final val repeat // com.jantursky.proctor/EvalSuite.repeat|{}repeat[0]
+        final fun <get-repeat>(): kotlin/Int // com.jantursky.proctor/EvalSuite.repeat.<get-repeat>|<get-repeat>(){}[0]
+    final val sampling // com.jantursky.proctor/EvalSuite.sampling|{}sampling[0]
+        final fun <get-sampling>(): com.jantursky.proctor/Sampling // com.jantursky.proctor/EvalSuite.sampling.<get-sampling>|<get-sampling>(){}[0]
+
+    final fun prompt(kotlin/String): com.jantursky.proctor/PromptVariant // com.jantursky.proctor/EvalSuite.prompt|prompt(kotlin.String){}[0]
+}
+
+final class com.jantursky.proctor/EvalSuiteBuilder { // com.jantursky.proctor/EvalSuiteBuilder|null[0]
+    final fun case(kotlin/String, kotlin/String? = ..., kotlin/Function1<com.jantursky.proctor/CaseBuilder, kotlin/Unit> = ...) // com.jantursky.proctor/EvalSuiteBuilder.case|case(kotlin.String;kotlin.String?;kotlin.Function1<com.jantursky.proctor.CaseBuilder,kotlin.Unit>){}[0]
+    final fun graders(kotlin/Function1<com.jantursky.proctor/GradersBuilder, kotlin/Unit>) // com.jantursky.proctor/EvalSuiteBuilder.graders|graders(kotlin.Function1<com.jantursky.proctor.GradersBuilder,kotlin.Unit>){}[0]
+    final fun passWhen(kotlin/Function1<com.jantursky.proctor/SuiteScore, kotlin/Boolean>) // com.jantursky.proctor/EvalSuiteBuilder.passWhen|passWhen(kotlin.Function1<com.jantursky.proctor.SuiteScore,kotlin.Boolean>){}[0]
+    final fun prompt(kotlin/String, kotlin/Function1<kotlin/String, kotlin/String>) // com.jantursky.proctor/EvalSuiteBuilder.prompt|prompt(kotlin.String;kotlin.Function1<kotlin.String,kotlin.String>){}[0]
+    final fun repeat(kotlin/Int) // com.jantursky.proctor/EvalSuiteBuilder.repeat|repeat(kotlin.Int){}[0]
+    final fun sampling(com.jantursky.proctor/Sampling) // com.jantursky.proctor/EvalSuiteBuilder.sampling|sampling(com.jantursky.proctor.Sampling){}[0]
+}
+
+final class com.jantursky.proctor/FakeBackend : com.jantursky.proctor/ModelBackend { // com.jantursky.proctor/FakeBackend|null[0]
+    constructor <init>(com.jantursky.proctor/BackendAvailability = ..., com.jantursky.proctor/Environment = ..., kotlin/Function2<kotlin/String, kotlin/Int, kotlin/String>) // com.jantursky.proctor/FakeBackend.<init>|<init>(com.jantursky.proctor.BackendAvailability;com.jantursky.proctor.Environment;kotlin.Function2<kotlin.String,kotlin.Int,kotlin.String>){}[0]
+
+    final val prompts // com.jantursky.proctor/FakeBackend.prompts|{}prompts[0]
+        final fun <get-prompts>(): kotlin.collections/List<kotlin/String> // com.jantursky.proctor/FakeBackend.prompts.<get-prompts>|<get-prompts>(){}[0]
+
+    final suspend fun availability(): com.jantursky.proctor/BackendAvailability // com.jantursky.proctor/FakeBackend.availability|availability(){}[0]
+    final suspend fun environment(): com.jantursky.proctor/Environment // com.jantursky.proctor/FakeBackend.environment|environment(){}[0]
+    final suspend fun generate(kotlin/String, com.jantursky.proctor/Sampling): kotlin/String // com.jantursky.proctor/FakeBackend.generate|generate(kotlin.String;com.jantursky.proctor.Sampling){}[0]
+}
+
+final class com.jantursky.proctor/Grade { // com.jantursky.proctor/Grade|null[0]
+    constructor <init>(com.jantursky.proctor/Status, kotlin/Double?, kotlin/String) // com.jantursky.proctor/Grade.<init>|<init>(com.jantursky.proctor.Status;kotlin.Double?;kotlin.String){}[0]
+
+    final val rationale // com.jantursky.proctor/Grade.rationale|{}rationale[0]
+        final fun <get-rationale>(): kotlin/String // com.jantursky.proctor/Grade.rationale.<get-rationale>|<get-rationale>(){}[0]
+    final val score // com.jantursky.proctor/Grade.score|{}score[0]
+        final fun <get-score>(): kotlin/Double? // com.jantursky.proctor/Grade.score.<get-score>|<get-score>(){}[0]
+    final val status // com.jantursky.proctor/Grade.status|{}status[0]
+        final fun <get-status>(): com.jantursky.proctor/Status // com.jantursky.proctor/Grade.status.<get-status>|<get-status>(){}[0]
+
+    final fun component1(): com.jantursky.proctor/Status // com.jantursky.proctor/Grade.component1|component1(){}[0]
+    final fun component2(): kotlin/Double? // com.jantursky.proctor/Grade.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.jantursky.proctor/Grade.component3|component3(){}[0]
+    final fun copy(com.jantursky.proctor/Status = ..., kotlin/Double? = ..., kotlin/String = ...): com.jantursky.proctor/Grade // com.jantursky.proctor/Grade.copy|copy(com.jantursky.proctor.Status;kotlin.Double?;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/Grade.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/Grade.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/Grade.toString|toString(){}[0]
+
+    final object Companion { // com.jantursky.proctor/Grade.Companion|null[0]
+        final fun failed(kotlin/Double = ..., kotlin/String): com.jantursky.proctor/Grade // com.jantursky.proctor/Grade.Companion.failed|failed(kotlin.Double;kotlin.String){}[0]
+        final fun notGraded(kotlin/String): com.jantursky.proctor/Grade // com.jantursky.proctor/Grade.Companion.notGraded|notGraded(kotlin.String){}[0]
+        final fun passed(kotlin/Double = ..., kotlin/String = ...): com.jantursky.proctor/Grade // com.jantursky.proctor/Grade.Companion.passed|passed(kotlin.Double;kotlin.String){}[0]
+    }
+}
+
+final class com.jantursky.proctor/GradeContext { // com.jantursky.proctor/GradeContext|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String, kotlin/String?) // com.jantursky.proctor/GradeContext.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String?){}[0]
+
+    final val expected // com.jantursky.proctor/GradeContext.expected|{}expected[0]
+        final fun <get-expected>(): kotlin/String? // com.jantursky.proctor/GradeContext.expected.<get-expected>|<get-expected>(){}[0]
+    final val input // com.jantursky.proctor/GradeContext.input|{}input[0]
+        final fun <get-input>(): kotlin/String // com.jantursky.proctor/GradeContext.input.<get-input>|<get-input>(){}[0]
+    final val output // com.jantursky.proctor/GradeContext.output|{}output[0]
+        final fun <get-output>(): kotlin/String // com.jantursky.proctor/GradeContext.output.<get-output>|<get-output>(){}[0]
+    final val prompt // com.jantursky.proctor/GradeContext.prompt|{}prompt[0]
+        final fun <get-prompt>(): kotlin/String // com.jantursky.proctor/GradeContext.prompt.<get-prompt>|<get-prompt>(){}[0]
+
+    final fun component1(): kotlin/String // com.jantursky.proctor/GradeContext.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.jantursky.proctor/GradeContext.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.jantursky.proctor/GradeContext.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // com.jantursky.proctor/GradeContext.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String? = ...): com.jantursky.proctor/GradeContext // com.jantursky.proctor/GradeContext.copy|copy(kotlin.String;kotlin.String;kotlin.String;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/GradeContext.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/GradeContext.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/GradeContext.toString|toString(){}[0]
+}
+
+final class com.jantursky.proctor/GraderResult { // com.jantursky.proctor/GraderResult|null[0]
+    constructor <init>(kotlin/String, com.jantursky.proctor/Status, kotlin/Double? = ..., kotlin/String = ...) // com.jantursky.proctor/GraderResult.<init>|<init>(kotlin.String;com.jantursky.proctor.Status;kotlin.Double?;kotlin.String){}[0]
+
+    final val name // com.jantursky.proctor/GraderResult.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.jantursky.proctor/GraderResult.name.<get-name>|<get-name>(){}[0]
+    final val rationale // com.jantursky.proctor/GraderResult.rationale|{}rationale[0]
+        final fun <get-rationale>(): kotlin/String // com.jantursky.proctor/GraderResult.rationale.<get-rationale>|<get-rationale>(){}[0]
+    final val score // com.jantursky.proctor/GraderResult.score|{}score[0]
+        final fun <get-score>(): kotlin/Double? // com.jantursky.proctor/GraderResult.score.<get-score>|<get-score>(){}[0]
+    final val status // com.jantursky.proctor/GraderResult.status|{}status[0]
+        final fun <get-status>(): com.jantursky.proctor/Status // com.jantursky.proctor/GraderResult.status.<get-status>|<get-status>(){}[0]
+
+    final fun component1(): kotlin/String // com.jantursky.proctor/GraderResult.component1|component1(){}[0]
+    final fun component2(): com.jantursky.proctor/Status // com.jantursky.proctor/GraderResult.component2|component2(){}[0]
+    final fun component3(): kotlin/Double? // com.jantursky.proctor/GraderResult.component3|component3(){}[0]
+    final fun component4(): kotlin/String // com.jantursky.proctor/GraderResult.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., com.jantursky.proctor/Status = ..., kotlin/Double? = ..., kotlin/String = ...): com.jantursky.proctor/GraderResult // com.jantursky.proctor/GraderResult.copy|copy(kotlin.String;com.jantursky.proctor.Status;kotlin.Double?;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/GraderResult.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/GraderResult.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/GraderResult.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/GraderResult> { // com.jantursky.proctor/GraderResult.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/GraderResult.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/GraderResult.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/GraderResult.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/GraderResult // com.jantursky.proctor/GraderResult.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/GraderResult) // com.jantursky.proctor/GraderResult.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.GraderResult){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/GraderResult.Companion|null[0]
+        final val $childSerializers // com.jantursky.proctor/GraderResult.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/GraderResult> // com.jantursky.proctor/GraderResult.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/GradersBuilder { // com.jantursky.proctor/GradersBuilder|null[0]
+    final fun add(com.jantursky.proctor/Grader) // com.jantursky.proctor/GradersBuilder.add|add(com.jantursky.proctor.Grader){}[0]
+    final fun exactMatch(kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.exactMatch|exactMatch(kotlin.Boolean){}[0]
+    final fun llmJudge(kotlin/String, com.jantursky.proctor/Judge) // com.jantursky.proctor/GradersBuilder.llmJudge|llmJudge(kotlin.String;com.jantursky.proctor.Judge){}[0]
+    final fun regex(kotlin.text/Regex) // com.jantursky.proctor/GradersBuilder.regex|regex(kotlin.text.Regex){}[0]
+    final fun semanticSimilarity(com.jantursky.proctor/EmbeddingProvider, kotlin/Double = ...) // com.jantursky.proctor/GradersBuilder.semanticSimilarity|semanticSimilarity(com.jantursky.proctor.EmbeddingProvider;kotlin.Double){}[0]
+    final inline fun <#A1: reified kotlin/Any?> jsonSchema(kotlinx.serialization.json/Json = ...) // com.jantursky.proctor/GradersBuilder.jsonSchema|jsonSchema(kotlinx.serialization.json.Json){0§<kotlin.Any?>}[0]
+}
+
+final class com.jantursky.proctor/PromptVariant { // com.jantursky.proctor/PromptVariant|null[0]
+    final val version // com.jantursky.proctor/PromptVariant.version|{}version[0]
+        final fun <get-version>(): kotlin/String // com.jantursky.proctor/PromptVariant.version.<get-version>|<get-version>(){}[0]
+
+    final fun render(kotlin/String): kotlin/String // com.jantursky.proctor/PromptVariant.render|render(kotlin.String){}[0]
+}
+
+final class com.jantursky.proctor/RunAbortedException : kotlin/Exception { // com.jantursky.proctor/RunAbortedException|null[0]
+    constructor <init>(kotlin/String, kotlin/Throwable? = ...) // com.jantursky.proctor/RunAbortedException.<init>|<init>(kotlin.String;kotlin.Throwable?){}[0]
+}
+
+final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin/String, kotlin/String, com.jantursky.proctor/Environment, com.jantursky.proctor/Sampling, kotlin/Int, kotlin/String, com.jantursky.proctor/AvailabilityState, kotlin/String? = ..., com.jantursky.proctor/Summary, kotlin.collections/List<com.jantursky.proctor/CaseResult>) // com.jantursky.proctor/RunResult.<init>|<init>(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>){}[0]
+
+    final val availability // com.jantursky.proctor/RunResult.availability|{}availability[0]
+        final fun <get-availability>(): com.jantursky.proctor/AvailabilityState // com.jantursky.proctor/RunResult.availability.<get-availability>|<get-availability>(){}[0]
+    final val availabilityReason // com.jantursky.proctor/RunResult.availabilityReason|{}availabilityReason[0]
+        final fun <get-availabilityReason>(): kotlin/String? // com.jantursky.proctor/RunResult.availabilityReason.<get-availabilityReason>|<get-availabilityReason>(){}[0]
+    final val cases // com.jantursky.proctor/RunResult.cases|{}cases[0]
+        final fun <get-cases>(): kotlin.collections/List<com.jantursky.proctor/CaseResult> // com.jantursky.proctor/RunResult.cases.<get-cases>|<get-cases>(){}[0]
+    final val environment // com.jantursky.proctor/RunResult.environment|{}environment[0]
+        final fun <get-environment>(): com.jantursky.proctor/Environment // com.jantursky.proctor/RunResult.environment.<get-environment>|<get-environment>(){}[0]
+    final val promptVersion // com.jantursky.proctor/RunResult.promptVersion|{}promptVersion[0]
+        final fun <get-promptVersion>(): kotlin/String // com.jantursky.proctor/RunResult.promptVersion.<get-promptVersion>|<get-promptVersion>(){}[0]
+    final val repeat // com.jantursky.proctor/RunResult.repeat|{}repeat[0]
+        final fun <get-repeat>(): kotlin/Int // com.jantursky.proctor/RunResult.repeat.<get-repeat>|<get-repeat>(){}[0]
+    final val sampling // com.jantursky.proctor/RunResult.sampling|{}sampling[0]
+        final fun <get-sampling>(): com.jantursky.proctor/Sampling // com.jantursky.proctor/RunResult.sampling.<get-sampling>|<get-sampling>(){}[0]
+    final val schemaVersion // com.jantursky.proctor/RunResult.schemaVersion|{}schemaVersion[0]
+        final fun <get-schemaVersion>(): kotlin/Int // com.jantursky.proctor/RunResult.schemaVersion.<get-schemaVersion>|<get-schemaVersion>(){}[0]
+    final val startedAt // com.jantursky.proctor/RunResult.startedAt|{}startedAt[0]
+        final fun <get-startedAt>(): kotlin/String // com.jantursky.proctor/RunResult.startedAt.<get-startedAt>|<get-startedAt>(){}[0]
+    final val suite // com.jantursky.proctor/RunResult.suite|{}suite[0]
+        final fun <get-suite>(): kotlin/String // com.jantursky.proctor/RunResult.suite.<get-suite>|<get-suite>(){}[0]
+    final val summary // com.jantursky.proctor/RunResult.summary|{}summary[0]
+        final fun <get-summary>(): com.jantursky.proctor/Summary // com.jantursky.proctor/RunResult.summary.<get-summary>|<get-summary>(){}[0]
+
+    final fun component1(): kotlin/Int // com.jantursky.proctor/RunResult.component1|component1(){}[0]
+    final fun component10(): com.jantursky.proctor/Summary // com.jantursky.proctor/RunResult.component10|component10(){}[0]
+    final fun component11(): kotlin.collections/List<com.jantursky.proctor/CaseResult> // com.jantursky.proctor/RunResult.component11|component11(){}[0]
+    final fun component2(): kotlin/String // com.jantursky.proctor/RunResult.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.jantursky.proctor/RunResult.component3|component3(){}[0]
+    final fun component4(): com.jantursky.proctor/Environment // com.jantursky.proctor/RunResult.component4|component4(){}[0]
+    final fun component5(): com.jantursky.proctor/Sampling // com.jantursky.proctor/RunResult.component5|component5(){}[0]
+    final fun component6(): kotlin/Int // com.jantursky.proctor/RunResult.component6|component6(){}[0]
+    final fun component7(): kotlin/String // com.jantursky.proctor/RunResult.component7|component7(){}[0]
+    final fun component8(): com.jantursky.proctor/AvailabilityState // com.jantursky.proctor/RunResult.component8|component8(){}[0]
+    final fun component9(): kotlin/String? // com.jantursky.proctor/RunResult.component9|component9(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/String = ..., kotlin/String = ..., com.jantursky.proctor/Environment = ..., com.jantursky.proctor/Sampling = ..., kotlin/Int = ..., kotlin/String = ..., com.jantursky.proctor/AvailabilityState = ..., kotlin/String? = ..., com.jantursky.proctor/Summary = ..., kotlin.collections/List<com.jantursky.proctor/CaseResult> = ...): com.jantursky.proctor/RunResult // com.jantursky.proctor/RunResult.copy|copy(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/RunResult.equals|equals(kotlin.Any?){}[0]
+    final fun fileName(): kotlin/String // com.jantursky.proctor/RunResult.fileName|fileName(){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/RunResult.hashCode|hashCode(){}[0]
+    final fun toJson(): kotlin/String // com.jantursky.proctor/RunResult.toJson|toJson(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/RunResult.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/RunResult> { // com.jantursky.proctor/RunResult.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/RunResult.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/RunResult.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/RunResult.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/RunResult // com.jantursky.proctor/RunResult.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/RunResult) // com.jantursky.proctor/RunResult.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.RunResult){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/RunResult.Companion|null[0]
+        final const val SCHEMA_VERSION // com.jantursky.proctor/RunResult.Companion.SCHEMA_VERSION|{}SCHEMA_VERSION[0]
+            final fun <get-SCHEMA_VERSION>(): kotlin/Int // com.jantursky.proctor/RunResult.Companion.SCHEMA_VERSION.<get-SCHEMA_VERSION>|<get-SCHEMA_VERSION>(){}[0]
+
+        final val $childSerializers // com.jantursky.proctor/RunResult.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun fromJson(kotlin/String): com.jantursky.proctor/RunResult // com.jantursky.proctor/RunResult.Companion.fromJson|fromJson(kotlin.String){}[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/RunResult> // com.jantursky.proctor/RunResult.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/RunnerConfig { // com.jantursky.proctor/RunnerConfig|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin.time/Duration = ..., kotlin/Int = ..., kotlin.time/Duration = ..., kotlin.time/Duration = ...) // com.jantursky.proctor/RunnerConfig.<init>|<init>(kotlin.Int;kotlin.time.Duration;kotlin.Int;kotlin.time.Duration;kotlin.time.Duration){}[0]
+
+    final val concurrency // com.jantursky.proctor/RunnerConfig.concurrency|{}concurrency[0]
+        final fun <get-concurrency>(): kotlin/Int // com.jantursky.proctor/RunnerConfig.concurrency.<get-concurrency>|<get-concurrency>(){}[0]
+    final val initialBackoff // com.jantursky.proctor/RunnerConfig.initialBackoff|{}initialBackoff[0]
+        final fun <get-initialBackoff>(): kotlin.time/Duration // com.jantursky.proctor/RunnerConfig.initialBackoff.<get-initialBackoff>|<get-initialBackoff>(){}[0]
+    final val maxBackoff // com.jantursky.proctor/RunnerConfig.maxBackoff|{}maxBackoff[0]
+        final fun <get-maxBackoff>(): kotlin.time/Duration // com.jantursky.proctor/RunnerConfig.maxBackoff.<get-maxBackoff>|<get-maxBackoff>(){}[0]
+    final val maxQuotaRetries // com.jantursky.proctor/RunnerConfig.maxQuotaRetries|{}maxQuotaRetries[0]
+        final fun <get-maxQuotaRetries>(): kotlin/Int // com.jantursky.proctor/RunnerConfig.maxQuotaRetries.<get-maxQuotaRetries>|<get-maxQuotaRetries>(){}[0]
+    final val requestDelay // com.jantursky.proctor/RunnerConfig.requestDelay|{}requestDelay[0]
+        final fun <get-requestDelay>(): kotlin.time/Duration // com.jantursky.proctor/RunnerConfig.requestDelay.<get-requestDelay>|<get-requestDelay>(){}[0]
+}
+
+final class com.jantursky.proctor/Sampling { // com.jantursky.proctor/Sampling|null[0]
+    constructor <init>(kotlin/Double? = ..., kotlin/Int? = ..., kotlin/Int? = ..., kotlin/Int? = ...) // com.jantursky.proctor/Sampling.<init>|<init>(kotlin.Double?;kotlin.Int?;kotlin.Int?;kotlin.Int?){}[0]
+
+    final val maxOutputTokens // com.jantursky.proctor/Sampling.maxOutputTokens|{}maxOutputTokens[0]
+        final fun <get-maxOutputTokens>(): kotlin/Int? // com.jantursky.proctor/Sampling.maxOutputTokens.<get-maxOutputTokens>|<get-maxOutputTokens>(){}[0]
+    final val seed // com.jantursky.proctor/Sampling.seed|{}seed[0]
+        final fun <get-seed>(): kotlin/Int? // com.jantursky.proctor/Sampling.seed.<get-seed>|<get-seed>(){}[0]
+    final val temperature // com.jantursky.proctor/Sampling.temperature|{}temperature[0]
+        final fun <get-temperature>(): kotlin/Double? // com.jantursky.proctor/Sampling.temperature.<get-temperature>|<get-temperature>(){}[0]
+    final val topK // com.jantursky.proctor/Sampling.topK|{}topK[0]
+        final fun <get-topK>(): kotlin/Int? // com.jantursky.proctor/Sampling.topK.<get-topK>|<get-topK>(){}[0]
+
+    final fun component1(): kotlin/Double? // com.jantursky.proctor/Sampling.component1|component1(){}[0]
+    final fun component2(): kotlin/Int? // com.jantursky.proctor/Sampling.component2|component2(){}[0]
+    final fun component3(): kotlin/Int? // com.jantursky.proctor/Sampling.component3|component3(){}[0]
+    final fun component4(): kotlin/Int? // com.jantursky.proctor/Sampling.component4|component4(){}[0]
+    final fun copy(kotlin/Double? = ..., kotlin/Int? = ..., kotlin/Int? = ..., kotlin/Int? = ...): com.jantursky.proctor/Sampling // com.jantursky.proctor/Sampling.copy|copy(kotlin.Double?;kotlin.Int?;kotlin.Int?;kotlin.Int?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/Sampling.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/Sampling.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/Sampling.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/Sampling> { // com.jantursky.proctor/Sampling.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/Sampling.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/Sampling.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/Sampling.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/Sampling // com.jantursky.proctor/Sampling.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/Sampling) // com.jantursky.proctor/Sampling.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.Sampling){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/Sampling.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/Sampling> // com.jantursky.proctor/Sampling.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.jantursky.proctor/SuiteScore { // com.jantursky.proctor/SuiteScore|null[0]
+    final val failed // com.jantursky.proctor/SuiteScore.failed|{}failed[0]
+        final fun <get-failed>(): kotlin/Int // com.jantursky.proctor/SuiteScore.failed.<get-failed>|<get-failed>(){}[0]
+    final val notGraded // com.jantursky.proctor/SuiteScore.notGraded|{}notGraded[0]
+        final fun <get-notGraded>(): kotlin/Int // com.jantursky.proctor/SuiteScore.notGraded.<get-notGraded>|<get-notGraded>(){}[0]
+    final val passRate // com.jantursky.proctor/SuiteScore.passRate|{}passRate[0]
+        final fun <get-passRate>(): kotlin/Double // com.jantursky.proctor/SuiteScore.passRate.<get-passRate>|<get-passRate>(){}[0]
+    final val passed // com.jantursky.proctor/SuiteScore.passed|{}passed[0]
+        final fun <get-passed>(): kotlin/Int // com.jantursky.proctor/SuiteScore.passed.<get-passed>|<get-passed>(){}[0]
+    final val score // com.jantursky.proctor/SuiteScore.score|{}score[0]
+        final fun <get-score>(): kotlin/Double // com.jantursky.proctor/SuiteScore.score.<get-score>|<get-score>(){}[0]
+    final val total // com.jantursky.proctor/SuiteScore.total|{}total[0]
+        final fun <get-total>(): kotlin/Int // com.jantursky.proctor/SuiteScore.total.<get-total>|<get-total>(){}[0]
+}
+
+final class com.jantursky.proctor/Summary { // com.jantursky.proctor/Summary|null[0]
+    constructor <init>(kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Double? = ..., kotlin/Boolean) // com.jantursky.proctor/Summary.<init>|<init>(kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Double?;kotlin.Boolean){}[0]
+
+    final val failed // com.jantursky.proctor/Summary.failed|{}failed[0]
+        final fun <get-failed>(): kotlin/Int // com.jantursky.proctor/Summary.failed.<get-failed>|<get-failed>(){}[0]
+    final val meanScore // com.jantursky.proctor/Summary.meanScore|{}meanScore[0]
+        final fun <get-meanScore>(): kotlin/Double? // com.jantursky.proctor/Summary.meanScore.<get-meanScore>|<get-meanScore>(){}[0]
+    final val notGraded // com.jantursky.proctor/Summary.notGraded|{}notGraded[0]
+        final fun <get-notGraded>(): kotlin/Int // com.jantursky.proctor/Summary.notGraded.<get-notGraded>|<get-notGraded>(){}[0]
+    final val passed // com.jantursky.proctor/Summary.passed|{}passed[0]
+        final fun <get-passed>(): kotlin/Int // com.jantursky.proctor/Summary.passed.<get-passed>|<get-passed>(){}[0]
+    final val suitePassed // com.jantursky.proctor/Summary.suitePassed|{}suitePassed[0]
+        final fun <get-suitePassed>(): kotlin/Boolean // com.jantursky.proctor/Summary.suitePassed.<get-suitePassed>|<get-suitePassed>(){}[0]
+    final val total // com.jantursky.proctor/Summary.total|{}total[0]
+        final fun <get-total>(): kotlin/Int // com.jantursky.proctor/Summary.total.<get-total>|<get-total>(){}[0]
+
+    final fun component1(): kotlin/Int // com.jantursky.proctor/Summary.component1|component1(){}[0]
+    final fun component2(): kotlin/Int // com.jantursky.proctor/Summary.component2|component2(){}[0]
+    final fun component3(): kotlin/Int // com.jantursky.proctor/Summary.component3|component3(){}[0]
+    final fun component4(): kotlin/Int // com.jantursky.proctor/Summary.component4|component4(){}[0]
+    final fun component5(): kotlin/Double? // com.jantursky.proctor/Summary.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // com.jantursky.proctor/Summary.component6|component6(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Double? = ..., kotlin/Boolean = ...): com.jantursky.proctor/Summary // com.jantursky.proctor/Summary.copy|copy(kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Double?;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/Summary.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.proctor/Summary.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.proctor/Summary.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.jantursky.proctor/Summary> { // com.jantursky.proctor/Summary.$serializer|null[0]
+        final val descriptor // com.jantursky.proctor/Summary.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.jantursky.proctor/Summary.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.jantursky.proctor/Summary.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.jantursky.proctor/Summary // com.jantursky.proctor/Summary.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.jantursky.proctor/Summary) // com.jantursky.proctor/Summary.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.jantursky.proctor.Summary){}[0]
+    }
+
+    final object Companion { // com.jantursky.proctor/Summary.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.jantursky.proctor/Summary> // com.jantursky.proctor/Summary.Companion.serializer|serializer(){}[0]
+    }
+}
+
+sealed class com.jantursky.proctor/BackendException : kotlin/Exception { // com.jantursky.proctor/BackendException|null[0]
+    final class Backgrounded : com.jantursky.proctor/BackendException { // com.jantursky.proctor/BackendException.Backgrounded|null[0]
+        constructor <init>(kotlin/Throwable? = ...) // com.jantursky.proctor/BackendException.Backgrounded.<init>|<init>(kotlin.Throwable?){}[0]
+    }
+
+    final class Failed : com.jantursky.proctor/BackendException { // com.jantursky.proctor/BackendException.Failed|null[0]
+        constructor <init>(kotlin/String, kotlin/Throwable? = ...) // com.jantursky.proctor/BackendException.Failed.<init>|<init>(kotlin.String;kotlin.Throwable?){}[0]
+    }
+
+    final class QuotaExceeded : com.jantursky.proctor/BackendException { // com.jantursky.proctor/BackendException.QuotaExceeded|null[0]
+        constructor <init>(kotlin.time/Duration? = ..., kotlin/Throwable? = ...) // com.jantursky.proctor/BackendException.QuotaExceeded.<init>|<init>(kotlin.time.Duration?;kotlin.Throwable?){}[0]
+
+        final val retryAfter // com.jantursky.proctor/BackendException.QuotaExceeded.retryAfter|{}retryAfter[0]
+            final fun <get-retryAfter>(): kotlin.time/Duration? // com.jantursky.proctor/BackendException.QuotaExceeded.retryAfter.<get-retryAfter>|<get-retryAfter>(){}[0]
+    }
+
+    final class Unavailable : com.jantursky.proctor/BackendException { // com.jantursky.proctor/BackendException.Unavailable|null[0]
+        constructor <init>(kotlin/String, kotlin/Throwable? = ...) // com.jantursky.proctor/BackendException.Unavailable.<init>|<init>(kotlin.String;kotlin.Throwable?){}[0]
+
+        final val reason // com.jantursky.proctor/BackendException.Unavailable.reason|{}reason[0]
+            final fun <get-reason>(): kotlin/String // com.jantursky.proctor/BackendException.Unavailable.reason.<get-reason>|<get-reason>(){}[0]
+    }
+}
+
+final val com.jantursky.proctor/ProctorJson // com.jantursky.proctor/ProctorJson|{}ProctorJson[0]
+    final fun <get-ProctorJson>(): kotlinx.serialization.json/Json // com.jantursky.proctor/ProctorJson.<get-ProctorJson>|<get-ProctorJson>(){}[0]
+
+final fun <#A: kotlin/Any?> com.jantursky.proctor/jsonSchemaGrader(kotlinx.serialization/KSerializer<#A>, kotlinx.serialization.json/Json = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/jsonSchemaGrader|jsonSchemaGrader(kotlinx.serialization.KSerializer<0:0>;kotlinx.serialization.json.Json){0§<kotlin.Any?>}[0]
+final fun com.jantursky.proctor/evalSuite(kotlin/String, kotlin/Function1<com.jantursky.proctor/EvalSuiteBuilder, kotlin/Unit>): com.jantursky.proctor/EvalSuite // com.jantursky.proctor/evalSuite|evalSuite(kotlin.String;kotlin.Function1<com.jantursky.proctor.EvalSuiteBuilder,kotlin.Unit>){}[0]
+final fun com.jantursky.proctor/exactMatchGrader(kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/exactMatchGrader|exactMatchGrader(kotlin.Boolean){}[0]
+final fun com.jantursky.proctor/llmJudgeGrader(kotlin/String, com.jantursky.proctor/Judge): com.jantursky.proctor/Grader // com.jantursky.proctor/llmJudgeGrader|llmJudgeGrader(kotlin.String;com.jantursky.proctor.Judge){}[0]
+final fun com.jantursky.proctor/regexGrader(kotlin.text/Regex): com.jantursky.proctor/Grader // com.jantursky.proctor/regexGrader|regexGrader(kotlin.text.Regex){}[0]
+final fun com.jantursky.proctor/semanticSimilarityGrader(com.jantursky.proctor/EmbeddingProvider, kotlin/Double = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/semanticSimilarityGrader|semanticSimilarityGrader(com.jantursky.proctor.EmbeddingProvider;kotlin.Double){}[0]
