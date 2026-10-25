@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      kotlin:
+        patterns: ['org.jetbrains.kotlin*']
+        exclude-patterns: ['org.jetbrains.kotlinx.kover*', 'org.jetbrains.kotlinx.binary-compatibility-validator*']
+      kotlinx:
+        patterns: ['org.jetbrains.kotlinx:kotlinx-*']
+      mlkit:
+        patterns: ['com.google.mlkit*']
+      build-tooling:
+        patterns:
+          - 'com.android*'
+          - 'com.diffplug*'
+          - 'com.vanniktech*'
+          - 'org.jetbrains.dokka*'
+          - 'org.jetbrains.kotlinx.kover*'
+          - 'org.jetbrains.kotlinx.binary-compatibility-validator*'
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

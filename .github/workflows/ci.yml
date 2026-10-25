@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    # macOS, so the klib API dump covers the iOS targets too; Linux cannot build them.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Format, API, tests and coverage gate
+        run: >
+          ./gradlew spotlessCheck apiCheck :proctor-android:checkKotlinAbi
+          :proctor:jvmTest :proctor:testAndroidHostTest :proctor-android:testAndroidHostTest
+          :proctor-report:test :proctor-gradle-plugin:test
+          koverXmlReport koverVerify
+      - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v7
+        with:
+          files: proctor/build/reports/kover/report.xml,proctor-report/build/reports/kover/report.xml,proctor-android/build/reports/kover/report.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Simulator tests
+        run: ./gradlew :proctor:iosSimulatorArm64Test
+
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Publish to Maven Local and run a consumer against it
+        run: ./scripts/pack-test.sh

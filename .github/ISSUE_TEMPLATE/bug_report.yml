@@ -1,0 +1,42 @@
+name: Bug report
+description: A suite, grader, runner or report behaves wrongly, or an adapter fails on a device.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. On-device models differ by device, OS and model version, so the details below matter.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android (Gemini Nano, ML Kit Prompt API)
+        - iOS (Foundation Models)
+        - JVM (report or Gradle plugin)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device, OS and model version
+      description: The `environment` block of a result file has all three. Remove anything private.
+      placeholder: "Galaxy S26, Android 16, nano-v3"
+  - type: input
+    id: version
+    attributes:
+      label: Proctor version
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Suite or steps to reproduce
+      description: A small suite and, if it helps, a result file with the prompts and outputs removed.
