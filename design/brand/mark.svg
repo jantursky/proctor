@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 2 64 64">
+  <style>.f{fill:#1d4ed8}.o{stroke:#0b1b4d}.s{fill:#0b1b4d;stroke:#0b1b4d}.e{fill:#0b1b4d}@media (prefers-color-scheme:dark){.f{fill:#1d4ed8}.o{stroke:#ffffff}.s{fill:#1e3a8a;stroke:#1e3a8a}.e{fill:#0b1b4d}}</style>
+  <path class="s" d="M10 6h26a22 22 0 0 1 0 44H30v10H10z" transform="translate(3 3)" stroke-width="4" stroke-linejoin="round"/>
+  <path class="f o" d="M10 6h26a22 22 0 0 1 0 44H30v10H10z" stroke-width="4" stroke-linejoin="round"/>
+  <circle class="o" cx="34" cy="27" r="10.5" fill="#ffffff" stroke-width="3"/>
+  <circle class="e" cx="36.5" cy="27.5" r="5"/>
+  <circle cx="38.2" cy="25.6" r="1.7" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,28 @@
+[versions]
+kotlin = "2.4.21"
+agp = "9.4.1"
+coroutines = "1.11.0"
+serialization = "1.12.0"
+kover = "0.9.11"
+dokka = "2.2.0"
+maven-publish = "0.37.0"
+binary-compatibility-validator = "0.18.2"
+spotless = "8.10.4"
+ktlint = "1.8.0"
+android-compileSdk = "37"
+android-minSdk = "23"
+
+[libraries]
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

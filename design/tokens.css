@@ -1,0 +1,83 @@
+/* Proctor design tokens. Source of truth: design/DESIGN.md. */
+:root {
+  --proctor-canvas: #ffffff;
+  --proctor-band: #f3f4f6;
+  --proctor-card: #ffffff;
+  --proctor-hairline: #e5e7eb;
+  --proctor-hairline-strong: #d1d5dc;
+  --proctor-ink: #000000;
+  --proctor-on-ink: #ffffff;
+  --proctor-body: #4a5565;
+  --proctor-caption: #6a7282;
+  --proctor-disabled: #99a1af;
+  --proctor-link: #155dfc;
+  --proctor-hero: linear-gradient(to right bottom, #2c3344, #0b0f19);
+
+  --proctor-pass: #16794c;
+  --proctor-fail: #b42318;
+  --proctor-not-graded: #a15c07;
+
+  --proctor-brand: #1d4ed8;
+  --proctor-brand-outline: #0b1b4d;
+
+  --proctor-font: 'Source Sans 3 Variable', 'Source Sans 3', Inter, system-ui, sans-serif;
+  --proctor-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --proctor-radius-tag: 4px;
+  --proctor-radius-card: 8px;
+  --proctor-radius-large: 12px;
+
+  --proctor-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  --proctor-space-1: 4px;
+  --proctor-space-2: 8px;
+  --proctor-space-3: 12px;
+  --proctor-space-4: 16px;
+  --proctor-space-5: 20px;
+  --proctor-space-6: 24px;
+  --proctor-space-8: 32px;
+  --proctor-space-10: 40px;
+  --proctor-space-12: 48px;
+  --proctor-space-16: 64px;
+  --proctor-max-width: 1200px;
+  --proctor-section-gap: 64px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --proctor-canvas: #0b0f19;
+    --proctor-band: #101828;
+    --proctor-card: #101828;
+    --proctor-hairline: #2c3344;
+    --proctor-hairline-strong: #3d4659;
+    --proctor-ink: #f9fafb;
+    --proctor-on-ink: #0b0f19;
+    --proctor-body: #d1d5dc;
+    --proctor-caption: #99a1af;
+    --proctor-disabled: #6a7282;
+    --proctor-link: #51a2ff;
+    --proctor-pass: #4ade80;
+    --proctor-fail: #f87171;
+    --proctor-not-graded: #fbbf24;
+    --proctor-brand-outline: #ffffff;
+  }
+}
+
+:root[data-theme='dark'],
+.dark {
+  --proctor-canvas: #0b0f19;
+  --proctor-band: #101828;
+  --proctor-card: #101828;
+  --proctor-hairline: #2c3344;
+  --proctor-hairline-strong: #3d4659;
+  --proctor-ink: #f9fafb;
+  --proctor-on-ink: #0b0f19;
+  --proctor-body: #d1d5dc;
+  --proctor-caption: #99a1af;
+  --proctor-disabled: #6a7282;
+  --proctor-link: #51a2ff;
+  --proctor-pass: #4ade80;
+  --proctor-fail: #f87171;
+  --proctor-not-graded: #fbbf24;
+  --proctor-brand-outline: #ffffff;
+}
