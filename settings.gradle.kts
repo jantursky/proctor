@@ -30,4 +30,4 @@ rootProject.name = "proctor"
 
 include(":proctor", ":proctor-report", ":proctor-gradle-plugin", ":proctor-android", ":proctor-ios")
 
-include(":samples:shared")
+include(":samples:shared", ":samples:androidApp")

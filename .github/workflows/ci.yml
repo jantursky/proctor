@@ -28,6 +28,7 @@ jobs:
           ./gradlew spotlessCheck apiCheck :proctor-android:checkKotlinAbi
           :proctor:jvmTest :proctor:testAndroidHostTest :proctor-android:testAndroidHostTest
           :proctor-report:test :proctor-gradle-plugin:test
+          :samples:shared:jvmTest :samples:androidApp:assembleDebugAndroidTest
           koverXmlReport koverVerify
       - name: Upload coverage to Codecov
         if: ${{ !cancelled() }}
