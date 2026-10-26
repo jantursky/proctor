@@ -15,6 +15,8 @@ internal data class DeviceInfo(
     val osVersion: String,
     val systemVersion: String,
     val simulator: Boolean,
+    /** The Darwin release the process sees. In a simulator that is the Mac host's, where the model actually runs. */
+    val kernelRelease: String?,
 ) {
     companion object {
         fun current(): DeviceInfo {
@@ -26,6 +28,7 @@ internal data class DeviceInfo(
                 osVersion = NSProcessInfo.processInfo.operatingSystemVersionString,
                 systemVersion = UIDevice.currentDevice.systemVersion,
                 simulator = simulatorModel != null,
+                kernelRelease = kernelRelease(),
             )
         }
 
@@ -34,6 +37,13 @@ internal data class DeviceInfo(
             memScoped {
                 val info = alloc<utsname>()
                 if (uname(info.ptr) != 0) null else info.machine.toKString()
+            }
+
+        @OptIn(ExperimentalForeignApi::class)
+        private fun kernelRelease(): String? =
+            memScoped {
+                val info = alloc<utsname>()
+                if (uname(info.ptr) != 0) null else info.release.toKString()
             }
     }
 }

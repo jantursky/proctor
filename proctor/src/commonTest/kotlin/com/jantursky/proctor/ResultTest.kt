@@ -60,6 +60,8 @@ class ResultTest {
         )
         assertTrue(sample(modelVersion = null).fileName().contains("_unknown_"))
         assertTrue(sample(suite = "///").fileName().startsWith("x_"))
+        val long = sample(modelVersion = "m".repeat(100)).fileName().split("_")
+        assertEquals(40, long[2].length)
     }
 
     @Test

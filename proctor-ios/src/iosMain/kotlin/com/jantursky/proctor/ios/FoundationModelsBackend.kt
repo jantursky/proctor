@@ -14,7 +14,8 @@ import kotlin.coroutines.resumeWithException
  * whose Mac host has Apple Intelligence.
  *
  * Apple exposes no model version. The model changes with the OS (26.0 to 26.3, 26.4 and 27.0 each ship a
- * different one), so [Environment.modelVersion] is derived from the OS version and marked as such.
+ * different one), so [Environment.modelVersion] is derived from the OS version and marked as such. A simulator
+ * borrows the model of its Mac host, so there it records the host's Darwin release too.
  */
 public class FoundationModelsBackend internal constructor(
     private val bridge: FoundationModelsBridge,
@@ -24,14 +25,22 @@ public class FoundationModelsBackend internal constructor(
 
     override suspend fun availability(): BackendAvailability = bridge.availability().toAvailability()
 
-    override suspend fun environment(): Environment =
-        Environment(
+    override suspend fun environment(): Environment {
+        val host = device.kernelRelease?.let { "host Darwin $it" } ?: "unknown host"
+        return Environment(
             platform = if (device.simulator) "ios-simulator" else "ios",
             deviceModel = device.model,
-            osVersion = device.osVersion,
-            modelVersion = "os-derived: ${device.systemVersion}",
+            // In a simulator the process runs against the Mac's kernel, and so does the model.
+            osVersion = if (device.simulator) "${device.osVersion}, simulator on $host" else device.osVersion,
+            modelVersion =
+                if (device.simulator) {
+                    "os-derived: iOS ${device.systemVersion} simulator, model from $host"
+                } else {
+                    "os-derived: iOS ${device.systemVersion}"
+                },
             backend = "foundation-models",
         )
+    }
 
     override suspend fun generate(
         prompt: String,

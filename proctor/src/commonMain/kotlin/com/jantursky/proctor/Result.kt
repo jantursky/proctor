@@ -108,4 +108,12 @@ public val ProctorJson: Json =
         ignoreUnknownKeys = true
     }
 
-private fun String.sanitized(): String = replace(Regex("[^A-Za-z0-9.-]+"), "-").trim('-').ifEmpty { "x" }
+private const val FILE_NAME_PART_LIMIT = 40
+
+// Parts are cut so a long model description does not make an unwieldy file name; the JSON holds the full text.
+private fun String.sanitized(): String =
+    replace(Regex("[^A-Za-z0-9.-]+"), "-")
+        .trim('-')
+        .take(FILE_NAME_PART_LIMIT)
+        .trim('-')
+        .ifEmpty { "x" }
