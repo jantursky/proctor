@@ -24,3 +24,5 @@ apps/docs/public/api/
 # Run results that are not checked-in samples
 *.proctor.json
 !docs/samples/*.proctor.json
+
+apps/docs/public/sample-report/

@@ -1,0 +1,23 @@
+---
+title: CI setup
+description: Use the report as a pass threshold, and what CI can and cannot run.
+---
+
+System models run on physical phones, so a hosted CI runner cannot run the suite. Proctor splits the work:
+
+1. Run the suite on a device (yours, or a device farm that offers real devices with AICore). Collect the `*.proctor.json` files.
+2. Commit the files, or upload them as a CI artifact.
+3. In CI, run `./gradlew proctorReport`. It needs no device.
+
+```kotlin
+proctor {
+    resultsDir.set(layout.projectDirectory.dir("proctor-results"))
+    baseline.set("ticket-classifier_android_..._v1_2026-10-01.proctor.json")
+    failOnRegression.set(true)
+    failOnNotGraded.set(false)
+}
+```
+
+The task fails when a run's `passWhen` is false. With `failOnRegression`, it also fails when a case that passed in the baseline fails in another run. With `failOnNotGraded`, it fails when any case could not be graded.
+
+Whether a given farm provides AICore, a locked bootloader and the foreground behavior Proctor needs is unverified.

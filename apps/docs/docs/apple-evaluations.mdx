@@ -1,0 +1,25 @@
+---
+title: Proctor and Apple Evaluations
+description: When to use Apple's Evaluations framework and when to use Proctor.
+sidebar:
+  order: 6
+---
+
+The Evaluations framework came with the iOS 27 and macOS 27 SDKs and is covered in the WWDC26 session "Meet the Evaluations framework". It is a Swift API. From the session and the SDK, its main parts are `Evaluation`, `Metric`, `Evaluator`, `ModelJudgeEvaluator`, `ScoreDimension` and `SampleGenerator`, plus a Swift Testing trait (`.evaluates`) for running evaluations as tests. Tool-call evaluation is covered in a separate session that I have not read.
+
+| | Apple Evaluations | Proctor |
+| --- | --- | --- |
+| Language | Swift | Kotlin Multiplatform (`commonMain`), with a small Swift bridge on iOS |
+| Platforms | Apple platforms | Android (Gemini Nano), iOS (Foundation Models), JVM for reports |
+| Where you write suites | Swift tests | Kotlin, shared between platforms |
+| Model judge | `ModelJudgeEvaluator` | You supply a `Judge`; Proctor does not pick a model |
+| Synthetic samples | `SampleGenerator` | Not covered yet |
+| Tool-call evaluation | Yes (separate session) | Not covered yet |
+| Cross-platform report | No | Yes: platform, model version and prompt version in one diff |
+| Handling of AICore quota and foreground rules | Not applicable | Built in |
+
+## When to pick which
+
+- Your feature ships only on Apple platforms: use Apple's framework. It is first-party, integrates with Xcode and Swift Testing, and covers more evaluation types.
+- Your feature ships on both platforms from shared Kotlin code, and you want to know whether the same prompt behaves the same on Gemini Nano and Foundation Models, or after a system update: use Proctor.
+- Both: they do not conflict. Proctor's result files are plain JSON.

@@ -1,0 +1,12 @@
+---
+title: Privacy
+description: Where datasets and outputs go.
+---
+
+Proctor does not send data anywhere. It has no network code and no telemetry.
+
+- Prompts and outputs stay between your app and the system model on the device. Gemini Nano and Apple Foundation Models run on the device.
+- Result files are written to the app's storage on the device. You pull them yourself (`adb pull`, or the simulator's folder).
+- The HTML report contains no scripts and loads nothing from the network.
+- Data leaves the device in two cases that you control: when you pull the files, and when you pass an `LLM judge` or an `EmbeddingProvider` that calls a cloud service. Both are your choice; check what your cases contain first.
+- Result files contain the inputs and outputs of your cases. Do not commit them if the cases hold real user data. Use synthetic cases.

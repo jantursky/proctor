@@ -1,0 +1,74 @@
+---
+title: Running on Android
+description: Gemini Nano through the ML Kit Prompt API, the foreground and quota rules, and the Developer Preview.
+---
+
+`proctor-android` calls the ML Kit GenAI Prompt API (`com.google.mlkit:genai-prompt`) directly. Proctor does not wrap another library, so it can read the model name, choose the preview configuration and see AICore's own errors.
+
+<Callout type="warn">
+Nothing on this page has been run on a physical Android device yet. The adapter compiles and its host tests pass against a fake client, but the behavior on a real phone is unverified until the sample report says otherwise.
+</Callout>
+
+## Device requirements
+
+- A physical device that supports the Prompt API, with a **locked bootloader**. The Prompt API does not work with an unlocked bootloader.
+- Android emulators have no AICore and no Gemini Nano. Use a real device.
+- The Galaxy S25 supports only the feature-specific GenAI APIs (summarization, proofreading, rewriting, image description), not the Prompt API.
+- The input limit is under 4000 tokens.
+
+## Run the sample
+
+```
+./gradlew :samples:androidApp:connectedDebugAndroidTest
+scripts/pull-results.sh
+```
+
+Choose the model with instrumentation arguments:
+
+```
+./gradlew :samples:androidApp:connectedDebugAndroidTest \
+  -Pandroid.testInstrumentationRunnerArguments.proctor.release=preview \
+  -Pandroid.testInstrumentationRunnerArguments.proctor.preference=fast
+```
+
+`release` is `stable` (default) or `preview`; `preference` is `full` (default) or `fast`.
+
+## In your own project
+
+```kotlin
+ActivityScenario.launch(ProctorHostActivity::class.java).use {
+    val backend = ForegroundBackend(MlKitBackend(MlKitConfig.PreviewFast), ProctorHostActivity::isForeground)
+    val results = runBlocking { EvalRunner(backend).runAll(suite) }
+    results.forEach { ResultStore.forApp(context).write(it) }
+}
+```
+
+`ResultStore.forApp` writes to the app's external files directory (`/sdcard/Android/data/<package>/files/proctor/`), where `adb pull` reaches it without permissions.
+
+## Foreground rule
+
+AICore serves GenAI inference only to the top foreground app. `ProctorHostActivity` keeps the screen on and in front, and `ForegroundBackend` stops the run with a clear error the moment the activity is not resumed. Keep the phone unlocked and do not switch apps during a run. A call refused with `BACKGROUND_USE_BLOCKED` aborts the run with `RunAbortedException`, because the remaining results would be misleading; no case is recorded as failed for it.
+
+## Quota
+
+AICore enforces a per-app inference quota. Proctor runs one request at a time, waits one second between requests by default, and treats `BUSY` and `PER_APP_BATTERY_USE_QUOTA_EXCEEDED` as quota errors: it waits (using the retry delay AICore reports, or an exponential backoff of 5 seconds up to 1 minute) and retries up to 3 times. An attempt that still fails is recorded as "not graded". Tune this with `RunnerConfig`.
+
+## Availability
+
+Before the first case the backend checks the model. `DOWNLOADABLE`, `DOWNLOADING` and `UNAVAILABLE` are written into the result and every case is "not graded". Nothing is counted as a prompt failure. An available model is warmed up first so the first case does not time out.
+
+## Model version
+
+The result stores `getBaseModelName()` as the model version. It is empty if the platform cannot report it, and the report then says so.
+
+## Gemini Nano 4 Developer Preview
+
+The preview lets you compare the stable model (nano-v3) with the Nano 4 variants on one device. The Fast variant is based on Gemma 4 E2B and Full on E4B. The official preview page does not list the Galaxy S26, so whether a given phone can take part is unverified. Steps from the official page:
+
+1. Join the `aicore-experimental` Google group.
+2. Become a tester in the Android AICore testing program.
+3. Update AICore until "Android AICore (Beta)" appears. This can take up to an hour.
+4. Accept the terms.
+5. Pick a preview model in the AICore model picker, over Wi-Fi.
+
+The first inference on a preview model takes about a minute. Quota bypass for developers exists only on Pixel. Proctor never falls back from preview to stable on its own, because a result labeled "preview" must come from the preview.

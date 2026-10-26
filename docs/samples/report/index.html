@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proctor report</title><style>
+:root{--canvas:#fff;--band:#f3f4f6;--hairline:#e5e7eb;--ink:#000;--body:#4a5565;--caption:#6a7282;--link:#155dfc;--pass:#16794c;--fail:#b42318;--ng:#a15c07}
+@media (prefers-color-scheme:dark){:root{--canvas:#0b0f19;--band:#101828;--hairline:#2c3344;--ink:#f9fafb;--body:#d1d5dc;--caption:#99a1af;--link:#51a2ff;--pass:#4ade80;--fail:#f87171;--ng:#fbbf24}}
+*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--body);font:14px/1.5 'Source Sans 3','Source Sans Pro',Inter,system-ui,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:32px 16px}h1{font-size:30px;line-height:1.25;color:var(--ink);margin:0 0 24px}
+h2{font-size:20px;color:var(--ink);margin:40px 0 12px}.mono,pre{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--hairline);vertical-align:top}
+th{font-weight:600;color:var(--ink);background:var(--band)}.tag{display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;font-weight:600;background:var(--band)}
+.pass{color:var(--pass)}.fail{color:var(--fail)}.ng{color:var(--ng)}.muted,.note{color:var(--caption)}
+details{border:1px solid var(--hairline);border-radius:8px;padding:8px 16px;margin:8px 0}summary{cursor:pointer}
+pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12px;margin:8px 0}.attempt{margin:12px 0}
+</style></head><body><main>
+<h1>Proctor report</h1>
+<h2>Checked on</h2><div class="scroll"><table><thead><tr>
+<th>Suite</th>
+<th>Platform</th>
+<th>Device</th>
+<th>OS</th>
+<th>Model version</th>
+<th>Backend</th>
+<th>Prompt</th>
+<th>Availability</th>
+<th>Run at</th>
+</tr></thead><tbody>
+<tr>
+<td>ticket-classifier</td><td>ios-simulator</td><td>iPhone19,2</td>
+<td>Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0</td><td class="mono">iOS 27.0 sim on Darwin 27.0.0 (os-derived)</td>
+<td>foundation-models</td><td class="mono">v1</td>
+<td>available</td><td class="mono">2026-10-26T00:20:35.110628Z</td>
+</tr>
+<tr>
+<td>ticket-classifier</td><td>ios-simulator</td><td>iPhone19,2</td>
+<td>Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0</td><td class="mono">iOS 27.0 sim on Darwin 27.0.0 (os-derived)</td>
+<td>foundation-models</td><td class="mono">v2</td>
+<td>available</td><td class="mono">2026-10-26T00:21:07.182325Z</td>
+</tr>
+<tr>
+<td>ticket-extraction</td><td>ios-simulator</td><td>iPhone19,2</td>
+<td>Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0</td><td class="mono">iOS 27.0 sim on Darwin 27.0.0 (os-derived)</td>
+<td>foundation-models</td><td class="mono">v1</td>
+<td>available</td><td class="mono">2026-10-26T00:21:37.913947Z</td>
+</tr>
+</tbody></table></div>
+<h2>Results</h2><div class="scroll"><table><thead><tr>
+<th>Run</th>
+<th>Cases</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Not graded</th>
+<th>Mean score</th>
+<th>Verdict</th>
+</tr></thead><tbody>
+<tr><td>ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</td><td>12</td><td>11</td><td>1</td>
+<td>0</td><td>92%</td>
+<td><span class="tag pass">pass</span></td></tr>
+<tr><td>ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2</td><td>12</td><td>11</td><td>1</td>
+<td>0</td><td>97%</td>
+<td><span class="tag pass">pass</span></td></tr>
+<tr><td>ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</td><td>4</td><td>2</td><td>2</td>
+<td>0</td><td>92%</td>
+<td><span class="tag pass">pass</span></td></tr>
+</tbody></table></div>
+<p class="note">Not graded means no verdict, for example the quota ran out. It is not a failure.</p>
+<h2>Compare: ticket-classifier</h2>
+<p><span class="mono">ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</span> against 
+<span class="mono">ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2</span></p>
+<p>Differs in prompt version: v1 to v2.</p>
+<p>Score 92% to 97% 
+(+6 pts). 0 regressed, 0 improved.</p>
+<div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
+<th>Change</th></tr></thead><tbody>
+<tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">refund</td><td>I need a refund for the annual plan I never used</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">invoice-name</td><td>The invoice shows a company name I did not enter</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">crash-camera</td><td>The app crashes as soon as I open the camera screen</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">search-empty</td><td>Search returns nothing even though the item exists</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">dark-mode-contrast</td><td>Dark mode turns the text black on a black background</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">reset-email</td><td>I forgot my password and the reset email never arrives</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">change-email</td><td>Please change the email address on my profile</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">export-csv</td><td>Can you add an option to export my data as CSV?</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">widget</td><td>It would be great to have a widget for the home screen</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">thanks</td><td>Thanks for the quick help last week, just saying hi</td>
+<td><span class="tag pass">pass</span></td>
+<td><span class="tag pass">pass</span></td>
+<td>Same</td></tr>
+<tr><td class="mono">office</td><td>Where is your office located?</td>
+<td><span class="tag fail">fail</span></td>
+<td><span class="tag fail">fail</span></td>
+<td>Same</td></tr>
+</tbody></table></div>
+<h2>Cases: ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</h2>
+<details><summary><span class="tag pass">pass</span> <span class="mono">double-charge</span> 
+My card was charged twice for the same order <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">refund</span> 
+I need a refund for the annual plan I never used <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">invoice-name</span> 
+The invoice shows a company name I did not enter <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">crash-camera</span> 
+The app crashes as soon as I open the camera screen <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">search-empty</span> 
+Search returns nothing even though the item exists <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">dark-mode-contrast</span> 
+Dark mode turns the text black on a black background <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">reset-email</span> 
+I forgot my password and the reset email never arrives <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Account</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">change-email</span> 
+Please change the email address on my profile <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Account</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">export-csv</span> 
+Can you add an option to export my data as CSV? <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Feature</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">widget</span> 
+It would be great to have a widget for the home screen <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Feature</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">thanks</span> 
+Thanks for the quick help last week, just saying hi <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Other</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag fail">fail</span> <span class="mono">office</span> 
+Where is your office located? <span class="muted">score 0%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Other</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag fail">fail</span>
+<pre>Account</pre>
+<p><span class="tag fail">fail</span> <span class="mono">exactMatch</span> Expected &quot;Other&quot;, got &quot;Account&quot;</p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag fail">fail</span>
+<pre>Account</pre>
+<p><span class="tag fail">fail</span> <span class="mono">exactMatch</span> Expected &quot;Other&quot;, got &quot;Account&quot;</p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag fail">fail</span>
+<pre>Account</pre>
+<p><span class="tag fail">fail</span> <span class="mono">exactMatch</span> Expected &quot;Other&quot;, got &quot;Account&quot;</p>
+</div>
+</details>
+<h2>Cases: ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2</h2>
+<details><summary><span class="tag pass">pass</span> <span class="mono">double-charge</span> 
+My card was charged twice for the same order <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">refund</span> 
+I need a refund for the annual plan I never used <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">invoice-name</span> 
+The invoice shows a company name I did not enter <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Billing</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Billing</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">crash-camera</span> 
+The app crashes as soon as I open the camera screen <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">search-empty</span> 
+Search returns nothing even though the item exists <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">dark-mode-contrast</span> 
+Dark mode turns the text black on a black background <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Bug</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Bug</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">reset-email</span> 
+I forgot my password and the reset email never arrives <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Account</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">change-email</span> 
+Please change the email address on my profile <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Account</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Account</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">export-csv</span> 
+Can you add an option to export my data as CSV? <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Feature</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">widget</span> 
+It would be great to have a widget for the home screen <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Feature</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Feature</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">thanks</span> 
+Thanks for the quick help last week, just saying hi <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">Other</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag fail">fail</span> <span class="mono">office</span> 
+Where is your office located? <span class="muted">score 67%, 
+spread 0.47</span></summary>
+<p>Expected <span class="mono">Other</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag fail">fail</span>
+<pre>Account</pre>
+<p><span class="tag fail">fail</span> <span class="mono">exactMatch</span> Expected &quot;Other&quot;, got &quot;Account&quot;</p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>Other</pre>
+<p><span class="tag pass">pass</span> <span class="mono">exactMatch</span> </p>
+</div>
+</details>
+<h2>Cases: ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</h2>
+<details><summary><span class="tag pass">pass</span> <span class="mono">blender</span> 
+Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow. <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">{&quot;orderId&quot;:&quot;48213&quot;,&quot;product&quot;:&quot;blender&quot;,&quot;urgent&quot;:true}</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: &quot;48213&quot;, &quot;product&quot;: &quot;blender&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: &quot;48213&quot;, &quot;product&quot;: &quot;blender&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: &quot;48213&quot;, &quot;product&quot;: &quot;blender&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+</details>
+<details><summary><span class="tag fail">fail</span> <span class="mono">headphones</span> 
+My headphones arrived scratched. Order A-77. <span class="muted">score 83%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">{&quot;orderId&quot;:&quot;A-77&quot;,&quot;product&quot;:&quot;headphones&quot;,&quot;urgent&quot;:false}</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: &quot;A-77&quot;, &quot;product&quot;: &quot;headphones&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> urgent true instead of false</p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: &quot;A-77&quot;, &quot;product&quot;: &quot;headphones&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> urgent true instead of false</p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: &quot;A-77&quot;, &quot;product&quot;: &quot;headphones&quot;, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> urgent true instead of false</p>
+</div>
+</details>
+<details><summary><span class="tag fail">fail</span> <span class="mono">dashboard</span> 
+I cannot log in to the web dashboard, blocking my whole team right now. <span class="muted">score 83%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">{&quot;orderId&quot;:null,&quot;product&quot;:&quot;web dashboard&quot;,&quot;urgent&quot;:true}</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> product null instead of web dashboard</p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> product null instead of web dashboard</p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag fail">fail</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: true}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag fail">fail</span> <span class="mono">detailsMatch</span> product null instead of web dashboard</p>
+</div>
+</details>
+<details><summary><span class="tag pass">pass</span> <span class="mono">shipping</span> 
+Just wondering if you ship to Norway. <span class="muted">score 100%, 
+spread 0.0</span></summary>
+<p>Expected <span class="mono">{&quot;orderId&quot;:null,&quot;product&quot;:null,&quot;urgent&quot;:false}</span></p>
+<div class="attempt"><strong>Attempt 1</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: false}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 2</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: false}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+<div class="attempt"><strong>Attempt 3</strong> <span class="tag pass">pass</span>
+<pre>{&quot;orderId&quot;: null, &quot;product&quot;: null, &quot;urgent&quot;: false}</pre>
+<p><span class="tag pass">pass</span> <span class="mono">jsonSchema</span> </p>
+<p><span class="tag pass">pass</span> <span class="mono">detailsMatch</span> </p>
+</div>
+</details>
+</main></body></html>

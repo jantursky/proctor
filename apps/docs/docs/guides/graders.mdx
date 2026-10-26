@@ -1,0 +1,41 @@
+---
+title: Graders
+description: Exact match, regex, JSON schema, semantic similarity, LLM judge and custom graders.
+---
+
+A grader scores one attempt. A case passes when every grader passes. Add graders inside `graders { }`.
+
+| Grader | Passes when | Needs |
+| --- | --- | --- |
+| `exactMatch(ignoreCase)` | The trimmed output equals the expected value | `expect(...)` on the case |
+| `regex(pattern)` | The pattern matches the whole trimmed output | |
+| `jsonSchema<T>()` | The output, after removing Markdown fences, decodes into `T` | A `@Serializable` type |
+| `semanticSimilarity(embedder, threshold)` | Cosine similarity to the expected value reaches the threshold | An `EmbeddingProvider` and `expect(...)` |
+| `llmJudge(rubric, judge)` | A judge model scores the output 3 or 4 on a 1 to 4 scale | A `Judge` |
+
+A grader that cannot do its job, such as `exactMatch` on a case without an expected value, returns "not graded", not "failed".
+
+## Custom graders
+
+Implement `Grader`. A thrown exception becomes "not graded".
+
+```kotlin
+class DetailsMatch : Grader {
+    override val name = "detailsMatch"
+
+    override suspend fun grade(context: GradeContext): Grade {
+        val actual = Json.decodeFromString<TicketDetails>(extractJson(context.output))
+        val expected = Json.decodeFromString<TicketDetails>(context.expected!!)
+        val matching = listOf(actual.orderId == expected.orderId, actual.product == expected.product,
+            actual.urgent == expected.urgent).count { it }
+        val score = matching / 3.0
+        return if (matching == 3) Grade.passed(score) else Grade.failed(score, "Fields differ: $actual")
+    }
+}
+```
+
+## LLM judges and variance
+
+The judge runs on the host, not on the device, and is usually a cloud model. Proctor ships the grader and the prompt, not the client: you pass a `Judge { prompt -> reply }` that calls whatever model you use. Judge scores vary between runs and between judge models, so keep the judge fixed when you compare two runs, and prefer a deterministic grader when one exists. If the judge's reply cannot be read, the attempt is "not graded".
+
+A judge sees the case input and the model output. If those contain user data, sending them to a cloud judge leaves the device. Proctor never does this for you.

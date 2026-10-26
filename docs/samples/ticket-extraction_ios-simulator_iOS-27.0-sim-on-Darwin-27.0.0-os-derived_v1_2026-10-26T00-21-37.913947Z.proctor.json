@@ -1,0 +1,324 @@
+{
+    "schemaVersion": 1,
+    "suite": "ticket-extraction",
+    "promptVersion": "v1",
+    "environment": {
+        "platform": "ios-simulator",
+        "deviceModel": "iPhone19,2",
+        "osVersion": "Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0",
+        "modelVersion": "iOS 27.0 sim on Darwin 27.0.0 (os-derived)",
+        "backend": "foundation-models"
+    },
+    "sampling": {
+        "temperature": 0.2,
+        "topK": 16,
+        "maxOutputTokens": null,
+        "seed": null
+    },
+    "repeat": 3,
+    "startedAt": "2026-10-26T00:21:37.913947Z",
+    "availability": "Available",
+    "availabilityReason": null,
+    "summary": {
+        "total": 4,
+        "passed": 2,
+        "failed": 2,
+        "notGraded": 0,
+        "meanScore": 0.9166666666666667,
+        "suitePassed": true
+    },
+    "cases": [
+        {
+            "id": "blender",
+            "input": "Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.",
+            "expected": "{\"orderId\":\"48213\",\"product\":\"blender\",\"urgent\":true}",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "{\"orderId\": \"48213\", \"product\": \"blender\", \"urgent\": true}",
+                    "latencyMillis": 740,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": \"48213\", \"product\": \"blender\", \"urgent\": true}",
+                    "latencyMillis": 725,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": \"48213\", \"product\": \"blender\", \"urgent\": true}",
+                    "latencyMillis": 726,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "headphones",
+            "input": "My headphones arrived scratched. Order A-77.",
+            "expected": "{\"orderId\":\"A-77\",\"product\":\"headphones\",\"urgent\":false}",
+            "status": "Failed",
+            "meanScore": 0.8333333333333334,
+            "spread": 1.1102230246251565E-16,
+            "attempts": [
+                {
+                    "output": "{\"orderId\": \"A-77\", \"product\": \"headphones\", \"urgent\": true}",
+                    "latencyMillis": 704,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "urgent true instead of false"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": \"A-77\", \"product\": \"headphones\", \"urgent\": true}",
+                    "latencyMillis": 697,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "urgent true instead of false"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": \"A-77\", \"product\": \"headphones\", \"urgent\": true}",
+                    "latencyMillis": 705,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "urgent true instead of false"
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "dashboard",
+            "input": "I cannot log in to the web dashboard, blocking my whole team right now.",
+            "expected": "{\"orderId\":null,\"product\":\"web dashboard\",\"urgent\":true}",
+            "status": "Failed",
+            "meanScore": 0.8333333333333334,
+            "spread": 1.1102230246251565E-16,
+            "attempts": [
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": true}",
+                    "latencyMillis": 553,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": true}",
+                    "latencyMillis": 565,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": true}",
+                    "latencyMillis": 554,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "shipping",
+            "input": "Just wondering if you ship to Norway.",
+            "expected": "{\"orderId\":null,\"product\":null,\"urgent\":false}",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": false}",
+                    "latencyMillis": 606,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": false}",
+                    "latencyMillis": 598,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "{\"orderId\": null, \"product\": null, \"urgent\": false}",
+                    "latencyMillis": 606,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        }
+    ]
+}

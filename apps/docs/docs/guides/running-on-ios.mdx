@@ -1,0 +1,34 @@
+---
+title: Running on iOS
+description: Apple Foundation Models through a Swift bridge, on a device or a simulator.
+---
+
+`proctor-ios` runs suites on Apple Foundation Models. Kotlin cannot call the Swift-only `FoundationModels` framework, so the module defines a small interface (`FoundationModelsBridge`) and you copy a Swift implementation into your app target.
+
+## Set up
+
+1. Add `io.github.jantursky:proctor-ios` to `iosMain` and export it from your framework.
+2. Copy `ProctorFoundationModelsBridge.swift` from `proctor-ios/ios-bridge/` into your app or test target.
+3. Run the suite with the bridge:
+
+```kotlin
+val runner = EvalRunner(FoundationModelsBackend(bridge))
+val results = runner.runAll(suite)
+results.forEach { ResultStore.inDocuments().write(it) }
+```
+
+The bridge creates a fresh session for every request and maps `GenerationError` cases to Proctor's error kinds: rate limiting and concurrent requests are quota errors ("not graded" after retries), unavailable assets are "unavailable", the rest are failures.
+
+## Simulator
+
+A simulator uses the model of its Mac host, so the Mac needs Apple Intelligence turned on. `scripts/run-ios-simulator.sh` builds the sample framework, compiles a headless runner and starts it with `xcrun simctl spawn`, writing results to `proctor-results/`.
+
+## Model version
+
+The Foundation Models framework exposes no model identifier. Apple ties the model to OS versions, so Proctor records an OS-derived version such as `iOS 27.0 sim on Darwin 27.0.0 (os-derived)` and labels it that way. Two runs on the same iOS version are assumed to use the same model; Proctor cannot check this.
+
+On a simulator the real model belongs to the Mac host, which is why the string includes the host's Darwin version. A simulator run is not a device run: the same iOS version on an iPhone can behave differently.
+
+## Availability
+
+`SystemLanguageModel.default.availability` is read before the run. Device not eligible, Apple Intelligence not enabled and model not ready are written into the result instead of failing cases.

@@ -1,0 +1,53 @@
+---
+title: Getting started
+description: Add Proctor, define a suite, run it and build a report.
+sidebar:
+  order: 2
+---
+
+## Add the dependencies
+
+The core has no dependency on any model SDK. Add it to `commonMain`, and add the adapter for each platform you test on.
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies { implementation("io.github.jantursky:proctor:{{version}}") }
+        androidMain.dependencies { implementation("io.github.jantursky:proctor-android:{{version}}") }
+        iosMain.dependencies { implementation("io.github.jantursky:proctor-ios:{{version}}") }
+    }
+}
+```
+
+Add the Gradle plugin to the module that builds reports:
+
+```kotlin
+plugins {
+    id("io.github.jantursky.proctor") version "{{version}}"
+}
+```
+
+## Define a suite
+
+Put suites in `commonMain` so both platforms run the same one. See [Writing suites](/guides/writing-suites).
+
+## Run it
+
+On Android the suite runs from an instrumented test on a physical device, see [Running on Android](/guides/running-on-android). On iOS it runs through a small Swift bridge, see [Running on iOS](/guides/running-on-ios).
+
+For a first try without a device, use the fake backend:
+
+```kotlin
+val backend = FakeBackend { prompt, _ -> "Billing" }
+val results = EvalRunner(backend, RunnerConfig(requestDelay = Duration.ZERO)).runAll(suite)
+```
+
+## Build the report
+
+Copy the result files into `proctor-results/` and run:
+
+```
+./gradlew proctorReport
+```
+
+The report lands in `build/reports/proctor/` as `index.html` and `report.md`. See [Reading reports](/guides/reading-reports).

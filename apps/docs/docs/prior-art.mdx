@@ -1,0 +1,41 @@
+---
+title: Prior art
+description: What exists for evaluating LLMs and on-device models, and what Proctor adds.
+sidebar:
+  order: 5
+---
+
+Proctor does not replace these tools. It covers one gap: running the same suite on the system models of Android and iOS, from Kotlin Multiplatform.
+
+## Apple Evaluations framework
+
+Apple's [Evaluations framework](/apple-evaluations) (macOS 27 and iOS 27 SDKs) is Swift-only and built for Apple platforms. It is the better choice if you ship only on Apple platforms. Details are on the [comparison page](/apple-evaluations).
+
+## Dokimos
+
+[Dokimos](https://github.com/dokimos-dev/dokimos) is an MIT-licensed evaluation framework for Java and Kotlin. It has built-in evaluators (hallucination, faithfulness, relevance, LLM-as-a-judge, tool-call checks), datasets from JSON or CSV, JUnit integration and integrations for LangChain4j, Spring AI and Koog. Its page mentions Java and Kotlin on the JVM, not Android devices or system models. Use it for server-side apps. I only read its README, not its source.
+
+## promptfoo
+
+[promptfoo](https://github.com/promptfoo/promptfoo) is a CLI and library for evaluating and red-teaming LLM apps with declarative configs and CI integration. Its providers are cloud and local model servers such as OpenAI, Bedrock and Ollama. Its README does not mention on-device system models. I only read its README.
+
+## Intents
+
+Intents is a macOS workbench for testing Foundation Models: repeatable evaluation suites, execution traces, run history. I found it only through a [directory listing](https://mcpmarket.com/server/intents), not through a vendor page, so I can say little more. It is macOS-only.
+
+## Google's guidance
+
+The ML Kit Prompt API documentation recommends evaluating prompts for each Gemini Nano version with a dataset, recording outputs, and grading them manually or with an LLM judge. It gives no tool to do this on a device. Proctor is that tool.
+
+## On-device inference libraries
+
+`ondevice-ai` (adrianczuczka) wraps the ML Kit and Apple models for Kotlin Multiplatform with typed busy and background errors. `ondevice-llm` (uny) wraps them with a single inference exception. Both help you call the models, neither evaluates them. Proctor calls ML Kit directly to see the model name, the preview configuration and AICore's own errors, and keeps an optional adapter for these libraries on the roadmap.
+
+## Not covered yet
+
+- Tool-call and agent evaluation.
+- Synthetic test data generation.
+- Image input.
+- A command line tool: the report is a library and a Gradle task.
+- A desktop JVM backend for prototyping suites without a phone.
+- Any run on a physical iPhone or Android device (see the support table on the [introduction](/)).

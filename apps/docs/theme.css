@@ -1,0 +1,45 @@
+/* Proctor design tokens (design/tokens.css) mapped onto Blume's. Hairlines instead of shadows. */
+:root {
+  --blume-background: #ffffff;
+  --blume-foreground: #000000;
+  --blume-muted: #f3f4f6;
+  --blume-muted-foreground: #6a7282;
+  --blume-border: #e5e7eb;
+  --blume-accent: #155dfc;
+  --blume-accent-foreground: #ffffff;
+  --blume-action: #000000;
+  --blume-action-foreground: #ffffff;
+  --blume-code-background: #f3f4f6;
+  --blume-radius: 8px;
+  --blume-font-display: 'Source Sans 3 Variable', 'Source Sans 3', Inter, system-ui, sans-serif;
+  --blume-font-body: 'Source Sans 3 Variable', 'Source Sans 3', Inter, system-ui, sans-serif;
+}
+
+:root[data-theme='dark'] {
+  --blume-background: #0b0f19;
+  --blume-foreground: #f9fafb;
+  --blume-muted: #101828;
+  --blume-muted-foreground: #99a1af;
+  --blume-border: #2c3344;
+  --blume-accent: #51a2ff;
+  --blume-accent-foreground: #0b0f19;
+  --blume-action: #f9fafb;
+  --blume-action-foreground: #0b0f19;
+  --blume-code-background: #101828;
+}
+
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+}
+
+table,
+td,
+th {
+  font-variant-numeric: tabular-nums;
+}
+
+code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}

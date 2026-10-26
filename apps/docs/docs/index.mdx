@@ -1,0 +1,50 @@
+---
+title: Introduction
+description: Evaluation harness for the language models built into Android and iOS, written once in Kotlin Multiplatform.
+sidebar:
+  order: 1
+---
+
+Proctor runs an evaluation suite against the language model that ships with the phone: Gemini Nano on Android and Apple Foundation Models on iOS. You write the suite once in `commonMain`. Proctor runs it on the device, grades every output, saves the results as JSON, and builds a report that compares platforms, model versions and prompt versions.
+
+The OS updates these models, not your app. A prompt that worked last month can answer differently after a system update, and two phones can run different model versions at the same time. Proctor makes that visible before your users see it.
+
+The current version is {{version}}. See the [changelog](/changelog) for what each release changed.
+
+```kotlin
+val suite = evalSuite("ticket-classifier") {
+    prompt(version = "v1") { input -> "Classify this support ticket as Billing, Bug, Account, Feature or Other: $input" }
+    case("My card was charged twice", id = "double-charge") { expect("Billing") }
+    case("The app crashes when I open the camera", id = "crash") { expect("Bug") }
+    graders { exactMatch(ignoreCase = true) }
+    repeat(3)
+    passWhen { score >= 0.8 }
+}
+```
+
+## How it works
+
+1. A suite is plain Kotlin: prompt versions, cases, graders, a repeat count and a pass condition.
+2. A backend (`MlKitBackend` on Android, `FoundationModelsBackend` on iOS) sends each prompt to the system model. Requests run one at a time with a pause between them, because AICore meters inference per app.
+3. The runner records the device, the OS, the model version, the backend settings and every attempt, and writes one `*.proctor.json` file per run.
+4. `proctorReport` reads a folder of those files and writes an HTML and a Markdown report. It fails the build when a run misses its pass condition.
+
+## What it does not do
+
+- It does not send anything anywhere. Datasets, prompts and outputs stay on the device and in your repository. See [Privacy](/guides/privacy).
+- It is not a cloud-model evaluation tool. For that, see [prior art](/prior-art).
+- It does not run on emulators. Android emulators have no AICore and no Gemini Nano.
+
+## Platform support
+
+Each row says what has actually been run. A combination that was not run on real hardware is marked unverified.
+
+| Platform | Backend | Checked on | Status |
+| --- | --- | --- | --- |
+| iOS simulator, iOS 27.0 | Foundation Models | Mac host, macOS 27.0.1 | Run. The simulator uses the host's model. |
+| iPhone | Foundation Models | | Unverified |
+| Android, Galaxy S26, stable model | ML Kit Prompt API | | Unverified. Code compiles and host tests pass. |
+| Android, Galaxy S26, Gemini Nano 4 preview | ML Kit Prompt API | | Unverified. Eligibility of the S26 for the preview is not confirmed. |
+| JVM | Fake backend, report and Gradle plugin | CI | Run |
+
+See a [sample report](/sample-report/index.html) built from real iOS simulator runs.

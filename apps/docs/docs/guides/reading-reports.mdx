@@ -1,0 +1,28 @@
+---
+title: Reading reports
+description: The result files, the report sections, and what "not graded" means.
+---
+
+`proctorReport` reads every `*.proctor.json` file in the results folder and writes `index.html` (self-contained, no scripts, no network) and `report.md`. See a [sample report](/sample-report/index.html).
+
+## Result files
+
+One file per suite, platform, model version, prompt version and run time. The file has `schemaVersion: 1`, the environment (platform, device, OS, model version, backend settings), the sampling settings, availability, and every attempt with its output, grader results and latency. Files do not change after they are written; a new run is a new file.
+
+## Sections
+
+- **Checked on**: device, OS, model version, backend and run time of every run. This is the table to copy into a README.
+- **Results**: passed, failed and not graded per run, the mean score and the verdict.
+- **Compare**: the oldest run of each suite (or the one you name as `baseline`) against every other run of that suite. The report says what differs: platform, model version, prompt version, or several at once. Per case it shows same, regressed or improved.
+- **Cases**: input, expected value, first output, result, score and spread per case.
+
+## Passed, failed, not graded
+
+- **Failed**: the model answered and a grader said no.
+- **Not graded**: no verdict. Quota, lost foreground, an unavailable model or an unreadable judge reply. These cases say nothing about your prompt.
+
+A run's verdict comes from your `passWhen`. With a score threshold, a run can pass while single cases fail, as in the sample report. The report shows both.
+
+## Comparing across model versions
+
+Run the same suite on each model, keep all result files, and run `proctorReport`. Change nothing else between runs: the same prompt version, sampling and cases. If the platform or model version differs the report labels the difference, but it cannot tell you why a score moved.

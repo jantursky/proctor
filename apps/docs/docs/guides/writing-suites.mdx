@@ -1,0 +1,43 @@
+---
+title: Writing suites
+description: Prompt versions, cases, repeats, sampling and the pass condition.
+---
+
+A suite is built with `evalSuite`. It needs at least one prompt, one case and one grader, and fails with a clear message when one is missing.
+
+```kotlin
+val classifierSuite = evalSuite("ticket-classifier") {
+    prompt(version = "v1", TicketPrompts::classifyV1)
+    prompt(version = "v2", TicketPrompts::classifyV2)
+
+    case("My card was charged twice for the same order", id = "double-charge") { expect("Billing") }
+    case("Where is your office located?", id = "office") { expect("Other") }
+
+    graders { exactMatch(ignoreCase = true) }
+    repeat(3)
+    sampling(Sampling(temperature = 0.2, topK = 16))
+    passWhen { score >= 0.8 }
+}
+```
+
+## Prompt versions
+
+Declare several `prompt(version) { input -> ... }` blocks to compare prompts. `runAll(suite)` runs the cases once per version and produces one result file each, so the report can diff v1 against v2 case by case.
+
+## Cases
+
+Give a case a stable `id`. The report matches cases between runs by id; without one, Proctor numbers them in order, which breaks the comparison when you insert a case.
+
+## Repeats
+
+Small models are not deterministic, even at a low temperature. `repeat(n)` runs every case `n` times. A case passes when its mean score is high enough, and the report shows the spread, so a case that passes two times out of three is visible as unstable instead of passing by luck.
+
+## Sampling
+
+`Sampling` carries temperature, top-K and a maximum output length. A `null` value means the platform default. The values go into every result file. The seed is not exposed here; set it in the adapter if the platform supports it.
+
+## Pass condition
+
+`passWhen` receives a `SuiteScore` with `score` (mean over graded cases), `passRate`, `total`, `passed`, `failed` and `notGraded`. The default passes when no case failed and at least one case was graded.
+
+Cases that could not be graded, for example because AICore refused with a quota error, count as `notGraded`. They never count as failures of your prompt. Use `failOnNotGraded` in CI if you want them to fail the build anyway.
