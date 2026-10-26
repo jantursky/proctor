@@ -68,3 +68,16 @@ final class com.jantursky.proctor.ios/FoundationModelsBackend : com.jantursky.pr
     final suspend fun environment(): com.jantursky.proctor/Environment // com.jantursky.proctor.ios/FoundationModelsBackend.environment|environment(){}[0]
     final suspend fun generate(kotlin/String, com.jantursky.proctor/Sampling): kotlin/String // com.jantursky.proctor.ios/FoundationModelsBackend.generate|generate(kotlin.String;com.jantursky.proctor.Sampling){}[0]
 }
+
+final class com.jantursky.proctor.ios/ResultStore { // com.jantursky.proctor.ios/ResultStore|null[0]
+    constructor <init>(kotlin/String) // com.jantursky.proctor.ios/ResultStore.<init>|<init>(kotlin.String){}[0]
+
+    final val directoryPath // com.jantursky.proctor.ios/ResultStore.directoryPath|{}directoryPath[0]
+        final fun <get-directoryPath>(): kotlin/String // com.jantursky.proctor.ios/ResultStore.directoryPath.<get-directoryPath>|<get-directoryPath>(){}[0]
+
+    final fun write(com.jantursky.proctor/RunResult): kotlin/String // com.jantursky.proctor.ios/ResultStore.write|write(com.jantursky.proctor.RunResult){}[0]
+
+    final object Companion { // com.jantursky.proctor.ios/ResultStore.Companion|null[0]
+        final fun inDocuments(): com.jantursky.proctor.ios/ResultStore // com.jantursky.proctor.ios/ResultStore.Companion.inDocuments|inDocuments(){}[0]
+    }
+}
