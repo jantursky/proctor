@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import com.jantursky.proctor.BackendAvailability
 import com.jantursky.proctor.EvalRunner
 import com.jantursky.proctor.RunAbortedException
 import com.jantursky.proctor.android.ForegroundBackend
@@ -30,22 +31,50 @@ class MainActivity : Activity() {
     @Volatile
     private var resumed = false
     private lateinit var output: TextView
+    private lateinit var status: TextView
     private lateinit var button: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         output = TextView(this).apply { text = "Keep this screen open while the suites run." }
+        status = TextView(this).apply { text = "Checking Gemini Nano..." }
         button = Button(this).apply { text = "Run sample suites" }
+        button.isEnabled = false
         button.setOnClickListener { run() }
         setContentView(
             LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                setPadding(48, 96, 48, 48)
+                // Edge-to-edge is enforced on recent Android versions; this keeps the content below the status bar.
+                fitsSystemWindows = true
+                setPadding(48, 48, 48, 48)
+                addView(status)
                 addView(button)
                 addView(ScrollView(context).apply { addView(output) })
             },
         )
+        checkModel()
+    }
+
+    /** Shows the model state first, so a device without the Prompt API says so instead of failing a run. */
+    private fun checkModel() {
+        scope.launch {
+            val text =
+                try {
+                    when (val availability = MlKitBackend(MlKitConfig()).availability()) {
+                        BackendAvailability.Available -> AVAILABLE_TEXT
+                        BackendAvailability.Downloadable -> "Gemini Nano: supported, not downloaded yet"
+                        BackendAvailability.Downloading -> "Gemini Nano: downloading, try again later"
+                        is BackendAvailability.Unavailable -> "Gemini Nano: unavailable. ${availability.reason}"
+                    }
+                } catch (e: Exception) {
+                    "Gemini Nano: could not be checked (${e::class.simpleName}: ${e.message})"
+                }
+            runOnUiThread {
+                status.text = text
+                button.isEnabled = text == AVAILABLE_TEXT
+            }
+        }
     }
 
     override fun onResume() {
@@ -94,3 +123,5 @@ class MainActivity : Activity() {
 
     private fun append(line: String) = runOnUiThread { output.append(line + "\n") }
 }
+
+private const val AVAILABLE_TEXT = "Gemini Nano: available"
