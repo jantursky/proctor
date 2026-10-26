@@ -1,0 +1,70 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <proctor:proctor-ios>
+final enum class com.jantursky.proctor.ios/BridgeAvailability : kotlin/Enum<com.jantursky.proctor.ios/BridgeAvailability> { // com.jantursky.proctor.ios/BridgeAvailability|null[0]
+    enum entry APPLE_INTELLIGENCE_NOT_ENABLED // com.jantursky.proctor.ios/BridgeAvailability.APPLE_INTELLIGENCE_NOT_ENABLED|null[0]
+    enum entry AVAILABLE // com.jantursky.proctor.ios/BridgeAvailability.AVAILABLE|null[0]
+    enum entry DEVICE_NOT_ELIGIBLE // com.jantursky.proctor.ios/BridgeAvailability.DEVICE_NOT_ELIGIBLE|null[0]
+    enum entry MODEL_NOT_READY // com.jantursky.proctor.ios/BridgeAvailability.MODEL_NOT_READY|null[0]
+
+    final val entries // com.jantursky.proctor.ios/BridgeAvailability.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.proctor.ios/BridgeAvailability> // com.jantursky.proctor.ios/BridgeAvailability.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.proctor.ios/BridgeAvailability // com.jantursky.proctor.ios/BridgeAvailability.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.proctor.ios/BridgeAvailability> // com.jantursky.proctor.ios/BridgeAvailability.values|values#static(){}[0]
+}
+
+final enum class com.jantursky.proctor.ios/BridgeErrorKind : kotlin/Enum<com.jantursky.proctor.ios/BridgeErrorKind> { // com.jantursky.proctor.ios/BridgeErrorKind|null[0]
+    enum entry ASSETS_UNAVAILABLE // com.jantursky.proctor.ios/BridgeErrorKind.ASSETS_UNAVAILABLE|null[0]
+    enum entry CONCURRENT_REQUESTS // com.jantursky.proctor.ios/BridgeErrorKind.CONCURRENT_REQUESTS|null[0]
+    enum entry EXCEEDED_CONTEXT_WINDOW_SIZE // com.jantursky.proctor.ios/BridgeErrorKind.EXCEEDED_CONTEXT_WINDOW_SIZE|null[0]
+    enum entry GUARDRAIL_VIOLATION // com.jantursky.proctor.ios/BridgeErrorKind.GUARDRAIL_VIOLATION|null[0]
+    enum entry OTHER // com.jantursky.proctor.ios/BridgeErrorKind.OTHER|null[0]
+    enum entry RATE_LIMITED // com.jantursky.proctor.ios/BridgeErrorKind.RATE_LIMITED|null[0]
+    enum entry REFUSAL // com.jantursky.proctor.ios/BridgeErrorKind.REFUSAL|null[0]
+    enum entry UNSUPPORTED_LANGUAGE_OR_LOCALE // com.jantursky.proctor.ios/BridgeErrorKind.UNSUPPORTED_LANGUAGE_OR_LOCALE|null[0]
+
+    final val entries // com.jantursky.proctor.ios/BridgeErrorKind.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.proctor.ios/BridgeErrorKind> // com.jantursky.proctor.ios/BridgeErrorKind.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.proctor.ios/BridgeErrorKind // com.jantursky.proctor.ios/BridgeErrorKind.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.proctor.ios/BridgeErrorKind> // com.jantursky.proctor.ios/BridgeErrorKind.values|values#static(){}[0]
+}
+
+abstract interface com.jantursky.proctor.ios/BridgeCompletion { // com.jantursky.proctor.ios/BridgeCompletion|null[0]
+    abstract fun fail(com.jantursky.proctor.ios/BridgeErrorKind, kotlin/String) // com.jantursky.proctor.ios/BridgeCompletion.fail|fail(com.jantursky.proctor.ios.BridgeErrorKind;kotlin.String){}[0]
+    abstract fun succeed(kotlin/String) // com.jantursky.proctor.ios/BridgeCompletion.succeed|succeed(kotlin.String){}[0]
+}
+
+abstract interface com.jantursky.proctor.ios/FoundationModelsBridge { // com.jantursky.proctor.ios/FoundationModelsBridge|null[0]
+    abstract fun availability(): com.jantursky.proctor.ios/BridgeAvailability // com.jantursky.proctor.ios/FoundationModelsBridge.availability|availability(){}[0]
+    abstract fun generate(com.jantursky.proctor.ios/BridgeRequest, com.jantursky.proctor.ios/BridgeCompletion) // com.jantursky.proctor.ios/FoundationModelsBridge.generate|generate(com.jantursky.proctor.ios.BridgeRequest;com.jantursky.proctor.ios.BridgeCompletion){}[0]
+}
+
+final class com.jantursky.proctor.ios/BridgeRequest { // com.jantursky.proctor.ios/BridgeRequest|null[0]
+    constructor <init>(kotlin/String, kotlin/Double?, kotlin/Int?, kotlin/Long?, kotlin/Int?) // com.jantursky.proctor.ios/BridgeRequest.<init>|<init>(kotlin.String;kotlin.Double?;kotlin.Int?;kotlin.Long?;kotlin.Int?){}[0]
+
+    final val maxOutputTokens // com.jantursky.proctor.ios/BridgeRequest.maxOutputTokens|{}maxOutputTokens[0]
+        final fun <get-maxOutputTokens>(): kotlin/Int? // com.jantursky.proctor.ios/BridgeRequest.maxOutputTokens.<get-maxOutputTokens>|<get-maxOutputTokens>(){}[0]
+    final val prompt // com.jantursky.proctor.ios/BridgeRequest.prompt|{}prompt[0]
+        final fun <get-prompt>(): kotlin/String // com.jantursky.proctor.ios/BridgeRequest.prompt.<get-prompt>|<get-prompt>(){}[0]
+    final val seed // com.jantursky.proctor.ios/BridgeRequest.seed|{}seed[0]
+        final fun <get-seed>(): kotlin/Long? // com.jantursky.proctor.ios/BridgeRequest.seed.<get-seed>|<get-seed>(){}[0]
+    final val temperature // com.jantursky.proctor.ios/BridgeRequest.temperature|{}temperature[0]
+        final fun <get-temperature>(): kotlin/Double? // com.jantursky.proctor.ios/BridgeRequest.temperature.<get-temperature>|<get-temperature>(){}[0]
+    final val topK // com.jantursky.proctor.ios/BridgeRequest.topK|{}topK[0]
+        final fun <get-topK>(): kotlin/Int? // com.jantursky.proctor.ios/BridgeRequest.topK.<get-topK>|<get-topK>(){}[0]
+}
+
+final class com.jantursky.proctor.ios/FoundationModelsBackend : com.jantursky.proctor/ModelBackend { // com.jantursky.proctor.ios/FoundationModelsBackend|null[0]
+    constructor <init>(com.jantursky.proctor.ios/FoundationModelsBridge) // com.jantursky.proctor.ios/FoundationModelsBackend.<init>|<init>(com.jantursky.proctor.ios.FoundationModelsBridge){}[0]
+
+    final suspend fun availability(): com.jantursky.proctor/BackendAvailability // com.jantursky.proctor.ios/FoundationModelsBackend.availability|availability(){}[0]
+    final suspend fun environment(): com.jantursky.proctor/Environment // com.jantursky.proctor.ios/FoundationModelsBackend.environment|environment(){}[0]
+    final suspend fun generate(kotlin/String, com.jantursky.proctor/Sampling): kotlin/String // com.jantursky.proctor.ios/FoundationModelsBackend.generate|generate(kotlin.String;com.jantursky.proctor.Sampling){}[0]
+}
