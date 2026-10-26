@@ -124,7 +124,7 @@ class FoundationModelsBackendTest {
 
             assertTrue(environment.platform == "ios" || environment.platform == "ios-simulator")
             assertEquals("foundation-models", environment.backend)
-            assertTrue(environment.modelVersion!!.startsWith("os-derived: "))
+            assertTrue(environment.modelVersion!!.endsWith("(os-derived)"))
             assertTrue(environment.deviceModel.isNotBlank())
             assertTrue(environment.osVersion.isNotBlank())
         }
@@ -144,7 +144,7 @@ class FoundationModelsBackendTest {
 
             assertEquals("ios-simulator", environment.platform)
             assertEquals("Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0", environment.osVersion)
-            assertEquals("os-derived: iOS 27.0 simulator, model from host Darwin 27.0.0", environment.modelVersion)
+            assertEquals("iOS 27.0 sim on Darwin 27.0.0 (os-derived)", environment.modelVersion)
         }
 
     @Test
@@ -162,7 +162,7 @@ class FoundationModelsBackendTest {
 
             assertEquals("ios", environment.platform)
             assertEquals("Version 26.4 (Build 23E100)", environment.osVersion)
-            assertEquals("os-derived: iOS 26.4", environment.modelVersion)
+            assertEquals("iOS 26.4 (os-derived)", environment.modelVersion)
             assertEquals("iPhone17,1", environment.deviceModel)
         }
 }

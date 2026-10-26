@@ -34,9 +34,9 @@ public class FoundationModelsBackend internal constructor(
             osVersion = if (device.simulator) "${device.osVersion}, simulator on $host" else device.osVersion,
             modelVersion =
                 if (device.simulator) {
-                    "os-derived: iOS ${device.systemVersion} simulator, model from $host"
+                    "iOS ${device.systemVersion} sim on ${host.removePrefix("host ")} (os-derived)"
                 } else {
-                    "os-derived: iOS ${device.systemVersion}"
+                    "iOS ${device.systemVersion} (os-derived)"
                 },
             backend = "foundation-models",
         )

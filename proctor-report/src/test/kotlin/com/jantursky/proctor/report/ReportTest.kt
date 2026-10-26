@@ -164,6 +164,7 @@ class ReportTest {
     fun formattingHelpers() {
         assertEquals("–", null.percent())
         assertEquals("75%", 0.75.percent())
+        assertEquals("92%", (11.0 / 12).percent())
         assertEquals("–", null.signed())
         assertEquals("+25 pts", 0.25.signed())
         assertEquals("-25 pts", (-0.25).signed())

@@ -2,6 +2,7 @@ package com.jantursky.proctor.report
 
 import com.jantursky.proctor.RunResult
 import com.jantursky.proctor.Status
+import kotlin.math.roundToInt
 
 /** What turns a report into a failing CI step. A run whose own `passWhen` verdict is false always fails. */
 public data class VerdictOptions(
@@ -82,13 +83,13 @@ internal fun Status.symbol(): String =
         Status.NotGraded -> "not graded"
     }
 
-internal fun Double?.percent(): String = if (this == null) "–" else "${(this * 100).toInt()}%"
+internal fun Double?.percent(): String = if (this == null) "–" else "${(this * 100).roundToInt()}%"
 
 internal fun Double?.signed(): String =
     when {
         this == null -> "–"
-        this > 0 -> "+${(this * 100).toInt()} pts"
-        else -> "${(this * 100).toInt()} pts"
+        this > 0 -> "+${(this * 100).roundToInt()} pts"
+        else -> "${(this * 100).roundToInt()} pts"
     }
 
 internal fun Double?.twoDecimals(): String = if (this == null) "–" else (kotlin.math.round(this * 100) / 100).toString()
