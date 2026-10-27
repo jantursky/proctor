@@ -4,6 +4,7 @@ import SwiftUI
 /// Runs saved by earlier sessions, newest first.
 struct HistoryView: View {
     @ObservedObject var model: SampleModel
+    @State private var confirmClear = false
 
     var body: some View {
         ScrollView {
@@ -13,15 +14,17 @@ struct HistoryView: View {
                         .font(.subheadline)
                         .foregroundStyle(Palette.body)
                 } else {
-                    VStack(alignment: .leading, spacing: 0) {
-                        SectionLabel(text: "\(model.history.count) saved runs").padding(.bottom, 8)
-                        ForEach(Array(model.history.enumerated()), id: \.element.id) { index, row in
-                            if index > 0 { Divider().overlay(Palette.hairline) }
-                            NavigationLink(value: row) { HistoryRow(row: row).padding(.vertical, 12) }
-                                .buttonStyle(.plain)
-                        }
+                    ForEach(model.historyGroups, id: \.startedAt) { group in
+                        GroupCard(group: group, model: model)
                     }
-                    .card()
+                    Button(role: .destructive) {
+                        confirmClear = true
+                    } label: {
+                        Text("Clear history").frame(maxWidth: .infinity, minHeight: 32)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Palette.fail)
+                    .disabled(model.running)
                 }
             }
             .padding(.horizontal, 20)
@@ -30,8 +33,39 @@ struct HistoryView: View {
         .background(Palette.canvas.ignoresSafeArea())
         .navigationTitle("History")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(for: Row.self) { DetailView(row: $0) }
         .onAppear { model.loadHistory() }
+        .confirmationDialog(
+            "Clear history?",
+            isPresented: $confirmClear,
+            titleVisibility: .visible
+        ) {
+            Button("Delete all \(model.history.count) saved runs", role: .destructive) { model.clearHistory() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This deletes the result files on this device. It cannot be undone.")
+        }
+    }
+}
+
+private struct GroupCard: View {
+    let group: SampleGroup
+    @ObservedObject var model: SampleModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            SectionLabel(text: group.id == nil ? "Ungrouped runs" : formatStarted(group.startedAt))
+            Text("\(group.rows.count) \(group.rows.count == 1 ? "run" : "runs") · \(group.backend)" + (group.modelVersion.map { " · \($0)" } ?? ""))
+                .font(.system(size: 12, design: .monospaced))
+                .foregroundStyle(Palette.caption)
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(Array(group.rows.enumerated()), id: \.offset) { index, result in
+                    if index > 0 { Divider().overlay(Palette.hairline) }
+                    NavigationLink(value: Row(result: result)) { HistoryRow(row: Row(result: result)).padding(.vertical, 12) }
+                        .buttonStyle(.plain)
+                }
+            }
+        }
+        .card()
     }
 }
 
@@ -47,7 +81,7 @@ private struct HistoryRow: View {
                 VerdictBadge(passed: result.suitePassed)
             }
             Text(summary(result)).font(.subheadline).foregroundStyle(Palette.body)
-            Text("\(formatStarted(result.startedAt)) · \(result.backend)")
+            Text(formatStarted(result.startedAt))
                 .font(.system(size: 12, design: .monospaced))
                 .foregroundStyle(Palette.caption)
         }

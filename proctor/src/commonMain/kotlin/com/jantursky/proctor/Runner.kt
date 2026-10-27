@@ -26,6 +26,8 @@ public class RunnerConfig(
     public val maxQuotaRetries: Int = 3,
     public val initialBackoff: Duration = 5.seconds,
     public val maxBackoff: Duration = 1.minutes,
+    /** Written into every result so a report or a history screen can tell which runs belong together. */
+    public val groupId: String? = null,
 ) {
     init {
         require(concurrency >= 1) { "concurrency must be at least 1" }
@@ -81,6 +83,7 @@ public class EvalRunner(
             availabilityReason = (availability as? BackendAvailability.Unavailable)?.reason,
             summary = summarize(suite, cases),
             cases = cases,
+            groupId = config.groupId,
         )
     }
 

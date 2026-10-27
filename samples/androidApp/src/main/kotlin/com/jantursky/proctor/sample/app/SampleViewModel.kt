@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.jantursky.proctor.BackendAvailability
 import com.jantursky.proctor.EvalRunner
 import com.jantursky.proctor.RunAbortedException
+import com.jantursky.proctor.RunnerConfig
 import com.jantursky.proctor.android.ForegroundBackend
 import com.jantursky.proctor.android.MlKitBackend
 import com.jantursky.proctor.android.MlKitConfig
@@ -18,8 +19,10 @@ import com.jantursky.proctor.android.NanoPreference
 import com.jantursky.proctor.android.NanoRelease
 import com.jantursky.proctor.android.ResultStore
 import com.jantursky.proctor.sample.ProgressBackend
+import com.jantursky.proctor.sample.SampleCase
 import com.jantursky.proctor.sample.SampleRow
 import com.jantursky.proctor.sample.parseSampleRow
+import com.jantursky.proctor.sample.runCustomCase
 import com.jantursky.proctor.sample.sampleRequestCount
 import com.jantursky.proctor.sample.sampleSuites
 import com.jantursky.proctor.sample.toSampleRow
@@ -35,6 +38,12 @@ sealed interface Screen {
 
     data class Detail(
         val row: SampleRow,
+    ) : Screen
+
+    /** Edit one case of [row] and run it again. */
+    data class Edit(
+        val row: SampleRow,
+        val case: SampleCase,
     ) : Screen
 }
 
@@ -85,9 +94,52 @@ class SampleViewModel(
     val screen: Screen get() = stack.last()
     val canGoBack: Boolean get() = stack.size > 1
 
+    var customRunning by mutableStateOf(false)
+        private set
+    var customResult by mutableStateOf<SampleCase?>(null)
+        private set
+    var customError by mutableStateOf<String?>(null)
+        private set
+
     fun open(screen: Screen) {
         if (screen == Screen.History) loadHistory()
+        if (screen is Screen.Edit) {
+            customResult = null
+            customError = null
+        }
         stack += screen
+    }
+
+    /** Deletes every saved result file and the lists built from them. Does nothing while a run is active. */
+    fun clearHistory() {
+        if (running) return
+        val directory = ResultStore.forApp(getApplication()).directory
+        directory.listFiles { file -> file.name.endsWith(".proctor.json") }.orEmpty().forEach { it.delete() }
+        history.clear()
+        rows.clear()
+        message = null
+    }
+
+    /** Runs the user's own version of a case on the selected model, without saving anything. */
+    fun runCustom(
+        row: SampleRow,
+        input: String,
+        expected: String,
+    ) {
+        if (customRunning) return
+        customRunning = true
+        customResult = null
+        customError = null
+        viewModelScope.launch {
+            try {
+                val backend = ForegroundBackend(MlKitBackend(config), { resumed })
+                customResult = runCustomCase(backend, row.suite, row.promptVersion, input, expected)
+            } catch (e: RunAbortedException) {
+                customError = e.message
+            } finally {
+                customRunning = false
+            }
+        }
     }
 
     fun back() {
@@ -241,6 +293,10 @@ class SampleViewModel(
         val startedAt = System.nanoTime()
         val store = ResultStore.forApp(getApplication())
         resultsDirectory = store.directory.path
+        val groupId =
+            java.util.UUID
+                .randomUUID()
+                .toString()
         runJob =
             viewModelScope.launch {
                 val counting =
@@ -256,11 +312,12 @@ class SampleViewModel(
                         onWaiting = { waiting = true },
                     )
                 val backend = ForegroundBackend(counting, { resumed })
+                val config = RunnerConfig(groupId = groupId)
                 try {
                     for (suite in sampleSuites) {
                         // One prompt version at a time, so each row shows up as soon as its run finishes.
                         for (prompt in suite.prompts) {
-                            val result = EvalRunner(backend).run(suite, prompt.version)
+                            val result = EvalRunner(backend, config).run(suite, prompt.version)
                             store.write(result)
                             rows += result.toSampleRow()
                         }

@@ -72,6 +72,8 @@ public data class RunResult(
     val availabilityReason: String? = null,
     val summary: Summary,
     val cases: List<CaseResult>,
+    /** Runs started together share a group id, see [RunnerConfig.groupId]. `null` when the runner was given none. */
+    val groupId: String? = null,
 ) {
     /** A file name that identifies the run and sorts by time: suite, platform, model, prompt version, start. */
     public fun fileName(): String {

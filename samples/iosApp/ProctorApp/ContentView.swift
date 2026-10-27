@@ -12,16 +12,23 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             home
                 .navigationDestination(for: Row.self) { DetailView(row: $0) }
+                .navigationDestination(for: EditTarget.self) { EditCaseView(target: $0) }
                 .navigationDestination(for: Destination.self) { _ in HistoryView(model: model) }
                 .toolbar(.hidden, for: .navigationBar)
         }
+        .environmentObject(model)
         .task {
-            // Launch flags for screenshots and tests: `--open-history` and `--open-detail`.
+            // Launch flags for screenshots and tests: `--open-history`, `--open-detail` and `--open-edit`.
             let arguments = CommandLine.arguments
-            if arguments.contains("--open-history") || arguments.contains("--open-detail") {
+            if arguments.contains("--open-history") || arguments.contains("--open-detail") || arguments.contains("--open-edit") {
                 model.loadHistory()
                 path.append(Destination.history)
-                if arguments.contains("--open-detail"), let first = model.history.first { path.append(first) }
+                if arguments.contains("--open-detail") || arguments.contains("--open-edit"), let first = model.history.first {
+                    path.append(first)
+                    if arguments.contains("--open-edit"), let failed = first.result.cases.first(where: { $0.status != .passed }) ?? first.result.cases.first {
+                        path.append(EditTarget(run: first.result, item: failed))
+                    }
+                }
             }
         }
     }

@@ -31,6 +31,8 @@ final class SampleModel: ObservableObject {
     @Published var message: String?
     @Published var rows: [Row] = []
     @Published var history: [Row] = []
+    @Published var customRunning = false
+    @Published var customResult: SampleCase?
 
     private let bridge = ProctorFoundationModelsBridge()
 
@@ -79,6 +81,44 @@ final class SampleModel: ObservableObject {
         canRun = bridge.availability() == .available
     }
 
+    /// History grouped by the runs that were started together, newest group first.
+    var historyGroups: [SampleGroup] {
+        SampleReportKt.groupHistory(rows: history.map(\.result))
+    }
+
+    /// Deletes every saved result file and the lists built from them. Does nothing while a run is active.
+    func clearHistory() {
+        guard !running else { return }
+        let files = (try? FileManager.default.contentsOfDirectory(at: resultsDirectory, includingPropertiesForKeys: nil)) ?? []
+        for file in files where file.lastPathComponent.hasSuffix(".proctor.json") {
+            try? FileManager.default.removeItem(at: file)
+        }
+        history = []
+        rows = []
+        message = nil
+    }
+
+    /// Runs the user's own version of a case on Foundation Models, without saving anything.
+    func runCustom(row: SampleRow, input: String, expected: String) {
+        guard !customRunning else { return }
+        customRunning = true
+        customResult = nil
+        Task {
+            do {
+                customResult = try await SampleCustom.shared.run(
+                    bridge: bridge,
+                    suiteName: row.suite,
+                    promptVersion: row.promptVersion,
+                    input: input,
+                    expected: expected
+                )
+            } catch {
+                message = "Run aborted. \(error.localizedDescription)"
+            }
+            customRunning = false
+        }
+    }
+
     func run() {
         guard !running else { return }
         running = true
@@ -95,6 +135,7 @@ final class SampleModel: ObservableObject {
                 let written = try await SampleSession.shared.run(
                     bridge: bridge,
                     outputDirectory: resultsDirectory.path(),
+                    groupId: UUID().uuidString,
                     listener: listener
                 )
                 message = "Done. \(written) result files written."

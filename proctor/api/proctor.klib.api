@@ -388,7 +388,7 @@ final class com.jantursky.proctor/RunAbortedException : kotlin/Exception { // co
 }
 
 final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult|null[0]
-    constructor <init>(kotlin/Int = ..., kotlin/String, kotlin/String, com.jantursky.proctor/Environment, com.jantursky.proctor/Sampling, kotlin/Int, kotlin/String, com.jantursky.proctor/AvailabilityState, kotlin/String? = ..., com.jantursky.proctor/Summary, kotlin.collections/List<com.jantursky.proctor/CaseResult>) // com.jantursky.proctor/RunResult.<init>|<init>(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>){}[0]
+    constructor <init>(kotlin/Int = ..., kotlin/String, kotlin/String, com.jantursky.proctor/Environment, com.jantursky.proctor/Sampling, kotlin/Int, kotlin/String, com.jantursky.proctor/AvailabilityState, kotlin/String? = ..., com.jantursky.proctor/Summary, kotlin.collections/List<com.jantursky.proctor/CaseResult>, kotlin/String? = ...) // com.jantursky.proctor/RunResult.<init>|<init>(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>;kotlin.String?){}[0]
 
     final val availability // com.jantursky.proctor/RunResult.availability|{}availability[0]
         final fun <get-availability>(): com.jantursky.proctor/AvailabilityState // com.jantursky.proctor/RunResult.availability.<get-availability>|<get-availability>(){}[0]
@@ -398,6 +398,8 @@ final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult
         final fun <get-cases>(): kotlin.collections/List<com.jantursky.proctor/CaseResult> // com.jantursky.proctor/RunResult.cases.<get-cases>|<get-cases>(){}[0]
     final val environment // com.jantursky.proctor/RunResult.environment|{}environment[0]
         final fun <get-environment>(): com.jantursky.proctor/Environment // com.jantursky.proctor/RunResult.environment.<get-environment>|<get-environment>(){}[0]
+    final val groupId // com.jantursky.proctor/RunResult.groupId|{}groupId[0]
+        final fun <get-groupId>(): kotlin/String? // com.jantursky.proctor/RunResult.groupId.<get-groupId>|<get-groupId>(){}[0]
     final val promptVersion // com.jantursky.proctor/RunResult.promptVersion|{}promptVersion[0]
         final fun <get-promptVersion>(): kotlin/String // com.jantursky.proctor/RunResult.promptVersion.<get-promptVersion>|<get-promptVersion>(){}[0]
     final val repeat // com.jantursky.proctor/RunResult.repeat|{}repeat[0]
@@ -416,6 +418,7 @@ final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult
     final fun component1(): kotlin/Int // com.jantursky.proctor/RunResult.component1|component1(){}[0]
     final fun component10(): com.jantursky.proctor/Summary // com.jantursky.proctor/RunResult.component10|component10(){}[0]
     final fun component11(): kotlin.collections/List<com.jantursky.proctor/CaseResult> // com.jantursky.proctor/RunResult.component11|component11(){}[0]
+    final fun component12(): kotlin/String? // com.jantursky.proctor/RunResult.component12|component12(){}[0]
     final fun component2(): kotlin/String // com.jantursky.proctor/RunResult.component2|component2(){}[0]
     final fun component3(): kotlin/String // com.jantursky.proctor/RunResult.component3|component3(){}[0]
     final fun component4(): com.jantursky.proctor/Environment // com.jantursky.proctor/RunResult.component4|component4(){}[0]
@@ -424,7 +427,7 @@ final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult
     final fun component7(): kotlin/String // com.jantursky.proctor/RunResult.component7|component7(){}[0]
     final fun component8(): com.jantursky.proctor/AvailabilityState // com.jantursky.proctor/RunResult.component8|component8(){}[0]
     final fun component9(): kotlin/String? // com.jantursky.proctor/RunResult.component9|component9(){}[0]
-    final fun copy(kotlin/Int = ..., kotlin/String = ..., kotlin/String = ..., com.jantursky.proctor/Environment = ..., com.jantursky.proctor/Sampling = ..., kotlin/Int = ..., kotlin/String = ..., com.jantursky.proctor/AvailabilityState = ..., kotlin/String? = ..., com.jantursky.proctor/Summary = ..., kotlin.collections/List<com.jantursky.proctor/CaseResult> = ...): com.jantursky.proctor/RunResult // com.jantursky.proctor/RunResult.copy|copy(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/String = ..., kotlin/String = ..., com.jantursky.proctor/Environment = ..., com.jantursky.proctor/Sampling = ..., kotlin/Int = ..., kotlin/String = ..., com.jantursky.proctor/AvailabilityState = ..., kotlin/String? = ..., com.jantursky.proctor/Summary = ..., kotlin.collections/List<com.jantursky.proctor/CaseResult> = ..., kotlin/String? = ...): com.jantursky.proctor/RunResult // com.jantursky.proctor/RunResult.copy|copy(kotlin.Int;kotlin.String;kotlin.String;com.jantursky.proctor.Environment;com.jantursky.proctor.Sampling;kotlin.Int;kotlin.String;com.jantursky.proctor.AvailabilityState;kotlin.String?;com.jantursky.proctor.Summary;kotlin.collections.List<com.jantursky.proctor.CaseResult>;kotlin.String?){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.proctor/RunResult.equals|equals(kotlin.Any?){}[0]
     final fun fileName(): kotlin/String // com.jantursky.proctor/RunResult.fileName|fileName(){}[0]
     final fun hashCode(): kotlin/Int // com.jantursky.proctor/RunResult.hashCode|hashCode(){}[0]
@@ -452,10 +455,12 @@ final class com.jantursky.proctor/RunResult { // com.jantursky.proctor/RunResult
 }
 
 final class com.jantursky.proctor/RunnerConfig { // com.jantursky.proctor/RunnerConfig|null[0]
-    constructor <init>(kotlin/Int = ..., kotlin.time/Duration = ..., kotlin/Int = ..., kotlin.time/Duration = ..., kotlin.time/Duration = ...) // com.jantursky.proctor/RunnerConfig.<init>|<init>(kotlin.Int;kotlin.time.Duration;kotlin.Int;kotlin.time.Duration;kotlin.time.Duration){}[0]
+    constructor <init>(kotlin/Int = ..., kotlin.time/Duration = ..., kotlin/Int = ..., kotlin.time/Duration = ..., kotlin.time/Duration = ..., kotlin/String? = ...) // com.jantursky.proctor/RunnerConfig.<init>|<init>(kotlin.Int;kotlin.time.Duration;kotlin.Int;kotlin.time.Duration;kotlin.time.Duration;kotlin.String?){}[0]
 
     final val concurrency // com.jantursky.proctor/RunnerConfig.concurrency|{}concurrency[0]
         final fun <get-concurrency>(): kotlin/Int // com.jantursky.proctor/RunnerConfig.concurrency.<get-concurrency>|<get-concurrency>(){}[0]
+    final val groupId // com.jantursky.proctor/RunnerConfig.groupId|{}groupId[0]
+        final fun <get-groupId>(): kotlin/String? // com.jantursky.proctor/RunnerConfig.groupId.<get-groupId>|<get-groupId>(){}[0]
     final val initialBackoff // com.jantursky.proctor/RunnerConfig.initialBackoff|{}initialBackoff[0]
         final fun <get-initialBackoff>(): kotlin.time/Duration // com.jantursky.proctor/RunnerConfig.initialBackoff.<get-initialBackoff>|<get-initialBackoff>(){}[0]
     final val maxBackoff // com.jantursky.proctor/RunnerConfig.maxBackoff|{}maxBackoff[0]

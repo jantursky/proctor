@@ -7,7 +7,7 @@ description: The result files, the report sections, and what "not graded" means.
 
 ## Result files
 
-One file per suite, platform, model version, prompt version and run time. The file has `schemaVersion: 1`, the environment (platform, device, OS, model version, backend settings), the sampling settings, availability, and every attempt with its output, grader results and latency. Files do not change after they are written; a new run is a new file.
+One file per suite, platform, model version, prompt version and run time. The file has `schemaVersion: 1`, the environment (platform, device, OS, model version, backend settings), the sampling settings, availability, and every attempt with its output, grader results and latency. Runs started together share an optional `groupId` (set it with `RunnerConfig(groupId = ...)`), so a history view can show them as one batch. Files do not change after they are written; a new run is a new file.
 
 ## Sections
 

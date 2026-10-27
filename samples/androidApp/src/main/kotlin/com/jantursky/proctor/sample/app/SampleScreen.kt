@@ -56,7 +56,8 @@ fun SampleScreen(model: SampleViewModel) {
     when (val screen = model.screen) {
         Screen.Home -> HomeScreen(model)
         Screen.History -> HistoryScreen(model)
-        is Screen.Detail -> DetailScreen(screen.row, model::back)
+        is Screen.Detail -> DetailScreen(screen.row, model)
+        is Screen.Edit -> EditScreen(screen.row, screen.case, model)
     }
 }
 

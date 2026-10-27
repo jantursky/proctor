@@ -9,18 +9,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jantursky.proctor.Status
 import com.jantursky.proctor.sample.SampleCase
+import com.jantursky.proctor.sample.SampleGroup
 import com.jantursky.proctor.sample.SampleRow
+import com.jantursky.proctor.sample.groupHistory
 
 /** A screen with a back button and a title, used by every screen but the home screen. */
 @Composable
@@ -67,21 +75,66 @@ private fun Page(
 @Composable
 fun HistoryScreen(model: SampleViewModel) {
     val colors = proctorColors
+    var confirmClear by remember { mutableStateOf(false) }
+    val groups = groupHistory(model.history)
     Page("History", onBack = model::back) {
-        if (model.history.isEmpty()) {
+        if (groups.isEmpty()) {
             Text(
                 "No saved runs yet. Every run is saved as a result file on this device and listed here.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.body,
             )
         } else {
-            Card("${model.history.size} saved runs") {
-                Column {
-                    model.history.forEachIndexed { index, row ->
-                        if (index > 0) HorizontalDivider(color = colors.hairline)
-                        HistoryRow(row) { model.open(Screen.Detail(row)) }
-                    }
-                }
+            groups.forEach { group -> GroupCard(group) { model.open(Screen.Detail(it)) } }
+            OutlinedButton(
+                onClick = { confirmClear = true },
+                enabled = !model.running,
+                border = BorderStroke(1.dp, colors.fail),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) { Text("Clear history", color = colors.fail) }
+        }
+    }
+    if (confirmClear) {
+        AlertDialog(
+            onDismissRequest = { confirmClear = false },
+            title = { Text("Clear history?") },
+            text = {
+                Text(
+                    "This deletes all ${model.history.size} saved result files on this device. " +
+                        "It cannot be undone.",
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    model.clearHistory()
+                    confirmClear = false
+                }) { Text("Delete all", color = colors.fail) }
+            },
+            dismissButton = { TextButton(onClick = { confirmClear = false }) { Text("Cancel", color = colors.ink) } },
+        )
+    }
+}
+
+@Composable
+private fun GroupCard(
+    group: SampleGroup,
+    onOpen: (SampleRow) -> Unit,
+) {
+    val colors = proctorColors
+    val title = if (group.id == null) "Ungrouped runs" else formatStarted(group.startedAt)
+    Card(title) {
+        Text(
+            "${group.rows.size} ${if (group.rows.size == 1) "run" else "runs"} · ${group.backend}" +
+                (group.modelVersion?.let { " · $it" } ?: ""),
+            style = MaterialTheme.typography.bodySmall,
+            fontFamily = ProctorMono,
+            color = colors.caption,
+        )
+        Column {
+            group.rows.forEachIndexed { index, row ->
+                if (index > 0) HorizontalDivider(color = colors.hairline)
+                HistoryRow(row) { onOpen(row) }
             }
         }
     }
@@ -129,7 +182,7 @@ private fun HistoryRow(
             color = colors.body,
         )
         Text(
-            "${formatStarted(row.startedAt)} · ${row.backend}",
+            formatStarted(row.startedAt),
             style = MaterialTheme.typography.bodySmall,
             fontFamily = ProctorMono,
             color = colors.caption,
@@ -147,10 +200,10 @@ private fun formatStarted(startedAt: String): String {
 @Composable
 fun DetailScreen(
     row: SampleRow,
-    onBack: () -> Unit,
+    model: SampleViewModel,
 ) {
     val colors = proctorColors
-    Page(row.suite, onBack) {
+    Page(row.suite, model::back) {
         Card("Run") {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -191,7 +244,7 @@ fun DetailScreen(
             Detail("Backend", row.backend)
             row.availabilityNote?.let { Detail("Availability", it) }
         }
-        Card("Cases") { CaseList(row.cases) }
+        Card("Cases") { CaseList(row.cases) { model.open(Screen.Edit(row, it)) } }
     }
 }
 
@@ -204,7 +257,10 @@ private enum class CaseFilter(
 }
 
 @Composable
-private fun CaseList(cases: List<SampleCase>) {
+private fun CaseList(
+    cases: List<SampleCase>,
+    onEdit: (SampleCase) -> Unit,
+) {
     val colors = proctorColors
     var filter by remember {
         mutableStateOf(if (cases.any { it.status != Status.Passed }) CaseFilter.Failed else CaseFilter.All)
@@ -237,12 +293,15 @@ private fun CaseList(cases: List<SampleCase>) {
             }
         }
         if (shown.isEmpty()) Text("No cases here.", style = MaterialTheme.typography.bodyMedium, color = colors.body)
-        shown.forEach { CaseItem(it) }
+        shown.forEach { CaseItem(it) { onEdit(it) } }
     }
 }
 
 @Composable
-private fun CaseItem(case: SampleCase) {
+private fun CaseItem(
+    case: SampleCase,
+    onEdit: (() -> Unit)?,
+) {
     val colors = proctorColors
     val tone =
         when (case.status) {
@@ -281,6 +340,14 @@ private fun CaseItem(case: SampleCase) {
             Detail(prefix, attempt.output ?: "(no output)")
             attempt.reason?.let { Detail("Reason", it) }
         }
+        if (onEdit != null) {
+            Text(
+                "Edit and run",
+                style = MaterialTheme.typography.labelLarge,
+                color = colors.link,
+                modifier = Modifier.clickable(onClick = onEdit).padding(top = 4.dp),
+            )
+        }
     }
 }
 
@@ -293,5 +360,62 @@ internal fun Detail(
     Column {
         Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = colors.caption)
         Text(value, style = MaterialTheme.typography.bodySmall, fontFamily = ProctorMono, color = colors.ink)
+    }
+}
+
+/** Change the input and the expected answer of a case and run it again on the model chosen on the home screen. */
+@Composable
+fun EditScreen(
+    row: SampleRow,
+    case: SampleCase,
+    model: SampleViewModel,
+) {
+    val colors = proctorColors
+    var input by remember { mutableStateOf(case.input) }
+    var expected by remember { mutableStateOf(case.expected.orEmpty()) }
+    Page("Edit case", model::back) {
+        Card("${row.suite} · prompt ${row.promptVersion}") {
+            Text(
+                "Runs on the model selected on the home screen, with the same prompt version and graders. " +
+                    "Nothing is saved.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = colors.body,
+            )
+            OutlinedTextField(
+                value = input,
+                onValueChange = { input = it },
+                label = { Text("Input") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            OutlinedTextField(
+                value = expected,
+                onValueChange = { expected = it },
+                label = { Text("Expected output") },
+                supportingText = { Text("Leave empty to run without an expected value.") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Button(
+                onClick = { model.runCustom(row, input, expected) },
+                enabled = model.canRun && !model.customRunning && input.isNotBlank(),
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = colors.ink,
+                        contentColor = colors.onInk,
+                        disabledContainerColor = colors.band,
+                        disabledContentColor = colors.caption,
+                    ),
+                shape = RoundedCornerShape(8.dp),
+            ) { Text(if (model.customRunning) "Running..." else "Run this case") }
+            if (!model.canRun) {
+                Text(
+                    "The model is not available. Check it on the home screen.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.notGraded,
+                )
+            }
+        }
+        model.customError?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = colors.fail) }
+        model.customResult?.let { result -> Card("Result") { CaseItem(result, onEdit = null) } }
     }
 }

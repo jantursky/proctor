@@ -6,7 +6,7 @@ All notable changes to `io.github.jantursky:proctor` are listed here. The format
 
 ### Added
 
-- `proctor`: suite DSL (`evalSuite`), graders (exact match, regex, JSON schema, semantic similarity, LLM judge), a runner with pacing, quota backoff and repeats, a fake backend, and the result JSON format (schema version 1).
+- `proctor`: `RunnerConfig.groupId` and `RunResult.groupId` to mark runs that belong together; suite DSL (`evalSuite`), graders (exact match, regex, JSON schema, semantic similarity, LLM judge), a runner with pacing, quota backoff and repeats, a fake backend, and the result JSON format (schema version 1).
 - `proctor-android`: Gemini Nano through the ML Kit GenAI Prompt API, with stable and preview model selection, a foreground guard, a host activity and `MlKitBackend.download()` for fetching the model.
 - `proctor-ios`: Apple Foundation Models through a small Swift bridge.
 - `proctor-report`: HTML and Markdown reports that compare platforms, model versions and prompt versions.

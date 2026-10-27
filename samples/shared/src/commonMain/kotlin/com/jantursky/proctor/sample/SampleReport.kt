@@ -43,6 +43,8 @@ class SampleRow(
     val backend: String,
     /** Why the model was not available, `null` when it was. */
     val availabilityNote: String?,
+    /** Runs started together share it; `null` for files written before runs were grouped. */
+    val groupId: String?,
     val cases: List<SampleCase>,
 )
 
@@ -62,6 +64,7 @@ fun RunResult.toSampleRow(): SampleRow =
         modelVersion = environment.modelVersion,
         backend = environment.backend,
         availabilityNote = availabilityReason,
+        groupId = groupId,
         cases =
             cases.map { case ->
                 SampleCase(
@@ -86,6 +89,32 @@ fun RunResult.toSampleRow(): SampleRow =
                 )
             },
     )
+
+/** Runs that were started together, as the history screen lists them. */
+class SampleGroup(
+    /** The shared group id, `null` for the bucket of files written before runs were grouped. */
+    val id: String?,
+    /** When the first run of the group started. */
+    val startedAt: String,
+    /** The runs, earliest first. */
+    val rows: List<SampleRow>,
+) {
+    val backend: String get() = rows.first().backend
+    val modelVersion: String? get() = rows.first().modelVersion
+    val allPassed: Boolean get() = rows.all { it.suitePassed }
+}
+
+/**
+ * Groups [rows] by the group id their runs share, newest group first. Runs without an id go into one group of their
+ * own, so old files stay visible without pretending they ran together.
+ */
+fun groupHistory(rows: List<SampleRow>): List<SampleGroup> =
+    rows
+        .groupBy { it.groupId }
+        .map { (id, members) ->
+            val ordered = members.sortedBy { it.startedAt }
+            SampleGroup(id, ordered.first().startedAt, ordered)
+        }.sortedByDescending { it.startedAt }
 
 /**
  * Reads a result file written by an earlier run, for the history screen. Returns `null` for a file that is not a

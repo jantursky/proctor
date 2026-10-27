@@ -28,6 +28,22 @@ private fun classifier(
 
 class RunnerTest {
     @Test
+    fun everyResultCarriesTheGroupIdOfTheRun() =
+        runTest {
+            val runner = EvalRunner(FakeBackend { _, _ -> "A" }, RunnerConfig(requestDelay = 0.seconds, groupId = "g1"))
+            val results = runner.runAll(classifier("a" to "A"))
+            assertEquals(listOf("g1"), results.map { it.groupId })
+            assertEquals("g1", RunResult.fromJson(results.single().toJson()).groupId)
+        }
+
+    @Test
+    fun withoutAGroupIdTheFieldStaysEmpty() =
+        runTest {
+            val result = EvalRunner(FakeBackend { _, _ -> "A" }, quickRun).run(classifier("a" to "A"))
+            assertNull(result.groupId)
+        }
+
+    @Test
     fun gradesEveryCaseAndSummarizes() =
         runTest {
             val backend = FakeBackend { prompt, _ -> if (prompt.endsWith("card")) "Billing" else "Wrong" }

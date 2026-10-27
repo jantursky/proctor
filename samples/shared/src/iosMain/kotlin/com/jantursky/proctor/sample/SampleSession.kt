@@ -26,17 +26,18 @@ interface SampleListener {
 object SampleSession {
     /**
      * Returns the number of result files written, or throws [RunAbortedException] when the run cannot continue.
-     * Files go to [outputDirectory], one JSON file per suite and prompt version.
+     * Files go to [outputDirectory], one JSON file per suite and prompt version, all tagged with [groupId].
      */
     suspend fun run(
         bridge: FoundationModelsBridge,
         outputDirectory: String,
+        groupId: String,
         listener: SampleListener,
     ): Int {
         val total = sampleRequestCount
         listener.onProgress(0, total)
         val backend = ProgressBackend(FoundationModelsBackend(bridge), total, listener::onProgress, listener::onWaiting)
-        val runner = EvalRunner(backend, RunnerConfig(requestDelay = 500.milliseconds))
+        val runner = EvalRunner(backend, RunnerConfig(requestDelay = 500.milliseconds, groupId = groupId))
         val store = ResultStore(outputDirectory)
         var written = 0
         for (suite in sampleSuites) {
@@ -50,4 +51,15 @@ object SampleSession {
         }
         return written
     }
+}
+
+/** Runs one case of the user's own on Foundation Models, for the edit screen of the iOS sample app. */
+object SampleCustom {
+    suspend fun run(
+        bridge: FoundationModelsBridge,
+        suiteName: String,
+        promptVersion: String,
+        input: String,
+        expected: String?,
+    ): SampleCase? = runCustomCase(FoundationModelsBackend(bridge), suiteName, promptVersion, input, expected)
 }
