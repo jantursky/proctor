@@ -1,5 +1,6 @@
 package com.jantursky.proctor.android
 
+import com.google.mlkit.genai.common.DownloadStatus
 import com.google.mlkit.genai.common.FeatureStatus
 import com.google.mlkit.genai.common.GenAiException
 import com.google.mlkit.genai.common.GenAiException.ErrorCode
@@ -7,6 +8,9 @@ import com.jantursky.proctor.BackendAvailability
 import com.jantursky.proctor.BackendException
 import com.jantursky.proctor.Sampling
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import java.time.Duration
 import kotlin.test.Test
@@ -27,6 +31,7 @@ private class FakeClient(
     var name: () -> String = { "nano-v3" },
     var warmup: () -> Unit = {},
     var reply: (String) -> String? = { "reply to $it" },
+    var download: () -> Flow<DownloadStatus> = { flow {} },
 ) : PromptClient {
     var warmups = 0
     val samplings = mutableListOf<Sampling>()
@@ -39,6 +44,8 @@ private class FakeClient(
         warmups++
         warmup.invoke()
     }
+
+    override fun download() = download.invoke()
 
     override suspend fun generate(
         prompt: String,
@@ -57,6 +64,48 @@ private fun backend(
 ) = MlKitBackend(config, client, device)
 
 class MlKitBackendTest {
+    @Test
+    fun downloadReportsEveryStepUntilCompleted() =
+        runTest {
+            val client =
+                FakeClient(
+                    download = {
+                        flow {
+                            emit(DownloadStatus.DownloadStarted(100))
+                            emit(DownloadStatus.DownloadProgress(40))
+                            emit(DownloadStatus.DownloadCompleted)
+                        }
+                    },
+                )
+            assertEquals(
+                listOf(ModelDownload.Started(100), ModelDownload.Progress(40), ModelDownload.Completed),
+                backend(client).download().toList(),
+            )
+        }
+
+    @Test
+    fun aFailedDownloadIsReportedNotThrown() =
+        runTest {
+            val failure = aiError(ErrorCode.NOT_ENOUGH_DISK_SPACE, "full")
+            val client = FakeClient(download = { flow { emit(DownloadStatus.DownloadFailed(failure)) } })
+            val steps = backend(client).download().toList()
+            assertTrue(steps.single() is ModelDownload.Failed)
+        }
+
+    @Test
+    fun aDownloadThatThrowsAnAiErrorEndsInFailed() =
+        runTest {
+            val client = FakeClient(download = { flow { throw aiError(ErrorCode.BUSY) } })
+            assertTrue(backend(client).download().toList().single() is ModelDownload.Failed)
+        }
+
+    @Test
+    fun otherDownloadErrorsPropagate() =
+        runTest {
+            val client = FakeClient(download = { flow { throw IllegalStateException("bug") } })
+            assertFailsWith<IllegalStateException> { backend(client).download().toList() }
+        }
+
     @Test
     fun anAvailableModelIsWarmedUp() =
         runTest {

@@ -18,6 +18,10 @@ Nothing on this page has been run on a physical Android device yet. The adapter 
 
 ## Run the sample
 
+The sample app has a launcher icon. Open it, pick the release and variant, and tap "Run sample suites". It shows the model state first. If the model is supported but not downloaded, a "Download model" button starts the download (`MlKitBackend.download()`). The run keeps the app in the foreground, which AICore requires.
+
+For scripted runs there is also an instrumented test. It restarts the app process, so do not start it while the app is open:
+
 ```
 ./gradlew :samples:androidApp:connectedDebugAndroidTest
 scripts/pull-results.sh

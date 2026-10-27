@@ -9,6 +9,7 @@ public final class com/jantursky/proctor/android/MlKitBackend : com/jantursky/pr
 	public fun <init> (Lcom/jantursky/proctor/android/MlKitConfig;)V
 	public synthetic fun <init> (Lcom/jantursky/proctor/android/MlKitConfig;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun availability (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun download ()Lkotlinx/coroutines/flow/Flow;
 	public fun environment (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun generate (Ljava/lang/String;Lcom/jantursky/proctor/Sampling;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
@@ -33,6 +34,49 @@ public final class com/jantursky/proctor/android/MlKitConfig {
 public final class com/jantursky/proctor/android/MlKitConfig$Companion {
 	public final fun getPreviewFast ()Lcom/jantursky/proctor/android/MlKitConfig;
 	public final fun getPreviewFull ()Lcom/jantursky/proctor/android/MlKitConfig;
+}
+
+public abstract interface class com/jantursky/proctor/android/ModelDownload {
+}
+
+public final class com/jantursky/proctor/android/ModelDownload$Completed : com/jantursky/proctor/android/ModelDownload {
+	public static final field INSTANCE Lcom/jantursky/proctor/android/ModelDownload$Completed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/android/ModelDownload$Failed : com/jantursky/proctor/android/ModelDownload {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/jantursky/proctor/android/ModelDownload$Failed;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/android/ModelDownload$Failed;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/android/ModelDownload$Failed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getReason ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/android/ModelDownload$Progress : com/jantursky/proctor/android/ModelDownload {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/jantursky/proctor/android/ModelDownload$Progress;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/android/ModelDownload$Progress;JILjava/lang/Object;)Lcom/jantursky/proctor/android/ModelDownload$Progress;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBytesDownloaded ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/proctor/android/ModelDownload$Started : com/jantursky/proctor/android/ModelDownload {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/jantursky/proctor/android/ModelDownload$Started;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/android/ModelDownload$Started;JILjava/lang/Object;)Lcom/jantursky/proctor/android/ModelDownload$Started;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBytesToDownload ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/jantursky/proctor/android/NanoPreference : java/lang/Enum {

@@ -7,6 +7,9 @@ import com.jantursky.proctor.Environment
 import com.jantursky.proctor.ModelBackend
 import com.jantursky.proctor.Sampling
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 
 /**
  * Gemini Nano through the ML Kit GenAI Prompt API (`com.google.mlkit:genai-prompt`), called directly so the run sees
@@ -46,6 +49,19 @@ public class MlKitBackend internal constructor(
         }
         return availability
     }
+
+    /**
+     * Downloads the model when [availability] is [BackendAvailability.Downloadable]. The flow ends with
+     * [ModelDownload.Completed] or [ModelDownload.Failed]. Check [availability] again afterwards.
+     */
+    public fun download(): Flow<ModelDownload> =
+        client
+            .download()
+            .map { it.toModelDownload() }
+            .catch { e ->
+                if (e !is GenAiException) throw e
+                emit(ModelDownload.Failed(e.describe()))
+            }
 
     override suspend fun environment(): Environment =
         Environment(

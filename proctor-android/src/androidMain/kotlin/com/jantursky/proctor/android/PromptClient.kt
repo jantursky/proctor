@@ -1,5 +1,6 @@
 package com.jantursky.proctor.android
 
+import com.google.mlkit.genai.common.DownloadStatus
 import com.google.mlkit.genai.prompt.GenerateContentRequest
 import com.google.mlkit.genai.prompt.Generation
 import com.google.mlkit.genai.prompt.GenerativeModel
@@ -9,6 +10,7 @@ import com.google.mlkit.genai.prompt.TextPart
 import com.google.mlkit.genai.prompt.generationConfig
 import com.google.mlkit.genai.prompt.modelConfig
 import com.jantursky.proctor.Sampling
+import kotlinx.coroutines.flow.Flow
 
 /** The part of the ML Kit client the backend uses, so the error handling can be tested without AICore. */
 internal interface PromptClient {
@@ -18,6 +20,8 @@ internal interface PromptClient {
     suspend fun baseModelName(): String
 
     suspend fun warmup()
+
+    fun download(): Flow<DownloadStatus>
 
     /** The first candidate's text, `null` if the model returned none. */
     suspend fun generate(
@@ -53,6 +57,8 @@ internal class RealPromptClient(
     override suspend fun baseModelName(): String = model.getBaseModelName()
 
     override suspend fun warmup() = model.warmup()
+
+    override fun download(): Flow<DownloadStatus> = model.download()
 
     override suspend fun generate(
         prompt: String,
