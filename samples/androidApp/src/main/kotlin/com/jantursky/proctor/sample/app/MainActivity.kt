@@ -8,8 +8,11 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import com.jantursky.proctor.BackendAvailability
+import com.jantursky.proctor.BackendException
 import com.jantursky.proctor.EvalRunner
+import com.jantursky.proctor.ModelBackend
 import com.jantursky.proctor.RunAbortedException
+import com.jantursky.proctor.Sampling
 import com.jantursky.proctor.android.ForegroundBackend
 import com.jantursky.proctor.android.MlKitBackend
 import com.jantursky.proctor.android.MlKitConfig
@@ -22,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -32,6 +36,8 @@ import kotlinx.coroutines.launch
 class MainActivity : Activity() {
     private val scope = CoroutineScope(Dispatchers.Default)
     private var job: Job? = null
+    private var downloadJob: Job? = null
+    private var pollJob: Job? = null
     private var config = MlKitConfig()
 
     @Volatile
@@ -41,6 +47,7 @@ class MainActivity : Activity() {
     private lateinit var releaseButton: Button
     private lateinit var preferenceButton: Button
     private lateinit var downloadButton: Button
+    private lateinit var checkButton: Button
     private lateinit var runButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +58,9 @@ class MainActivity : Activity() {
         releaseButton = Button(this).apply { setOnClickListener { toggleRelease() } }
         preferenceButton = Button(this).apply { setOnClickListener { togglePreference() } }
         downloadButton = Button(this).apply { text = "Download model" }
-        downloadButton.setOnClickListener { download() }
+        downloadButton.setOnClickListener { if (downloadJob?.isActive == true) cancelDownload() else download() }
+        checkButton = Button(this).apply { text = "Check again" }
+        checkButton.setOnClickListener { refresh() }
         runButton = Button(this).apply { text = "Run sample suites" }
         runButton.setOnClickListener { run() }
         setContentView(
@@ -64,6 +73,7 @@ class MainActivity : Activity() {
                 addView(preferenceButton)
                 addView(status)
                 addView(downloadButton)
+                addView(checkButton)
                 addView(runButton)
                 addView(ScrollView(context).apply { addView(output) })
             },
@@ -96,52 +106,75 @@ class MainActivity : Activity() {
     private fun refresh() {
         releaseButton.text = "Release: ${config.release.name}"
         preferenceButton.text = "Variant: ${config.preference.name}"
-        downloadButton.isEnabled = false
+        pollJob?.cancel()
         downloadButton.visibility = android.view.View.GONE
         runButton.isEnabled = false
         status.text = "Checking Gemini Nano..."
-        scope.launch {
-            val availability =
-                try {
-                    MlKitBackend(config).availability()
-                } catch (e: Exception) {
-                    BackendAvailability.Unavailable("could not be checked (${e::class.simpleName}: ${e.message})")
+        pollJob =
+            scope.launch {
+                val availability =
+                    try {
+                        MlKitBackend(config).availability()
+                    } catch (e: Exception) {
+                        BackendAvailability.Unavailable("could not be checked (${e::class.simpleName}: ${e.message})")
+                    }
+                runOnUiThread { show(availability) }
+                if (availability == BackendAvailability.Downloading) {
+                    delay(POLL_MILLIS)
+                    runOnUiThread { refresh() }
                 }
-            runOnUiThread { show(availability) }
-        }
+            }
     }
 
     private fun show(availability: BackendAvailability) {
-        status.text =
-            when (availability) {
-                BackendAvailability.Available -> "Gemini Nano: available"
-                BackendAvailability.Downloadable -> "Gemini Nano: supported, not downloaded yet"
-                BackendAvailability.Downloading -> "Gemini Nano: downloading, check again in a moment"
-                is BackendAvailability.Unavailable -> "Gemini Nano: unavailable. ${availability.reason}"
-            }
+        if (downloadJob?.isActive == true) return
+        status.text = describe(availability, config.release)
         runButton.isEnabled = availability == BackendAvailability.Available
-        downloadButton.isEnabled = true
+        downloadButton.text = "Download model"
         downloadButton.visibility =
             if (availability == BackendAvailability.Downloadable) android.view.View.VISIBLE else android.view.View.GONE
     }
 
     private fun download() {
-        downloadButton.isEnabled = false
-        scope.launch {
-            MlKitBackend(config).download().collect { step ->
-                runOnUiThread {
-                    status.text =
-                        when (step) {
-                            is ModelDownload.Started -> "Downloading ${step.bytesToDownload / MEGABYTE} MB..."
-                            is ModelDownload.Progress -> "Downloaded ${step.bytesDownloaded / MEGABYTE} MB"
-                            ModelDownload.Completed -> "Download finished, checking the model..."
-                            is ModelDownload.Failed -> "Download failed: ${step.reason}"
-                        }
+        downloadButton.text = "Cancel download"
+        downloadJob =
+            scope.launch {
+                var done = false
+                MlKitBackend(config).download().collect { step ->
+                    done = step == ModelDownload.Completed || step is ModelDownload.Failed
+                    runOnUiThread {
+                        status.text =
+                            when (step) {
+                                is ModelDownload.Started -> {
+                                    "Downloading ${step.bytesToDownload / MEGABYTE} MB..."
+                                }
+
+                                is ModelDownload.Progress -> {
+                                    "Downloaded ${step.bytesDownloaded / MEGABYTE} MB"
+                                }
+
+                                ModelDownload.Completed -> {
+                                    "Download finished, checking the model..."
+                                }
+
+                                is ModelDownload.Failed -> {
+                                    listOfNotNull("Download failed: ${step.reason}", hintFor(step.reason))
+                                        .joinToString("\n")
+                                }
+                            }
+                    }
                 }
-                if (step == ModelDownload.Completed) runOnUiThread { refresh() }
-                if (step is ModelDownload.Failed) runOnUiThread { downloadButton.isEnabled = true }
+                if (done) runOnUiThread { downloadButton.text = "Download model" }
+                downloadJob = null
+                if (done && !status.text.startsWith("Download failed")) runOnUiThread { refresh() }
             }
-        }
+    }
+
+    private fun cancelDownload() {
+        downloadJob?.cancel()
+        downloadJob = null
+        downloadButton.text = "Download model"
+        status.text = "Download cancelled. It may continue in AICore; tap Check again."
     }
 
     override fun onResume() {
@@ -166,7 +199,7 @@ class MainActivity : Activity() {
         val store = ResultStore.forApp(this)
         job =
             scope.launch {
-                val backend = ForegroundBackend(MlKitBackend(config), ::resumedNow)
+                val backend = ForegroundBackend(ObservingBackend(MlKitBackend(config), ::showProgress), ::resumedNow)
                 try {
                     for (suite in sampleSuites) {
                         for (result in EvalRunner(backend).runAll(suite)) {
@@ -188,7 +221,31 @@ class MainActivity : Activity() {
 
     private fun resumedNow() = resumed
 
+    private fun showProgress(text: String) = runOnUiThread { status.text = text }
+
     private fun append(line: String) = runOnUiThread { output.append(line + "\n") }
 }
 
 private const val MEGABYTE = 1_000_000L
+private const val POLL_MILLIS = 5_000L
+
+/** Tells the screen which request is running and when AICore pushes back, so a slow run does not look frozen. */
+private class ObservingBackend(
+    private val delegate: ModelBackend,
+    private val report: (String) -> Unit,
+) : ModelBackend by delegate {
+    private var requests = 0
+
+    override suspend fun generate(
+        prompt: String,
+        sampling: Sampling,
+    ): String {
+        report("Request ${++requests} sent to Gemini Nano...")
+        try {
+            return delegate.generate(prompt, sampling)
+        } catch (e: BackendException.QuotaExceeded) {
+            report("AICore quota reached. Waiting before request $requests is retried.")
+            throw e
+        }
+    }
+}
