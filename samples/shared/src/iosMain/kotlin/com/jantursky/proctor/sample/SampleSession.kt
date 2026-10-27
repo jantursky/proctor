@@ -51,7 +51,16 @@ object SampleSession {
                 written++
                 val s = result.summary
                 listener.onResult(
-                    SampleRow(suite.name, result.promptVersion, s.passed, s.failed, s.notGraded, s.total, s.meanScore, s.suitePassed),
+                    SampleRow(
+                        suite.name,
+                        result.promptVersion,
+                        s.passed,
+                        s.failed,
+                        s.notGraded,
+                        s.total,
+                        s.meanScore,
+                        s.suitePassed,
+                    ),
                 )
             }
         }

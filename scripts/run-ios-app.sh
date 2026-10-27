@@ -20,7 +20,7 @@ xcodebuild -project "$root/samples/iosApp/ProctorApp.xcodeproj" -scheme ProctorA
 udid=$(xcrun simctl list devices available | awk -v d="$device" 'index($0, d " (") { match($0, /[0-9A-F-]{36}/); print substr($0, RSTART, RLENGTH); exit }')
 test -n "$udid" || { echo "No simulator named '$device'" >&2; exit 1; }
 xcrun simctl bootstatus "$udid" -b > /dev/null
-open -a Simulator
+open -a Simulator 2> /dev/null || true
 xcrun simctl terminate "$udid" "$bundle" 2> /dev/null || true
 xcrun simctl install "$udid" "$root/samples/iosApp/build/Build/Products/Debug-iphonesimulator/ProctorApp.app"
 xcrun simctl launch "$udid" "$bundle" $autorun
