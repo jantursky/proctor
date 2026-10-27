@@ -8,11 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.jantursky.proctor.BackendAvailability
-import com.jantursky.proctor.BackendException
 import com.jantursky.proctor.EvalRunner
-import com.jantursky.proctor.ModelBackend
 import com.jantursky.proctor.RunAbortedException
-import com.jantursky.proctor.Sampling
 import com.jantursky.proctor.android.ForegroundBackend
 import com.jantursky.proctor.android.MlKitBackend
 import com.jantursky.proctor.android.MlKitConfig
@@ -20,7 +17,11 @@ import com.jantursky.proctor.android.ModelDownload
 import com.jantursky.proctor.android.NanoPreference
 import com.jantursky.proctor.android.NanoRelease
 import com.jantursky.proctor.android.ResultStore
+import com.jantursky.proctor.sample.ProgressBackend
+import com.jantursky.proctor.sample.SampleRow
+import com.jantursky.proctor.sample.sampleRequestCount
 import com.jantursky.proctor.sample.sampleSuites
+import com.jantursky.proctor.sample.toSampleRow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -33,18 +34,6 @@ data class ModelStatus(
     val detail: String? = null,
     val tone: Tone = Tone.Neutral,
     val checking: Boolean = false,
-)
-
-/** One finished run, as a row in the results list. */
-data class RunRow(
-    val suite: String,
-    val promptVersion: String,
-    val passed: Int,
-    val failed: Int,
-    val notGraded: Int,
-    val total: Int,
-    val meanScore: Double?,
-    val suitePassed: Boolean,
 )
 
 class SampleViewModel(
@@ -62,13 +51,21 @@ class SampleViewModel(
         private set
     var running by mutableStateOf(false)
         private set
-    var progress by mutableStateOf<String?>(null)
+
+    /** Finished requests and the total this run will send; `total` is 0 when no run is active. */
+    var done by mutableStateOf(0)
+        private set
+    var total by mutableStateOf(0)
+        private set
+    var waiting by mutableStateOf(false)
+        private set
+    var remainingSeconds by mutableStateOf<Long?>(null)
         private set
     var message by mutableStateOf<String?>(null)
         private set
     var resultsDirectory by mutableStateOf<String?>(null)
         private set
-    val rows = mutableStateListOf<RunRow>()
+    val rows = mutableStateListOf<SampleRow>()
 
     /** Set by the activity: AICore serves only the app that is on screen. */
     @Volatile
@@ -201,27 +198,35 @@ class SampleViewModel(
         running = true
         rows.clear()
         message = null
+        done = 0
+        total = sampleRequestCount
+        waiting = false
+        remainingSeconds = null
+        val startedAt = System.nanoTime()
         val store = ResultStore.forApp(getApplication())
         resultsDirectory = store.directory.path
         runJob =
             viewModelScope.launch {
-                val backend = ForegroundBackend(Observing(MlKitBackend(config)) { progress = it }, { resumed })
+                val counting =
+                    ProgressBackend(
+                        MlKitBackend(config),
+                        sampleRequestCount,
+                        onProgress = { finished, all ->
+                            done = finished
+                            waiting = false
+                            val elapsed = (System.nanoTime() - startedAt) / NANOS_PER_SECOND
+                            remainingSeconds = if (finished > 0) elapsed * (all - finished) / finished else null
+                        },
+                        onWaiting = { waiting = true },
+                    )
+                val backend = ForegroundBackend(counting, { resumed })
                 try {
                     for (suite in sampleSuites) {
-                        for (result in EvalRunner(backend).runAll(suite)) {
+                        // One prompt version at a time, so each row shows up as soon as its run finishes.
+                        for (prompt in suite.prompts) {
+                            val result = EvalRunner(backend).run(suite, prompt.version)
                             store.write(result)
-                            val s = result.summary
-                            rows +=
-                                RunRow(
-                                    suite.name,
-                                    result.promptVersion,
-                                    s.passed,
-                                    s.failed,
-                                    s.notGraded,
-                                    s.total,
-                                    s.meanScore,
-                                    s.suitePassed,
-                                )
+                            rows += result.toSampleRow()
                         }
                     }
                     message = "Done. ${rows.size} result files written."
@@ -229,32 +234,13 @@ class SampleViewModel(
                     message = "Run aborted. ${e.message}"
                 } finally {
                     running = false
-                    progress = null
+                    total = 0
+                    remainingSeconds = null
                 }
             }
     }
 }
 
-/** Reports which request is running and when AICore pushes back, so a slow run does not look frozen. */
-private class Observing(
-    private val delegate: ModelBackend,
-    private val report: (String) -> Unit,
-) : ModelBackend by delegate {
-    private var requests = 0
-
-    override suspend fun generate(
-        prompt: String,
-        sampling: Sampling,
-    ): String {
-        report("Request ${++requests} sent to Gemini Nano")
-        try {
-            return delegate.generate(prompt, sampling)
-        } catch (e: BackendException.QuotaExceeded) {
-            report("AICore quota reached. Waiting before the next try.")
-            throw e
-        }
-    }
-}
-
 private const val MEGABYTE = 1_000_000L
 private const val POLL_MILLIS = 5_000L
+private const val NANOS_PER_SECOND = 1_000_000_000L

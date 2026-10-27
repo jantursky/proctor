@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Builds the iOS sample app, installs it on a simulator and starts it. Pass --autorun to start the suites at launch.
+# Builds the iOS sample app, installs it on a simulator and starts it. Pass --autorun to start the suites at launch
+# and --expand to open the results as they arrive (for screenshots).
 # The simulator uses the Foundation Models of its Mac host, so the Mac needs Apple Intelligence turned on.
 #
 #   scripts/run-ios-app.sh [--autorun] [simulator name]

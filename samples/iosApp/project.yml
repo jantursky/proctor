@@ -14,6 +14,13 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: com.jantursky.proctor.sample.app
     FRAMEWORK_SEARCH_PATHS: "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"
     OTHER_LDFLAGS: "$(inherited) -framework Shared"
+schemes:
+  ProctorApp:
+    build:
+      targets:
+        ProctorApp: all
+    run:
+      config: Debug
 targets:
   ProctorApp:
     type: application

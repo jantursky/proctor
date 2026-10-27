@@ -11,14 +11,9 @@ struct ModelStatus {
 
 struct Row: Identifiable {
     let id = UUID()
-    let suite: String
-    let promptVersion: String
-    let passed: Int
-    let failed: Int
-    let notGraded: Int
-    let total: Int
-    let meanScore: Double?
-    let suitePassed: Bool
+    let result: SampleRow
+
+    var suitePassed: Bool { result.suitePassed }
 }
 
 @MainActor
@@ -26,7 +21,10 @@ final class SampleModel: ObservableObject {
     @Published var status = ModelStatus(title: "Checking Apple Foundation Models", detail: nil, tone: .neutral)
     @Published var canRun = false
     @Published var running = false
-    @Published var progress: String?
+    @Published var done = 0
+    @Published var total = 0
+    @Published var waiting = false
+    @Published var remainingSeconds: Int?
     @Published var message: String?
     @Published var rows: [Row] = []
 
@@ -71,7 +69,12 @@ final class SampleModel: ObservableObject {
         running = true
         rows = []
         message = nil
-        let listener = Listener(self)
+        done = 0
+        total = Int(SampleReportKt.sampleRequestCount)
+        waiting = false
+        remainingSeconds = nil
+        let startedAt = Date()
+        let listener = Listener(self, startedAt: startedAt)
         Task {
             do {
                 let written = try await SampleSession.shared.run(
@@ -84,33 +87,41 @@ final class SampleModel: ObservableObject {
                 message = "Run aborted. \(error.localizedDescription)"
             }
             running = false
-            progress = nil
+            total = 0
+            remainingSeconds = nil
         }
     }
 
-    fileprivate func add(_ row: SampleRow) {
-        rows.append(Row(
-            suite: row.suite,
-            promptVersion: row.promptVersion,
-            passed: Int(row.passed),
-            failed: Int(row.failed),
-            notGraded: Int(row.notGraded),
-            total: Int(row.total),
-            meanScore: row.meanScore?.doubleValue,
-            suitePassed: row.suitePassed
-        ))
+    fileprivate func add(_ row: SampleRow) { rows.append(Row(result: row)) }
+
+    fileprivate func update(done: Int, total: Int, startedAt: Date) {
+        self.done = done
+        self.total = total
+        waiting = false
+        let elapsed = Date().timeIntervalSince(startedAt)
+        remainingSeconds = done > 0 ? Int(elapsed * Double(total - done) / Double(done)) : nil
     }
 
-    fileprivate func setProgress(_ text: String) { progress = text }
+    fileprivate func setWaiting() { waiting = true }
 }
 
 /// Kotlin calls this from its own threads; hop to the main actor before touching the UI.
 private final class Listener: NSObject, SampleListener {
     private weak var model: SampleModel?
-    init(_ model: SampleModel) { self.model = model }
+    private let startedAt: Date
 
-    func onProgress(text: String) {
-        Task { @MainActor in model?.setProgress(text) }
+    init(_ model: SampleModel, startedAt: Date) {
+        self.model = model
+        self.startedAt = startedAt
+    }
+
+    func onProgress(done: Int32, total: Int32) {
+        let started = startedAt
+        Task { @MainActor in model?.update(done: Int(done), total: Int(total), startedAt: started) }
+    }
+
+    func onWaiting() {
+        Task { @MainActor in model?.setWaiting() }
     }
 
     func onResult(row: SampleRow) {
