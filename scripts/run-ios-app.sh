@@ -3,12 +3,12 @@
 # and --expand to open the results as they arrive (for screenshots).
 # The simulator uses the Foundation Models of its Mac host, so the Mac needs Apple Intelligence turned on.
 #
-#   scripts/run-ios-app.sh [--autorun] [simulator name]
+#   scripts/run-ios-app.sh [--autorun] [--expand] [simulator name]
 set -euo pipefail
 
 root=$(cd "$(dirname "$0")/.." && pwd)
-autorun=""
-if [ "${1:-}" = "--autorun" ]; then autorun="--autorun"; shift; fi
+flags=""
+while [ "${1:-}" = "--autorun" ] || [ "${1:-}" = "--expand" ]; do flags="$flags $1"; shift; done
 device=${1:-iPhone 18 Pro}
 bundle=com.jantursky.proctor.sample.app
 
@@ -24,4 +24,4 @@ xcrun simctl bootstatus "$udid" -b > /dev/null
 open -a Simulator 2> /dev/null || true
 xcrun simctl terminate "$udid" "$bundle" 2> /dev/null || true
 xcrun simctl install "$udid" "$root/samples/iosApp/build/Build/Products/Debug-iphonesimulator/ProctorApp.app"
-xcrun simctl launch "$udid" "$bundle" $autorun
+xcrun simctl launch "$udid" "$bundle" $flags
