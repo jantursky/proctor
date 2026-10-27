@@ -1,5 +1,6 @@
 package com.jantursky.proctor.sample.app
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,6 +52,16 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SampleScreen(model: SampleViewModel) {
+    BackHandler(enabled = model.canGoBack) { model.back() }
+    when (val screen = model.screen) {
+        Screen.Home -> HomeScreen(model)
+        Screen.History -> HistoryScreen(model)
+        is Screen.Detail -> DetailScreen(screen.row, model::back)
+    }
+}
+
+@Composable
+private fun HomeScreen(model: SampleViewModel) {
     val colors = proctorColors
     Column(
         Modifier
@@ -61,7 +72,7 @@ fun SampleScreen(model: SampleViewModel) {
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Header()
+        Header(onHistory = { model.open(Screen.History) })
         ModelCard(model)
         RunCard(model)
         if (model.rows.isNotEmpty()) ResultsCard(model)
@@ -75,11 +86,11 @@ fun SampleScreen(model: SampleViewModel) {
 }
 
 @Composable
-private fun Header() {
+private fun Header(onHistory: () -> Unit) {
     val colors = proctorColors
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
         Image(painterResource(R.drawable.ic_mark), contentDescription = null, modifier = Modifier.size(48.dp))
-        Column {
+        Column(Modifier.weight(1f)) {
             Text("Proctor", style = MaterialTheme.typography.headlineMedium, color = colors.ink)
             Text(
                 "Evaluation harness for on-device LLMs",
@@ -87,11 +98,16 @@ private fun Header() {
                 color = colors.body,
             )
         }
+        OutlinedButton(
+            onClick = onHistory,
+            border = BorderStroke(1.dp, colors.hairline),
+            shape = RoundedCornerShape(8.dp),
+        ) { Text("History", color = colors.ink) }
     }
 }
 
 @Composable
-private fun Card(
+internal fun Card(
     title: String,
     content: @Composable () -> Unit,
 ) {
@@ -269,7 +285,7 @@ private fun ResultsCard(model: SampleViewModel) {
         Column {
             model.rows.forEachIndexed { index, row ->
                 if (index > 0) HorizontalDivider(color = colors.hairline)
-                ResultRow(row)
+                ResultRow(row) { model.open(Screen.Detail(row)) }
             }
         }
         model.resultsDirectory?.let {
@@ -295,12 +311,14 @@ private fun progressText(model: SampleViewModel): String {
 }
 
 @Composable
-private fun ResultRow(row: SampleRow) {
+private fun ResultRow(
+    row: SampleRow,
+    onOpen: () -> Unit,
+) {
     val colors = proctorColors
     val verdict = if (row.suitePassed) colors.pass else colors.fail
-    var expanded by remember { mutableStateOf(false) }
     Column(
-        Modifier.clickable { expanded = !expanded }.padding(vertical = 12.dp),
+        Modifier.clickable(onClick = onOpen).padding(vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -345,17 +363,12 @@ private fun ResultRow(row: SampleRow) {
             }
         }
         row.meanScore?.let { ScoreBar(it) }
-        Text(
-            if (expanded) "Hide cases" else "Show cases",
-            style = MaterialTheme.typography.labelLarge,
-            color = colors.link,
-        )
-        if (expanded) CaseList(row.cases)
+        Text("View cases", style = MaterialTheme.typography.labelLarge, color = colors.link)
     }
 }
 
 @Composable
-private fun ScoreBar(score: Double) {
+internal fun ScoreBar(score: Double) {
     val colors = proctorColors
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         Box(
@@ -373,106 +386,5 @@ private fun ScoreBar(score: Double) {
             fontFamily = ProctorMono,
             color = colors.body,
         )
-    }
-}
-
-private enum class CaseFilter(
-    val label: String,
-) {
-    All("All"),
-    Failed("Failed"),
-    Passed("Passed"),
-}
-
-@Composable
-private fun CaseList(cases: List<SampleCase>) {
-    val colors = proctorColors
-    var filter by remember {
-        mutableStateOf(if (cases.any { it.status != Status.Passed }) CaseFilter.Failed else CaseFilter.All)
-    }
-    val shown =
-        cases.filter {
-            when (filter) {
-                CaseFilter.All -> true
-                CaseFilter.Failed -> it.status != Status.Passed
-                CaseFilter.Passed -> it.status == Status.Passed
-            }
-        }
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            CaseFilter.entries.forEachIndexed { index, option ->
-                SegmentedButton(
-                    selected = option == filter,
-                    onClick = { filter = option },
-                    shape = SegmentedButtonDefaults.itemShape(index, CaseFilter.entries.size),
-                    colors =
-                        SegmentedButtonDefaults.colors(
-                            activeContainerColor = colors.ink,
-                            activeContentColor = colors.onInk,
-                            activeBorderColor = colors.ink,
-                            inactiveBorderColor = colors.hairline,
-                            inactiveContentColor = colors.ink,
-                        ),
-                    icon = {},
-                ) { Text(option.label, style = MaterialTheme.typography.labelLarge) }
-            }
-        }
-        if (shown.isEmpty()) Text("No cases here.", style = MaterialTheme.typography.bodyMedium, color = colors.body)
-        shown.forEach { CaseItem(it) }
-    }
-}
-
-@Composable
-private fun CaseItem(case: SampleCase) {
-    val colors = proctorColors
-    val tone =
-        when (case.status) {
-            Status.Passed -> colors.pass
-            Status.Failed -> colors.fail
-            Status.NotGraded -> colors.notGraded
-        }
-    val label =
-        when (case.status) {
-            Status.Passed -> "PASS"
-            Status.Failed -> "FAIL"
-            Status.NotGraded -> "NOT GRADED"
-        }
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(colors.band)
-            .padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                case.id,
-                style = MaterialTheme.typography.labelLarge,
-                fontFamily = ProctorMono,
-                color = colors.ink,
-                modifier = Modifier.weight(1f),
-            )
-            Text(label, style = MaterialTheme.typography.labelSmall, color = tone)
-        }
-        Text(case.input, style = MaterialTheme.typography.bodyMedium, color = colors.body)
-        case.expected?.let { Detail("Expected", it) }
-        case.attempts.forEachIndexed { index, attempt ->
-            val prefix = if (case.attempts.size > 1) "Attempt ${index + 1}" else "Output"
-            Detail(prefix, attempt.output ?: "(no output)")
-            attempt.reason?.let { Detail("Reason", it) }
-        }
-    }
-}
-
-@Composable
-private fun Detail(
-    label: String,
-    value: String,
-) {
-    val colors = proctorColors
-    Column {
-        Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = colors.caption)
-        Text(value, style = MaterialTheme.typography.bodySmall, fontFamily = ProctorMono, color = colors.ink)
     }
 }

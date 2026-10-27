@@ -19,12 +19,24 @@ import com.jantursky.proctor.android.NanoRelease
 import com.jantursky.proctor.android.ResultStore
 import com.jantursky.proctor.sample.ProgressBackend
 import com.jantursky.proctor.sample.SampleRow
+import com.jantursky.proctor.sample.parseSampleRow
 import com.jantursky.proctor.sample.sampleRequestCount
 import com.jantursky.proctor.sample.sampleSuites
 import com.jantursky.proctor.sample.toSampleRow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+/** The screens of the sample app; [SampleViewModel.screen] is the one on top. */
+sealed interface Screen {
+    data object Home : Screen
+
+    data object History : Screen
+
+    data class Detail(
+        val row: SampleRow,
+    ) : Screen
+}
 
 enum class Tone { Neutral, Good, Warn, Bad }
 
@@ -66,6 +78,30 @@ class SampleViewModel(
     var resultsDirectory by mutableStateOf<String?>(null)
         private set
     val rows = mutableStateListOf<SampleRow>()
+
+    /** Runs saved by earlier sessions, newest first. */
+    val history = mutableStateListOf<SampleRow>()
+    private val stack = mutableStateListOf<Screen>(Screen.Home)
+    val screen: Screen get() = stack.last()
+    val canGoBack: Boolean get() = stack.size > 1
+
+    fun open(screen: Screen) {
+        if (screen == Screen.History) loadHistory()
+        stack += screen
+    }
+
+    fun back() {
+        if (stack.size > 1) stack.removeAt(stack.lastIndex)
+    }
+
+    /** Reads every result file the app has written. A file that cannot be read is skipped. */
+    fun loadHistory() {
+        val directory = ResultStore.forApp(getApplication()).directory
+        val files = directory.listFiles { file -> file.name.endsWith(".proctor.json") }.orEmpty()
+        val parsed = files.mapNotNull { parseSampleRow(it.readText()) }.sortedByDescending { it.startedAt }
+        history.clear()
+        history.addAll(parsed)
+    }
 
     /** Set by the activity: AICore serves only the app that is on screen. */
     @Volatile

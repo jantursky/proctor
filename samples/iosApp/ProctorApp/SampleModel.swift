@@ -9,9 +9,12 @@ struct ModelStatus {
     var tone: Tone
 }
 
-struct Row: Identifiable {
+struct Row: Identifiable, Hashable {
     let id = UUID()
     let result: SampleRow
+
+    static func == (lhs: Row, rhs: Row) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
     var suitePassed: Bool { result.suitePassed }
 }
@@ -27,6 +30,7 @@ final class SampleModel: ObservableObject {
     @Published var remainingSeconds: Int?
     @Published var message: String?
     @Published var rows: [Row] = []
+    @Published var history: [Row] = []
 
     private let bridge = ProctorFoundationModelsBridge()
 
@@ -35,6 +39,17 @@ final class SampleModel: ObservableObject {
     }
 
     init() { check() }
+
+    /// Reads every result file the app has written. A file that cannot be read is skipped.
+    func loadHistory() {
+        let files = (try? FileManager.default.contentsOfDirectory(at: resultsDirectory, includingPropertiesForKeys: nil)) ?? []
+        let parsed = files
+            .filter { $0.lastPathComponent.hasSuffix(".proctor.json") }
+            .compactMap { try? String(contentsOf: $0, encoding: .utf8) }
+            .compactMap { SampleReportKt.parseSampleRow(json: $0) }
+            .sorted { $0.startedAt > $1.startedAt }
+        history = parsed.map { Row(result: $0) }
+    }
 
     func check() {
         switch bridge.availability() {

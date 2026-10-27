@@ -35,6 +35,14 @@ class SampleRow(
     /** `null` when nothing was graded. */
     val meanScore: Double?,
     val suitePassed: Boolean,
+    /** When the run started, as written in the result file (UTC, ISO 8601). */
+    val startedAt: String,
+    val deviceModel: String,
+    val osVersion: String,
+    val modelVersion: String?,
+    val backend: String,
+    /** Why the model was not available, `null` when it was. */
+    val availabilityNote: String?,
     val cases: List<SampleCase>,
 )
 
@@ -48,6 +56,12 @@ fun RunResult.toSampleRow(): SampleRow =
         total = summary.total,
         meanScore = summary.meanScore,
         suitePassed = summary.suitePassed,
+        startedAt = startedAt,
+        deviceModel = environment.deviceModel,
+        osVersion = environment.osVersion,
+        modelVersion = environment.modelVersion,
+        backend = environment.backend,
+        availabilityNote = availabilityReason,
         cases =
             cases.map { case ->
                 SampleCase(
@@ -72,6 +86,17 @@ fun RunResult.toSampleRow(): SampleRow =
                 )
             },
     )
+
+/**
+ * Reads a result file written by an earlier run, for the history screen. Returns `null` for a file that is not a
+ * readable result of this schema version, so one broken file does not hide the others.
+ */
+fun parseSampleRow(json: String): SampleRow? =
+    try {
+        RunResult.fromJson(json).toSampleRow()
+    } catch (e: IllegalArgumentException) {
+        null
+    }
 
 /** Model requests a full run of [sampleSuites] sends, retries not counted. */
 val sampleRequestCount: Int = sampleSuites.sumOf { it.prompts.size * it.cases.size * it.repeat }

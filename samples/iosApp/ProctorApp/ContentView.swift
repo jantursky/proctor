@@ -1,10 +1,32 @@
 import Shared
 import SwiftUI
 
+enum Destination: Hashable { case history }
+
 struct ContentView: View {
     @StateObject private var model = SampleModel()
 
+    @State private var path = NavigationPath()
+
     var body: some View {
+        NavigationStack(path: $path) {
+            home
+                .navigationDestination(for: Row.self) { DetailView(row: $0) }
+                .navigationDestination(for: Destination.self) { _ in HistoryView(model: model) }
+                .toolbar(.hidden, for: .navigationBar)
+        }
+        .task {
+            // Launch flags for screenshots and tests: `--open-history` and `--open-detail`.
+            let arguments = CommandLine.arguments
+            if arguments.contains("--open-history") || arguments.contains("--open-detail") {
+                model.loadHistory()
+                path.append(Destination.history)
+                if arguments.contains("--open-detail"), let first = model.history.first { path.append(first) }
+            }
+        }
+    }
+
+    private var home: some View {
         ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -39,6 +61,12 @@ struct ContentView: View {
                 Text("Proctor").font(.system(size: 28, weight: .semibold)).foregroundStyle(Palette.ink)
                 Text("Evaluation harness for on-device LLMs").font(.subheadline).foregroundStyle(Palette.body)
             }
+            Spacer(minLength: 8)
+            NavigationLink(value: Destination.history) {
+                Text("History").font(.system(size: 14, weight: .semibold))
+            }
+            .buttonStyle(.bordered)
+            .tint(Palette.ink)
         }
     }
 
@@ -104,7 +132,8 @@ struct ContentView: View {
             SectionLabel(text: "Results").padding(.bottom, 8)
             ForEach(Array(model.rows.enumerated()), id: \.element.id) { index, row in
                 if index > 0 { Divider().overlay(Palette.hairline) }
-                ResultRow(row: row).padding(.vertical, 12)
+                NavigationLink(value: row) { ResultRow(row: row).padding(.vertical, 12) }
+                    .buttonStyle(.plain)
             }
             Text("Files: \(model.resultsDirectory.path())")
                 .font(.system(size: 12, design: .monospaced))
@@ -133,9 +162,8 @@ struct ContentView: View {
     }
 }
 
-private struct ResultRow: View {
+struct ResultRow: View {
     let row: Row
-    @State private var expanded = CommandLine.arguments.contains("--expand")
 
     var body: some View {
         let result = row.result
@@ -178,99 +206,10 @@ private struct ResultRow: View {
                         .foregroundStyle(Palette.body)
                 }
             }
-            Text(expanded ? "Hide cases" : "Show cases")
+            Text("View cases")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(.blue)
-            if expanded { CaseList(cases: result.cases) }
         }
         .contentShape(Rectangle())
-        .onTapGesture { withAnimation { expanded.toggle() } }
-    }
-}
-
-private enum CaseFilter: String, CaseIterable, Identifiable {
-    case all = "All", failed = "Failed", passed = "Passed"
-    var id: String { rawValue }
-}
-
-private struct CaseList: View {
-    let cases: [SampleCase]
-    @State private var filter: CaseFilter
-
-    init(cases: [SampleCase]) {
-        self.cases = cases
-        _filter = State(initialValue: cases.contains { $0.status != .passed } ? .failed : .all)
-    }
-
-    private var shown: [SampleCase] {
-        switch filter {
-        case .all: cases
-        case .failed: cases.filter { $0.status != .passed }
-        case .passed: cases.filter { $0.status == .passed }
-        }
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Picker("Filter", selection: $filter) {
-                ForEach(CaseFilter.allCases) { Text($0.rawValue).tag($0) }
-            }
-            .pickerStyle(.segmented)
-            if shown.isEmpty {
-                Text("No cases here.").font(.subheadline).foregroundStyle(Palette.body)
-            }
-            ForEach(shown, id: \.id) { CaseItem(item: $0) }
-        }
-    }
-}
-
-private struct CaseItem: View {
-    let item: SampleCase
-
-    private var tone: Color {
-        switch item.status {
-        case .passed: Palette.pass
-        case .failed: Palette.fail
-        default: Palette.notGraded
-        }
-    }
-
-    private var label: String {
-        switch item.status {
-        case .passed: "PASS"
-        case .failed: "FAIL"
-        default: "NOT GRADED"
-        }
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(item.id).font(.system(size: 14, weight: .semibold, design: .monospaced)).foregroundStyle(Palette.ink)
-                Spacer()
-                Text(label).font(.system(size: 11, weight: .medium)).foregroundStyle(tone)
-            }
-            Text(item.input).font(.subheadline).foregroundStyle(Palette.body)
-            if let expected = item.expected { Detail(label: "Expected", value: expected) }
-            ForEach(Array(item.attempts.enumerated()), id: \.offset) { index, attempt in
-                Detail(label: item.attempts.count > 1 ? "Attempt \(index + 1)" : "Output", value: attempt.output ?? "(no output)")
-                if let reason = attempt.reason { Detail(label: "Reason", value: reason) }
-            }
-        }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 8).fill(Palette.band))
-    }
-}
-
-private struct Detail: View {
-    let label: String
-    let value: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 1) {
-            Text(label.uppercased()).font(.system(size: 11, weight: .medium)).foregroundStyle(Palette.caption)
-            Text(value).font(.system(size: 12, design: .monospaced)).foregroundStyle(Palette.ink)
-        }
     }
 }

@@ -32,7 +32,7 @@ targets:
     info:
       path: ProctorApp/Info.plist
       properties:
-        CFBundleDisplayName: Proctor sample
+        CFBundleDisplayName: Proctor
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait

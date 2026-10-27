@@ -3,7 +3,7 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="Proctor sample"
+        android:label="Proctor"
         android:theme="@style/Theme.Proctor">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
