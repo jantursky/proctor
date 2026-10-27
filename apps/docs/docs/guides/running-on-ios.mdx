@@ -19,7 +19,18 @@ results.forEach { ResultStore.inDocuments().write(it) }
 
 The bridge creates a fresh session for every request and maps `GenerationError` cases to Proctor's error kinds: rate limiting and concurrent requests are quota errors ("not graded" after retries), unavailable assets are "unavailable", the rest are failures.
 
-## Simulator
+## Sample app
+
+`samples/iosApp` is a SwiftUI app that runs the sample suites and lists the results, in the same layout as the Android sample. It needs [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`):
+
+```
+scripts/run-ios-app.sh            # builds, installs and starts it on the iPhone 18 Pro simulator
+open samples/iosApp/ProctorApp.xcodeproj   # after: cd samples/iosApp && xcodegen generate
+```
+
+To run on a physical iPhone, open the project in Xcode, choose your team under Signing, and run. The app lists its result files; the folder is shared, so Finder and the Files app can copy them.
+
+## Simulator without an app
 
 A simulator uses the model of its Mac host, so the Mac needs Apple Intelligence turned on. `scripts/run-ios-simulator.sh` builds the sample framework, compiles a headless runner and starts it with `xcrun simctl spawn`, writing results to `proctor-results/`.
 

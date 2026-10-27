@@ -2,12 +2,16 @@
 //
 //     let backend = FoundationModelsBackend(bridge: ProctorFoundationModelsBridge())
 //
-// Change the import to the name of the Kotlin framework that exports `proctor-ios` (ProctorIos when you use the
-// framework this repository builds). Requires iOS 26 or newer.
+// The import below covers the two frameworks this repository builds, ProctorIos and the sample's Shared. Add the
+// name of your own Kotlin framework that exports `proctor-ios`. Requires iOS 26 or newer.
 
 import Foundation
 import FoundationModels
+#if canImport(ProctorIos)
 import ProctorIos
+#elseif canImport(Shared)
+import Shared
+#endif
 
 @available(iOS 26.0, macOS 26.0, *)
 public final class ProctorFoundationModelsBridge: NSObject, FoundationModelsBridge {
