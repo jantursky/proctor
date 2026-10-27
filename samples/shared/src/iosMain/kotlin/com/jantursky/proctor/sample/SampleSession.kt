@@ -26,12 +26,13 @@ interface SampleListener {
 object SampleSession {
     /**
      * Returns the number of result files written, or throws [RunAbortedException] when the run cannot continue.
-     * Files go to [outputDirectory], one JSON file per suite and prompt version, all tagged with [groupId].
+     * Files go to [outputDirectory], one JSON file per suite and prompt version, all tagged with [groupId]. [edits] are the user's changes to the dataset.
      */
     suspend fun run(
         bridge: FoundationModelsBridge,
         outputDirectory: String,
         groupId: String,
+        edits: SampleEdits,
         listener: SampleListener,
     ): Int {
         val total = sampleRequestCount
@@ -40,7 +41,7 @@ object SampleSession {
         val runner = EvalRunner(backend, RunnerConfig(requestDelay = 500.milliseconds, groupId = groupId))
         val store = ResultStore(outputDirectory)
         var written = 0
-        for (suite in sampleSuites) {
+        for (suite in edits.suites()) {
             // One prompt version at a time, so each row shows up as soon as its run finishes.
             for (prompt in suite.prompts) {
                 val result = runner.run(suite, prompt.version)

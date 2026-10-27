@@ -13,6 +13,12 @@ Docs in `apps/docs` · [Maven Central](https://central.sonatype.com/artifact/io.
 
 > **Status:** not published yet. The iOS backend has run on an iOS 27.0 simulator. The Android backend has not run on a physical device yet; see the table below.
 
+<p align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-home-dark.png"><img alt="Sample app home screen with model status and the Edit cases button" src=".github/assets/ios-home-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-history-dark.png"><img alt="History screen with saved runs grouped by run" src=".github/assets/ios-history-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-detail-dark.png"><img alt="Case detail with passed and failed cases" src=".github/assets/ios-detail-light.png" width="240"></picture>
+</p>
+
+<p align="center"><sub>The sample app (`samples/iosApp`) on an iOS 27.0 simulator, using the Mac host's Foundation Models. Android sample screens look the same but have not run against Gemini Nano yet.</sub></p>
+
 ## Why
 
 The OS updates the system model, not your app. A prompt that worked can answer differently after a system update, and different phones run different model versions. Google's ML Kit documentation recommends running an evaluation dataset for each Gemini Nano version, but gives no on-device tool for it. Apple's Evaluations framework covers Apple platforms only.

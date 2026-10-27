@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jantursky.proctor.Status
 import com.jantursky.proctor.sample.SampleCase
+import com.jantursky.proctor.sample.SampleCaseDef
 import com.jantursky.proctor.sample.SampleGroup
 import com.jantursky.proctor.sample.SampleRow
 import com.jantursky.proctor.sample.groupHistory
@@ -417,5 +418,120 @@ fun EditScreen(
         }
         model.customError?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = colors.fail) }
         model.customResult?.let { result -> Card("Result") { CaseItem(result, onEdit = null) } }
+    }
+}
+
+/** The cases the next run uses. Tap one to change its input or its expected value. */
+@Composable
+fun DatasetScreen(model: SampleViewModel) {
+    val colors = proctorColors
+    Page("Cases", onBack = model::back) {
+        Text(
+            "Change the input or the expected output of any case. The next run uses your changes, " +
+                "until the app restarts. ${model.editedCount} of ${model.cases.size} edited.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = colors.body,
+        )
+        model.cases.groupBy { it.suite }.forEach { (suite, cases) ->
+            Card(suite) {
+                Column {
+                    cases.forEachIndexed { index, case ->
+                        if (index > 0) HorizontalDivider(color = colors.hairline)
+                        DatasetRow(case) { model.open(Screen.DatasetCase(case)) }
+                    }
+                }
+            }
+        }
+        OutlinedButton(
+            onClick = model::resetAllCases,
+            enabled = model.editedCount > 0,
+            border = BorderStroke(1.dp, colors.hairline),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text("Reset all to defaults", color = colors.ink) }
+    }
+}
+
+@Composable
+private fun DatasetRow(
+    case: SampleCaseDef,
+    onOpen: () -> Unit,
+) {
+    val colors = proctorColors
+    Column(
+        Modifier.fillMaxWidth().clickable(onClick = onOpen).padding(vertical = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                case.id,
+                style = MaterialTheme.typography.labelLarge,
+                fontFamily = ProctorMono,
+                color = colors.ink,
+                modifier = Modifier.weight(1f),
+            )
+            if (case.edited) Text("EDITED", style = MaterialTheme.typography.labelSmall, color = colors.link)
+        }
+        Text(case.input, style = MaterialTheme.typography.bodyMedium, color = colors.body, maxLines = 2)
+        Text(
+            "expected: ${case.expected ?: "none"}",
+            style = MaterialTheme.typography.bodySmall,
+            fontFamily = ProctorMono,
+            color = colors.caption,
+            maxLines = 1,
+        )
+    }
+}
+
+@Composable
+fun DatasetCaseScreen(
+    case: SampleCaseDef,
+    model: SampleViewModel,
+) {
+    val colors = proctorColors
+    var input by remember { mutableStateOf(case.input) }
+    var expected by remember { mutableStateOf(case.expected.orEmpty()) }
+    Page(case.id, model::back) {
+        Card(case.suite) {
+            OutlinedTextField(
+                value = input,
+                onValueChange = { input = it },
+                label = { Text("Input") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            OutlinedTextField(
+                value = expected,
+                onValueChange = { expected = it },
+                label = { Text("Expected output") },
+                supportingText = { Text("Leave empty to run without an expected value.") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Button(
+                onClick = {
+                    model.saveCase(case.suite, case.id, input, expected)
+                    model.back()
+                },
+                enabled = input.isNotBlank(),
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = colors.ink,
+                        contentColor = colors.onInk,
+                        disabledContainerColor = colors.band,
+                        disabledContentColor = colors.caption,
+                    ),
+                shape = RoundedCornerShape(8.dp),
+            ) { Text("Save for the next run") }
+            OutlinedButton(
+                onClick = {
+                    model.resetCase(case.suite, case.id)
+                    model.back()
+                },
+                enabled = case.edited,
+                border = BorderStroke(1.dp, colors.hairline),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) { Text("Reset this case", color = colors.ink) }
+        }
     }
 }

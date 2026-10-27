@@ -1,7 +1,7 @@
 import Shared
 import SwiftUI
 
-enum Destination: Hashable { case history }
+enum Destination: Hashable { case history, dataset }
 
 struct ContentView: View {
     @StateObject private var model = SampleModel()
@@ -13,13 +13,20 @@ struct ContentView: View {
             home
                 .navigationDestination(for: Row.self) { DetailView(row: $0) }
                 .navigationDestination(for: EditTarget.self) { EditCaseView(target: $0) }
-                .navigationDestination(for: Destination.self) { _ in HistoryView(model: model) }
+                .navigationDestination(for: Destination.self) { destination in
+                    switch destination {
+                    case .history: HistoryView(model: model)
+                    case .dataset: DatasetView(model: model)
+                    }
+                }
+                .navigationDestination(for: DatasetTarget.self) { DatasetCaseView(target: $0, model: model) }
                 .toolbar(.hidden, for: .navigationBar)
         }
         .environmentObject(model)
         .task {
-            // Launch flags for screenshots and tests: `--open-history`, `--open-detail` and `--open-edit`.
+            // Launch flags for screenshots and tests: `--open-history`, `--open-detail`, `--open-edit` and `--open-dataset`.
             let arguments = CommandLine.arguments
+            if arguments.contains("--open-dataset") { path.append(Destination.dataset) }
             if arguments.contains("--open-history") || arguments.contains("--open-detail") || arguments.contains("--open-edit") {
                 model.loadHistory()
                 path.append(Destination.history)
@@ -107,6 +114,14 @@ struct ContentView: View {
             Text("Runs ticket-classifier (prompt v1 and v2) and ticket-extraction, three attempts per case. Keep the app open while it runs.")
                 .font(.subheadline)
                 .foregroundStyle(Palette.body)
+            NavigationLink(value: Destination.dataset) {
+                Text(model.editedCount == 0 ? "Edit cases" : "Edit cases (\(model.editedCount) edited)")
+                    .font(.system(size: 15, weight: .semibold))
+                    .frame(maxWidth: .infinity, minHeight: 32)
+            }
+            .buttonStyle(.bordered)
+            .tint(Palette.ink)
+            .disabled(model.running)
             Button {
                 model.run()
             } label: {

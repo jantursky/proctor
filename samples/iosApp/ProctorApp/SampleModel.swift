@@ -35,12 +35,34 @@ final class SampleModel: ObservableObject {
     @Published var customResult: SampleCase?
 
     private let bridge = ProctorFoundationModelsBridge()
+    private let edits = SampleEdits()
+    @Published var cases: [SampleCaseDef] = []
+
+    var editedCount: Int { cases.filter(\.edited).count }
+
+    func saveCase(suite: String, id: String, input: String, expected: String) {
+        edits.set(suite: suite, id: id, input: input, expected: expected)
+        cases = edits.cases()
+    }
+
+    func resetCase(suite: String, id: String) {
+        edits.reset(suite: suite, id: id)
+        cases = edits.cases()
+    }
+
+    func resetAllCases() {
+        edits.resetAll()
+        cases = edits.cases()
+    }
 
     var resultsDirectory: URL {
         URL.documentsDirectory.appending(path: "proctor")
     }
 
-    init() { check() }
+    init() {
+        cases = edits.cases()
+        check()
+    }
 
     /// Reads every result file the app has written. A file that cannot be read is skipped.
     func loadHistory() {
@@ -136,6 +158,7 @@ final class SampleModel: ObservableObject {
                     bridge: bridge,
                     outputDirectory: resultsDirectory.path(),
                     groupId: UUID().uuidString,
+                    edits: edits,
                     listener: listener
                 )
                 message = "Done. \(written) result files written."

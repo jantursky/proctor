@@ -20,11 +20,12 @@ import com.jantursky.proctor.android.NanoRelease
 import com.jantursky.proctor.android.ResultStore
 import com.jantursky.proctor.sample.ProgressBackend
 import com.jantursky.proctor.sample.SampleCase
+import com.jantursky.proctor.sample.SampleCaseDef
+import com.jantursky.proctor.sample.SampleEdits
 import com.jantursky.proctor.sample.SampleRow
 import com.jantursky.proctor.sample.parseSampleRow
 import com.jantursky.proctor.sample.runCustomCase
 import com.jantursky.proctor.sample.sampleRequestCount
-import com.jantursky.proctor.sample.sampleSuites
 import com.jantursky.proctor.sample.toSampleRow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -44,6 +45,14 @@ sealed interface Screen {
     data class Edit(
         val row: SampleRow,
         val case: SampleCase,
+    ) : Screen
+
+    /** The dataset the next run uses. */
+    data object Dataset : Screen
+
+    /** Change one case of the dataset for the next run. */
+    data class DatasetCase(
+        val case: SampleCaseDef,
     ) : Screen
 }
 
@@ -87,6 +96,36 @@ class SampleViewModel(
     var resultsDirectory by mutableStateOf<String?>(null)
         private set
     val rows = mutableStateListOf<SampleRow>()
+
+    private val edits = SampleEdits()
+
+    /** The dataset with the user's edits; the list is rebuilt after every change. */
+    var cases by mutableStateOf(edits.cases())
+        private set
+    val editedCount: Int get() = cases.count { it.edited }
+
+    fun saveCase(
+        suite: String,
+        id: String,
+        input: String,
+        expected: String,
+    ) {
+        edits.set(suite, id, input, expected)
+        cases = edits.cases()
+    }
+
+    fun resetCase(
+        suite: String,
+        id: String,
+    ) {
+        edits.reset(suite, id)
+        cases = edits.cases()
+    }
+
+    fun resetAllCases() {
+        edits.resetAll()
+        cases = edits.cases()
+    }
 
     /** Runs saved by earlier sessions, newest first. */
     val history = mutableStateListOf<SampleRow>()
@@ -314,7 +353,7 @@ class SampleViewModel(
                 val backend = ForegroundBackend(counting, { resumed })
                 val config = RunnerConfig(groupId = groupId)
                 try {
-                    for (suite in sampleSuites) {
+                    for (suite in edits.suites()) {
                         // One prompt version at a time, so each row shows up as soon as its run finishes.
                         for (prompt in suite.prompts) {
                             val result = EvalRunner(backend, config).run(suite, prompt.version)

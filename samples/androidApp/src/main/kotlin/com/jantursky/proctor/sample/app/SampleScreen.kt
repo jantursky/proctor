@@ -58,6 +58,8 @@ fun SampleScreen(model: SampleViewModel) {
         Screen.History -> HistoryScreen(model)
         is Screen.Detail -> DetailScreen(screen.row, model)
         is Screen.Edit -> EditScreen(screen.row, screen.case, model)
+        Screen.Dataset -> DatasetScreen(model)
+        is Screen.DatasetCase -> DatasetCaseScreen(screen.case, model)
     }
 }
 
@@ -240,6 +242,18 @@ private fun RunCard(model: SampleViewModel) {
             style = MaterialTheme.typography.bodyMedium,
             color = colors.body,
         )
+        OutlinedButton(
+            onClick = { model.open(Screen.Dataset) },
+            enabled = !model.running,
+            border = BorderStroke(1.dp, colors.hairline),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                if (model.editedCount == 0) "Edit cases" else "Edit cases (${model.editedCount} edited)",
+                color = colors.ink,
+            )
+        }
         Button(
             onClick = model::run,
             enabled = model.canRun && !model.running,

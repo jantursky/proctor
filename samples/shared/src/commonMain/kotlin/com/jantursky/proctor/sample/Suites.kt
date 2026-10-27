@@ -7,6 +7,9 @@ import com.jantursky.proctor.Sampling
 import com.jantursky.proctor.evalSuite
 import kotlinx.serialization.json.Json
 
+/** The mean score each sample suite needs to pass. The dataset editor rebuilds the suites with the same rule. */
+internal val PASS_SCORES = mapOf("ticket-classifier" to 0.8, "ticket-extraction" to 0.7)
+
 private val sampling = Sampling(temperature = 0.2, topK = 16)
 
 /** Classification: two prompt versions on the same cases, so a run shows whether the rewrite helped. */
@@ -31,7 +34,7 @@ val classifierSuite =
         graders { exactMatch(ignoreCase = true) }
         repeat(3)
         sampling(sampling)
-        passWhen { score >= 0.8 }
+        passWhen { score >= PASS_SCORES.getValue("ticket-classifier") }
     }
 
 /** Structured extraction: valid JSON first, then the right values. */
@@ -61,7 +64,7 @@ val extractionSuite =
         }
         repeat(3)
         sampling(sampling)
-        passWhen { score >= 0.7 }
+        passWhen { score >= PASS_SCORES.getValue("ticket-extraction") }
     }
 
 /** A custom grader: the order id and the urgency must match, the product only loosely (case-insensitive, contained). */
