@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Proctor mark (design/brand/mark.svg) without the adaptive-icon padding. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <group
+        android:translateX="-4"
+        android:translateY="-2">
+        <group
+            android:translateX="3"
+            android:translateY="3">
+            <path
+                android:fillColor="#0B1B4D"
+                android:pathData="M10,6h26a22,22 0 0,1 0,44H30v10H10z"
+                android:strokeWidth="4"
+                android:strokeColor="#0B1B4D"
+                android:strokeLineJoin="round" />
+        </group>
+        <path
+            android:fillColor="#1D4ED8"
+            android:pathData="M10,6h26a22,22 0 0,1 0,44H30v10H10z"
+            android:strokeWidth="4"
+            android:strokeColor="#0B1B4D"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M23.5,27a10.5,10.5 0 1,0 21,0a10.5,10.5 0 1,0 -21,0"
+            android:strokeWidth="3"
+            android:strokeColor="#0B1B4D" />
+        <path
+            android:fillColor="#0B1B4D"
+            android:pathData="M31.5,27.5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M36.5,25.6a1.7,1.7 0 1,0 3.4,0a1.7,1.7 0 1,0 -3.4,0" />
+    </group>
+</vector>

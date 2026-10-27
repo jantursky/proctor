@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Proctor" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowBackground">@color/proctor_canvas</item>
+    </style>
+    <color name="proctor_canvas">#0B0F19</color>
+</resources>

@@ -18,9 +18,8 @@ internal fun hintFor(reason: String): String? =
             "Update the AICore app in Google Play, then check again."
         }
 
-        "NOT_SUPPORTED" in reason || "NOT_AVAILABLE" in reason -> {
-            "This device or configuration does not offer the model. The Prompt API needs a supported device with a " +
-                "locked bootloader."
+        "NOT_SUPPORTED" in reason || "NOT_AVAILABLE" in reason || "not supported" in reason -> {
+            "The Prompt API needs a supported device with a locked bootloader."
         }
 
         "BUSY" in reason || "QUOTA" in reason -> {
