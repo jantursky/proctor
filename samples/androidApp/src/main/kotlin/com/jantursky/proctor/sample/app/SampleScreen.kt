@@ -254,6 +254,19 @@ private fun StatusRow(status: ModelStatus) {
             status.detail?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = colors.body) }
         }
     }
+    if (status.inProgress) {
+        val progress = status.progress
+        if (progress != null) {
+            LinearProgressIndicator(
+                progress = { progress },
+                modifier = Modifier.fillMaxWidth(),
+                color = colors.ink,
+                trackColor = colors.hairline,
+            )
+        } else {
+            LinearProgressIndicator(Modifier.fillMaxWidth(), color = colors.ink, trackColor = colors.hairline)
+        }
+    }
 }
 
 @Composable

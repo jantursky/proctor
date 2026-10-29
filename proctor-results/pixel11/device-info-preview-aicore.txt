@@ -1,0 +1,1 @@
+    versionName=26.10.15.7.thirdpartyexperimental.ffdf_aicore_20261015.00_RC07

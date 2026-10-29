@@ -1,0 +1,3 @@
+date: Thu 29 Oct 2026 15:12:34 CET
+    versionName=26.10.15.7.thirdpartyexperimental.ffdf_aicore_20261015.00_RC07
+google/grizzly/grizzly:17/CD1A.261005.003/16262255:user/release-keys

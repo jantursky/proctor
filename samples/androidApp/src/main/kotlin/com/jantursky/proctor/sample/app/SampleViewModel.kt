@@ -64,6 +64,9 @@ data class ModelStatus(
     val detail: String? = null,
     val tone: Tone = Tone.Neutral,
     val checking: Boolean = false,
+    /** Share of a download that is done, or null when the size is not known (shown as an indeterminate bar). */
+    val progress: Float? = null,
+    val inProgress: Boolean = false,
 )
 
 class SampleViewModel(
@@ -253,7 +256,7 @@ class SampleViewModel(
                 }
 
                 BackendAvailability.Downloading -> {
-                    ModelStatus("Downloading", "Checking again every few seconds.", Tone.Warn)
+                    ModelStatus("Downloading", "AICore is downloading.", Tone.Warn, inProgress = true)
                 }
 
                 is BackendAvailability.Unavailable -> {
@@ -278,20 +281,38 @@ class SampleViewModel(
         downloadJob =
             viewModelScope.launch {
                 var finished = false
+                var totalBytes = 0L
+                status = ModelStatus("Downloading", "Starting...", Tone.Warn, inProgress = true)
                 MlKitBackend(config).download().collect { step ->
                     when (step) {
                         is ModelDownload.Started -> {
-                            status =
-                                ModelStatus("Downloading", "${step.bytesToDownload / MEGABYTE} MB to fetch.", Tone.Warn)
-                        }
-
-                        is ModelDownload.Progress -> {
+                            totalBytes = step.bytesToDownload
                             status =
                                 ModelStatus(
                                     "Downloading",
-                                    "${step.bytesDownloaded / MEGABYTE} MB downloaded.",
+                                    "0 of ${totalBytes / MEGABYTE} MB",
                                     Tone.Warn,
+                                    progress = if (totalBytes > 0) 0f else null,
+                                    inProgress = true,
                                 )
+                        }
+
+                        is ModelDownload.Progress -> {
+                            val megabytes = step.bytesDownloaded / MEGABYTE
+                            val fraction =
+                                if (totalBytes > 0) {
+                                    (step.bytesDownloaded.toFloat() / totalBytes).coerceIn(0f, 1f)
+                                } else {
+                                    null
+                                }
+                            val detail =
+                                if (fraction != null) {
+                                    "$megabytes of ${totalBytes / MEGABYTE} MB (${(fraction * 100).toInt()}%)"
+                                } else {
+                                    "$megabytes MB downloaded"
+                                }
+                            status =
+                                ModelStatus("Downloading", detail, Tone.Warn, progress = fraction, inProgress = true)
                         }
 
                         ModelDownload.Completed -> {
