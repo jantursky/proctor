@@ -1,4 +1,6 @@
-<p align="center"><img src="design/brand/icon.svg" width="96" alt="Proctor logo"></p>
+<p align="center">
+  <img src=".github/assets/banner.svg" alt="Proctor: evaluation harness for on-device LLMs" width="420">
+</p>
 
 # Proctor
 
