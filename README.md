@@ -13,7 +13,7 @@ Evaluation harness for the language models built into Android and iOS. Write an 
 
 Docs in `apps/docs` · [Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/proctor) · [Changelog](CHANGELOG.md) · [Sample report](docs/samples/report/report.md)
 
-> **Status:** not published yet. The iOS backend has run on an iOS 27.0 simulator. The Android backend has run on a Pixel 11 Pro; see the table below.
+> **Status:** 1.0.0 is on Maven Central. The iOS backend has run on an iOS 27.0 simulator. The Android backend has run on a Pixel 11 Pro; see the table below.
 
 <p align="center">
 <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-home-dark.png"><img alt="Sample app home screen with model status and the Edit cases button" src=".github/assets/ios-home-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-history-dark.png"><img alt="History screen with saved runs grouped by run" src=".github/assets/ios-history-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-detail-dark.png"><img alt="Case detail with passed and failed cases" src=".github/assets/ios-detail-light.png" width="240"></picture>
