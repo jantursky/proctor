@@ -3,7 +3,7 @@ package com.jantursky.proctor.android
 /** Which Gemini Nano release the client asks AICore for. */
 public enum class NanoRelease { Stable, Preview }
 
-/** `Fast` and `Full` are the two variants of Gemini Nano 4; stable models only offer `Full`. */
+/** `Fast` and `Full` are the two variants of Gemini Nano 4; both exist in the stable and in the preview release. */
 public enum class NanoPreference { Full, Fast }
 
 /**

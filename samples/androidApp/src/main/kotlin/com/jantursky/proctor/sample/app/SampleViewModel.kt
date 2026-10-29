@@ -282,56 +282,86 @@ class SampleViewModel(
             viewModelScope.launch {
                 var finished = false
                 var totalBytes = 0L
-                status = ModelStatus("Downloading", "Starting...", Tone.Warn, inProgress = true)
-                MlKitBackend(config).download().collect { step ->
-                    when (step) {
-                        is ModelDownload.Started -> {
-                            totalBytes = step.bytesToDownload
-                            status =
-                                ModelStatus(
-                                    "Downloading",
-                                    "0 of ${totalBytes / MEGABYTE} MB",
-                                    Tone.Warn,
-                                    progress = if (totalBytes > 0) 0f else null,
-                                    inProgress = true,
-                                )
-                        }
-
-                        is ModelDownload.Progress -> {
-                            val megabytes = step.bytesDownloaded / MEGABYTE
-                            val fraction =
-                                if (totalBytes > 0) {
-                                    (step.bytesDownloaded.toFloat() / totalBytes).coerceIn(0f, 1f)
-                                } else {
-                                    null
+                var downloadedBytes = 0L
+                val startedAt = System.nanoTime()
+                fun refresh() {
+                    val seconds = (System.nanoTime() - startedAt) / NANOS_PER_SECOND
+                    status = downloadStatus(downloadedBytes, totalBytes, seconds)
+                }
+                refresh()
+                val collector =
+                    launch {
+                        MlKitBackend(config).download().collect { step ->
+                            when (step) {
+                                is ModelDownload.Started -> {
+                                    totalBytes = step.bytesToDownload
+                                    refresh()
                                 }
-                            val detail =
-                                if (fraction != null) {
-                                    "$megabytes of ${totalBytes / MEGABYTE} MB (${(fraction * 100).toInt()}%)"
-                                } else {
-                                    "$megabytes MB downloaded"
+
+                                is ModelDownload.Progress -> {
+                                    downloadedBytes = step.bytesDownloaded
+                                    refresh()
                                 }
-                            status =
-                                ModelStatus("Downloading", detail, Tone.Warn, progress = fraction, inProgress = true)
-                        }
 
-                        ModelDownload.Completed -> {
-                            finished = true
-                        }
+                                ModelDownload.Completed -> {
+                                    finished = true
+                                }
 
-                        is ModelDownload.Failed -> {
-                            status =
-                                ModelStatus(
-                                    "Download failed",
-                                    listOfNotNull(step.reason, hintFor(step.reason)).joinToString("\n\n"),
-                                    Tone.Bad,
-                                )
+                                is ModelDownload.Failed -> {
+                                    status =
+                                        ModelStatus(
+                                            "Download failed",
+                                            listOfNotNull(step.reason, hintFor(step.reason)).joinToString("\n\n"),
+                                            Tone.Bad,
+                                        )
+                                }
+                            }
                         }
                     }
-                }
+                // AICore reports no progress for some large models and may never send Completed, so a ticker keeps
+                // the elapsed time moving and asks for the status now and then.
+                val ticker =
+                    launch {
+                        var ticks = 0
+                        while (true) {
+                            delay(TICK_MILLIS)
+                            refresh()
+                            if (++ticks % STATUS_EVERY_TICKS == 0 && isModelAvailable()) {
+                                finished = true
+                                collector.cancel()
+                                break
+                            }
+                        }
+                    }
+                collector.join()
+                ticker.cancel()
                 downloading = false
                 if (finished) check()
             }
+    }
+
+    private suspend fun isModelAvailable(): Boolean =
+        try {
+            MlKitBackend(config).availability() == BackendAvailability.Available
+        } catch (_: Exception) {
+            false
+        }
+
+    /** A bar with a share when bytes are reported, otherwise an indeterminate bar with the elapsed time. */
+    private fun downloadStatus(
+        downloaded: Long,
+        total: Long,
+        seconds: Long,
+    ): ModelStatus {
+        val elapsed = "%d:%02d".format(seconds / SECONDS_PER_MINUTE, seconds % SECONDS_PER_MINUTE)
+        if (downloaded > 0 && total > 0) {
+            val fraction = (downloaded.toFloat() / total).coerceIn(0f, 1f)
+            val detail = "${downloaded / MEGABYTE} of ${total / MEGABYTE} MB (${(fraction * 100).toInt()}%), $elapsed"
+            return ModelStatus("Downloading", detail, Tone.Warn, progress = fraction, inProgress = true)
+        }
+        val size = if (total > 0) "${total / MEGABYTE} MB to fetch. " else ""
+        val detail = "${size}No progress reported yet, $elapsed elapsed."
+        return ModelStatus("Downloading", detail, Tone.Warn, inProgress = true)
     }
 
     fun cancelDownload() {
@@ -396,4 +426,7 @@ class SampleViewModel(
 
 private const val MEGABYTE = 1_000_000L
 private const val POLL_MILLIS = 5_000L
+private const val TICK_MILLIS = 1_000L
+private const val STATUS_EVERY_TICKS = 5
+private const val SECONDS_PER_MINUTE = 60L
 private const val NANOS_PER_SECOND = 1_000_000_000L

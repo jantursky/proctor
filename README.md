@@ -76,7 +76,7 @@ Pull the `*.proctor.json` files from the device (`scripts/pull-results.sh`) and 
 | --- | --- | --- | --- |
 | iOS simulator, iOS 27.0 | Foundation Models | Mac host, macOS 27.0.1 | Run. The simulator uses the host's model. |
 | iPhone | Foundation Models | | Unverified |
-| Android, stable model | ML Kit Prompt API | Pixel 11 Pro, Android 17, nano-v4-full | Run. Classifier suites 12/12, extraction 3/4. |
+| Android, stable model (full and fast) | ML Kit Prompt API | Pixel 11 Pro, Android 17, Gemini Nano 4 | Run. Classifier 12/12 on both, extraction 3/4 on both. |
 | Android, Gemini Nano 4 preview (full and fast) | ML Kit Prompt API | Pixel 11 Pro, Android 17, AICore Developer Preview | Run. Fast: classifier 11/12 and 12/12, extraction 3/4. Full: classifier 12/12, extraction 3/4. |
 | JVM (report, Gradle plugin) | | CI | Run |
 
