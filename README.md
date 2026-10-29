@@ -11,13 +11,13 @@ Evaluation harness for the language models built into Android and iOS. Write an 
 
 Docs in `apps/docs` · [Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/proctor) · [Changelog](CHANGELOG.md) · [Sample report](docs/samples/report/report.md)
 
-> **Status:** not published yet. The iOS backend has run on an iOS 27.0 simulator. The Android backend has not run on a physical device yet; see the table below.
+> **Status:** not published yet. The iOS backend has run on an iOS 27.0 simulator. The Android backend has run on a Pixel 11 Pro; see the table below.
 
 <p align="center">
 <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-home-dark.png"><img alt="Sample app home screen with model status and the Edit cases button" src=".github/assets/ios-home-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-history-dark.png"><img alt="History screen with saved runs grouped by run" src=".github/assets/ios-history-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-detail-dark.png"><img alt="Case detail with passed and failed cases" src=".github/assets/ios-detail-light.png" width="240"></picture>
 </p>
 
-<p align="center"><sub>The sample app (`samples/iosApp`) on an iOS 27.0 simulator, using the Mac host's Foundation Models. Android sample screens look the same but have not run against Gemini Nano yet.</sub></p>
+<p align="center"><sub>The sample app (`samples/iosApp`) on an iOS 27.0 simulator, using the Mac host's Foundation Models. The Android sample screens look the same and have run against Gemini Nano on a Pixel 11 Pro.</sub></p>
 
 ## Why
 
@@ -70,7 +70,7 @@ Pull the `*.proctor.json` files from the device (`scripts/pull-results.sh`) and 
 | --- | --- | --- | --- |
 | iOS simulator, iOS 27.0 | Foundation Models | Mac host, macOS 27.0.1 | Run. The simulator uses the host's model. |
 | iPhone | Foundation Models | | Unverified |
-| Android, stable model (nano-v3) | ML Kit Prompt API | | Unverified. Host tests only. |
+| Android, stable model | ML Kit Prompt API | Pixel 11 Pro, Android 17, nano-v4-full | Run. Classifier suites 12/12, extraction 3/4. |
 | Android, Gemini Nano 4 preview | ML Kit Prompt API | | Unverified. |
 | JVM (report, Gradle plugin) | | CI | Run |
 

@@ -1,5 +1,8 @@
 package com.jantursky.proctor.sample.app
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -40,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -171,6 +175,26 @@ private fun ModelCard(model: SampleViewModel) {
                 shape = RoundedCornerShape(8.dp),
             ) { Text("Check again", color = colors.ink) }
         }
+        val context = LocalContext.current
+        OutlinedButton(
+            onClick = { openAiCoreInPlayStore(context) },
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(1.dp, colors.hairline),
+            shape = RoundedCornerShape(8.dp),
+        ) { Text("Open AICore in Play Store", color = colors.ink) }
+    }
+}
+
+private const val AICORE_PACKAGE = "com.google.android.aicore"
+
+private fun openAiCoreInPlayStore(context: android.content.Context) {
+    val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$AICORE_PACKAGE"))
+    try {
+        context.startActivity(market)
+    } catch (_: ActivityNotFoundException) {
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$AICORE_PACKAGE")),
+        )
     }
 }
 
