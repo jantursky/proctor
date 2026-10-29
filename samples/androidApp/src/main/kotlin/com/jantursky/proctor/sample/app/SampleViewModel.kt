@@ -284,6 +284,7 @@ class SampleViewModel(
                 var totalBytes = 0L
                 var downloadedBytes = 0L
                 val startedAt = System.nanoTime()
+
                 fun refresh() {
                     val seconds = (System.nanoTime() - startedAt) / NANOS_PER_SECOND
                     status = downloadStatus(downloadedBytes, totalBytes, seconds)

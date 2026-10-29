@@ -1,0 +1,325 @@
+{
+    "schemaVersion": 1,
+    "suite": "ticket-extraction",
+    "promptVersion": "v1",
+    "environment": {
+        "platform": "android",
+        "deviceModel": "Google Pixel 11 Pro",
+        "osVersion": "Android 17 (API 37, build CD1A.261005.003)",
+        "modelVersion": "nano-v4-full",
+        "backend": "mlkit-genai-prompt stable/full"
+    },
+    "sampling": {
+        "temperature": 0.2,
+        "topK": 16,
+        "maxOutputTokens": null,
+        "seed": null
+    },
+    "repeat": 3,
+    "startedAt": "2026-10-29T14:31:45.662350Z",
+    "availability": "Available",
+    "availabilityReason": null,
+    "summary": {
+        "total": 4,
+        "passed": 3,
+        "failed": 1,
+        "notGraded": 0,
+        "meanScore": 0.9583333333333334,
+        "suitePassed": true
+    },
+    "cases": [
+        {
+            "id": "blender",
+            "input": "Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.",
+            "expected": "{\"orderId\":\"48213\",\"product\":\"blender\",\"urgent\":true}",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "```json\n{\n  \"orderId\": \"48213\",\n  \"product\": \"blender\",\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 364,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": \"48213\",\n  \"product\": \"blender\",\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 390,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": \"48213\",\n  \"product\": \"blender\",\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 376,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "headphones",
+            "input": "My headphones arrived scratched. Order A-77.",
+            "expected": "{\"orderId\":\"A-77\",\"product\":\"headphones\",\"urgent\":false}",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "```json\n{\n  \"orderId\": \"A-77\",\n  \"product\": \"headphones\",\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 411,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": \"A-77\",\n  \"product\": \"headphones\",\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 385,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": \"A-77\",\n  \"product\": \"headphones\",\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 413,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "dashboard",
+            "input": "I cannot log in to the web dashboard, blocking my whole team right now.",
+            "expected": "{\"orderId\":null,\"product\":\"web dashboard\",\"urgent\":true}",
+            "status": "Failed",
+            "meanScore": 0.8333333333333334,
+            "spread": 1.1102230246251565E-16,
+            "attempts": [
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 339,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 358,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": true\n}\n```",
+                    "latencyMillis": 339,
+                    "status": "Failed",
+                    "score": 0.8333333333333333,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Failed",
+                            "score": 0.6666666666666666,
+                            "rationale": "product null instead of web dashboard"
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "shipping",
+            "input": "Just wondering if you ship to Norway.",
+            "expected": "{\"orderId\":null,\"product\":null,\"urgent\":false}",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 345,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 346,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "```json\n{\n  \"orderId\": null,\n  \"product\": null,\n  \"urgent\": false\n}\n```",
+                    "latencyMillis": 343,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "jsonSchema",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        },
+                        {
+                            "name": "detailsMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        }
+    ],
+    "groupId": "2c7f5636-8910-4bf1-9670-7c858cdf9257"
+}

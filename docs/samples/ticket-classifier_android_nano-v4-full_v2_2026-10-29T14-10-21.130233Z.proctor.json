@@ -1,0 +1,693 @@
+{
+    "schemaVersion": 1,
+    "suite": "ticket-classifier",
+    "promptVersion": "v2",
+    "environment": {
+        "platform": "android",
+        "deviceModel": "Google Pixel 11 Pro",
+        "osVersion": "Android 17 (API 37, build CD1A.261005.003)",
+        "modelVersion": "nano-v4-full",
+        "backend": "mlkit-genai-prompt preview/full"
+    },
+    "sampling": {
+        "temperature": 0.2,
+        "topK": 16,
+        "maxOutputTokens": null,
+        "seed": null
+    },
+    "repeat": 3,
+    "startedAt": "2026-10-29T14:10:21.130233Z",
+    "availability": "Available",
+    "availabilityReason": null,
+    "summary": {
+        "total": 12,
+        "passed": 12,
+        "failed": 0,
+        "notGraded": 0,
+        "meanScore": 1.0,
+        "suitePassed": true
+    },
+    "cases": [
+        {
+            "id": "double-charge",
+            "input": "My card was charged twice for the same order",
+            "expected": "Billing",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Billing",
+                    "latencyMillis": 234,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 240,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 251,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "refund",
+            "input": "I need a refund for the annual plan I never used",
+            "expected": "Billing",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Billing",
+                    "latencyMillis": 239,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 247,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 241,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "invoice-name",
+            "input": "The invoice shows a company name I did not enter",
+            "expected": "Billing",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Billing",
+                    "latencyMillis": 250,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 244,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Billing",
+                    "latencyMillis": 238,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "crash-camera",
+            "input": "The app crashes as soon as I open the camera screen",
+            "expected": "Bug",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Bug",
+                    "latencyMillis": 245,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 246,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 250,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "search-empty",
+            "input": "Search returns nothing even though the item exists",
+            "expected": "Bug",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Bug",
+                    "latencyMillis": 256,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 237,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 259,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "dark-mode-contrast",
+            "input": "Dark mode turns the text black on a black background",
+            "expected": "Bug",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Bug",
+                    "latencyMillis": 219,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 230,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Bug",
+                    "latencyMillis": 243,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "reset-email",
+            "input": "I forgot my password and the reset email never arrives",
+            "expected": "Account",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Account",
+                    "latencyMillis": 243,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Account",
+                    "latencyMillis": 246,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Account",
+                    "latencyMillis": 237,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "change-email",
+            "input": "Please change the email address on my profile",
+            "expected": "Account",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Account",
+                    "latencyMillis": 215,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Account",
+                    "latencyMillis": 238,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Account",
+                    "latencyMillis": 242,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "export-csv",
+            "input": "Can you add an option to export my data as CSV?",
+            "expected": "Feature",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Feature",
+                    "latencyMillis": 251,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Feature",
+                    "latencyMillis": 253,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Feature",
+                    "latencyMillis": 243,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "widget",
+            "input": "It would be great to have a widget for the home screen",
+            "expected": "Feature",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Feature",
+                    "latencyMillis": 232,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Feature",
+                    "latencyMillis": 237,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Feature",
+                    "latencyMillis": 238,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "thanks",
+            "input": "Thanks for the quick help last week, just saying hi",
+            "expected": "Other",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Other",
+                    "latencyMillis": 237,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Other",
+                    "latencyMillis": 243,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Other",
+                    "latencyMillis": 251,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        },
+        {
+            "id": "office",
+            "input": "Where is your office located?",
+            "expected": "Other",
+            "status": "Passed",
+            "meanScore": 1.0,
+            "spread": 0.0,
+            "attempts": [
+                {
+                    "output": "Other",
+                    "latencyMillis": 224,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Other",
+                    "latencyMillis": 243,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                },
+                {
+                    "output": "Other",
+                    "latencyMillis": 262,
+                    "status": "Passed",
+                    "score": 1.0,
+                    "graders": [
+                        {
+                            "name": "exactMatch",
+                            "status": "Passed",
+                            "score": 1.0,
+                            "rationale": ""
+                        }
+                    ],
+                    "note": null
+                }
+            ]
+        }
+    ],
+    "groupId": "25d0985d-d5ee-4adb-bfe9-46f1125cd801"
+}

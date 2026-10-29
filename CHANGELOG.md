@@ -12,3 +12,5 @@ All notable changes to `io.github.jantursky:proctor` are listed here. The format
 - `proctor-report`: HTML and Markdown reports that compare platforms, model versions and prompt versions.
 - `io.github.jantursky.proctor` Gradle plugin with the `proctorReport` task and CI pass conditions.
 - Sample ticket-triage suites, an Android instrumented runner and a headless iOS simulator runner.
+- Android sample app: a download bar with elapsed time while the model downloads, a shortcut to AICore in Google Play, and availability polling so a finished download is noticed even when AICore sends no completion.
+- Sample report with runs of all four Gemini Nano 4 models (stable and preview, full and fast) on a Pixel 11 Pro.
