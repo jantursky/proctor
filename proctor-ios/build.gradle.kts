@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kover)
@@ -41,6 +43,9 @@ kover {
 
 mavenPublishing {
     publishToMavenCentral()
+    // Central only needs a javadoc jar to exist. An empty one keeps the upload small: the Dokka HTML was
+    // ~700 KB per publication, most of a release against the monthly size and file limits.
+    configure(KotlinMultiplatform(javadocJar = JavadocJar.Empty()))
     // CI passes the key as ORG_GRADLE_PROJECT_signingInMemoryKey; local builds publish unsigned.
     if (providers.gradleProperty("signingInMemoryKey").isPresent) signAllPublications()
     coordinates(artifactId = "proctor-ios")

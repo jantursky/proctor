@@ -4,6 +4,8 @@ All notable changes to `io.github.jantursky:proctor` are listed here. The format
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-29
+
 ### Added
 
 - `proctor`: `RunnerConfig.groupId` and `RunResult.groupId` to mark runs that belong together; suite DSL (`evalSuite`), graders (exact match, regex, JSON schema, semantic similarity, LLM judge), a runner with pacing, quota backoff and repeats, a fake backend, and the result JSON format (schema version 1).
