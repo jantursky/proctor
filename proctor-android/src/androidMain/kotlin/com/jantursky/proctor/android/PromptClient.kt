@@ -30,6 +30,14 @@ internal interface PromptClient {
     ): String?
 }
 
+/** The ML Kit release stage this configuration asks AICore for. */
+internal fun MlKitConfig.modelReleaseStage(): Int =
+    if (release == NanoRelease.Preview) ModelReleaseStage.PREVIEW else ModelReleaseStage.STABLE
+
+/** The ML Kit model preference this configuration asks AICore for. */
+internal fun MlKitConfig.modelPreference(): Int =
+    if (preference == NanoPreference.Fast) ModelPreference.FAST else ModelPreference.FULL
+
 internal class RealPromptClient(
     config: MlKitConfig,
 ) : PromptClient {
@@ -38,16 +46,8 @@ internal class RealPromptClient(
             generationConfig {
                 modelConfig =
                     modelConfig {
-                        releaseStage =
-                            if (config.release ==
-                                NanoRelease.Preview
-                            ) {
-                                ModelReleaseStage.PREVIEW
-                            } else {
-                                ModelReleaseStage.STABLE
-                            }
-                        preference =
-                            if (config.preference == NanoPreference.Fast) ModelPreference.FAST else ModelPreference.FULL
+                        releaseStage = config.modelReleaseStage()
+                        preference = config.modelPreference()
                     }
             },
         )
