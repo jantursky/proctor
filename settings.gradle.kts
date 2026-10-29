@@ -28,6 +28,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "proctor"
 
-include(":proctor", ":proctor-report", ":proctor-gradle-plugin", ":proctor-android", ":proctor-ios")
+include(":proctor", ":proctor-report", ":proctor-gradle-plugin", ":proctor-mlkit", ":proctor-ios")
 
 include(":samples:shared", ":samples:androidApp")

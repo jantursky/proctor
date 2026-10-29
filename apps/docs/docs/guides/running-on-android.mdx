@@ -3,7 +3,7 @@ title: Running on Android
 description: Gemini Nano through the ML Kit Prompt API, the foreground and quota rules, and the Developer Preview.
 ---
 
-`proctor-android` calls the ML Kit GenAI Prompt API (`com.google.mlkit:genai-prompt`) directly. Proctor does not wrap another library, so it can read the model name, choose the preview configuration and see AICore's own errors.
+`proctor-mlkit` calls the ML Kit GenAI Prompt API (`com.google.mlkit:genai-prompt`) directly. Proctor does not wrap another library, so it can read the model name, choose the preview configuration and see AICore's own errors.
 
 <Callout type="warn">
 Nothing on this page has been run on a physical Android device yet. The adapter compiles and its host tests pass against a fake client, but the behavior on a real phone is unverified until the sample report says otherwise.

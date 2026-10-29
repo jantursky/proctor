@@ -12,7 +12,19 @@ trap 'rm -rf "$consumer"' EXIT
 
 "$root/gradlew" -p "$root" \
   :proctor:publishToMavenLocal :proctor-report:publishToMavenLocal \
-  :proctor-android:publishToMavenLocal :proctor-gradle-plugin:publishToMavenLocal --quiet
+  :proctor-mlkit:publishToMavenLocal :proctor-gradle-plugin:publishToMavenLocal --quiet
+
+# Maven Local overwrites files that two publications share, Maven Central refuses them. Building the upload bundle
+# with a made-up token stops at the upload ("Invalid token") when every artifact has a path of its own and at
+# "duplicate entry" when two publications collide, as `proctor-android` once did for the core's Android variant.
+bundle=$("$root/gradlew" -p "$root" publishAllPublicationsToMavenCentralRepository --no-configuration-cache \
+  -PmavenCentralUsername=none -PmavenCentralPassword=none 2>&1 || true)
+if grep -q "duplicate entry" <<<"$bundle"; then
+  grep "duplicate entry" <<<"$bundle" >&2
+  echo "Two publications share an artifact path." >&2
+  exit 1
+fi
+grep -q "Invalid token" <<<"$bundle" || { echo "The Central bundle was not built:" >&2; tail -20 <<<"$bundle" >&2; exit 1; }
 
 mkdir -p "$consumer/src/main/kotlin"
 cat > "$consumer/settings.gradle.kts" <<EOF2

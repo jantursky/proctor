@@ -35,7 +35,7 @@ The OS updates the system model, not your app. A prompt that worked can answer d
 
 ```kotlin
 commonMain.dependencies { implementation("io.github.jantursky:proctor:1.0.0") }
-androidMain.dependencies { implementation("io.github.jantursky:proctor-android:1.0.0") }
+androidMain.dependencies { implementation("io.github.jantursky:proctor-mlkit:1.0.0") }
 iosMain.dependencies { implementation("io.github.jantursky:proctor-ios:1.0.0") }
 ```
 
@@ -65,7 +65,7 @@ Pull the `*.proctor.json` files from the device (`scripts/pull-results.sh`) and 
 ## How it works
 
 1. `proctor/` holds the suite DSL, graders, the runner and the result format. It depends on no model SDK.
-2. A backend sends prompts to the system model: `proctor-android/` calls the ML Kit GenAI Prompt API directly, `proctor-ios/` calls Foundation Models through a Swift bridge.
+2. A backend sends prompts to the system model: `proctor-mlkit/` calls the ML Kit GenAI Prompt API directly, `proctor-ios/` calls Foundation Models through a Swift bridge.
 3. The runner sends one request at a time with a pause, backs off on quota errors, and records quota, foreground and availability problems as "not graded", never as prompt failures.
 4. Each run writes a JSON file with the device, OS, model version, backend settings and every attempt.
 5. `proctor-report/` and the Gradle plugin in `proctor-gradle-plugin/` turn a folder of those files into an HTML and a Markdown report, with diffs between runs and a CI pass condition.

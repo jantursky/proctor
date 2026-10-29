@@ -37,7 +37,7 @@ kotlin {
             api(project(":proctor"))
         }
         androidMain.dependencies {
-            api(project(":proctor-android"))
+            api(project(":proctor-mlkit"))
         }
         iosMain.dependencies {
             api(project(":proctor-ios"))

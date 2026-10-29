@@ -82,10 +82,10 @@ jobs:
       - name: Checks
         if: steps.check.outputs.publish == 'true'
         run: >
-          ./gradlew apiCheck :proctor-android:checkKotlinAbi
-          :proctor:jvmTest :proctor:testAndroidHostTest :proctor-android:testAndroidHostTest
+          ./gradlew apiCheck :proctor-mlkit:checkKotlinAbi
+          :proctor:jvmTest :proctor:testAndroidHostTest :proctor-mlkit:testAndroidHostTest
           :proctor-report:test :proctor-gradle-plugin:test
-          :proctor:koverVerify :proctor-report:koverVerify :proctor-android:koverVerify
+          :proctor:koverVerify :proctor-report:koverVerify :proctor-mlkit:koverVerify
       - name: Publish to Maven Central
         if: steps.check.outputs.publish == 'true'
         env:

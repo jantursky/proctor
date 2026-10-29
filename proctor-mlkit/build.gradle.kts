@@ -73,7 +73,7 @@ mavenPublishing {
     configure(KotlinMultiplatform(javadocJar = JavadocJar.Empty()))
     // CI passes the key as ORG_GRADLE_PROJECT_signingInMemoryKey; local builds publish unsigned.
     if (providers.gradleProperty("signingInMemoryKey").isPresent) signAllPublications()
-    coordinates(artifactId = "proctor-android")
+    coordinates(artifactId = "proctor-mlkit")
     pom {
         name.set("Proctor Android")
         description.set(

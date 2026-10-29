@@ -25,8 +25,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - name: Format, API, tests and coverage gate
         run: >
-          ./gradlew spotlessCheck apiCheck :proctor-android:checkKotlinAbi
-          :proctor:jvmTest :proctor:testAndroidHostTest :proctor-android:testAndroidHostTest
+          ./gradlew spotlessCheck apiCheck :proctor-mlkit:checkKotlinAbi
+          :proctor:jvmTest :proctor:testAndroidHostTest :proctor-mlkit:testAndroidHostTest
           :proctor-report:test :proctor-gradle-plugin:test
           :samples:shared:jvmTest :samples:androidApp:assembleDebugAndroidTest
           koverXmlReport koverVerify
@@ -34,7 +34,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v7
         with:
-          files: proctor/build/reports/kover/report.xml,proctor-report/build/reports/kover/report.xml,proctor-android/build/reports/kover/report.xml
+          files: proctor/build/reports/kover/report.xml,proctor-report/build/reports/kover/report.xml,proctor-mlkit/build/reports/kover/report.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 

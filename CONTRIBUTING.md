@@ -25,7 +25,7 @@ Android emulators have no AICore with Gemini Nano. The Android backend is unit-t
 | path | what |
 | --- | --- |
 | `proctor/` | Core: suite DSL, graders, runner, result format, `FakeBackend`. No LLM SDK. |
-| `proctor-android/` | Gemini Nano through the ML Kit Prompt API. |
+| `proctor-mlkit/` | Gemini Nano through the ML Kit Prompt API. |
 | `proctor-report/` | Result collector, diffs, HTML and Markdown output, CI verdict. |
 | `proctor-gradle-plugin/` | The `proctorReport` task. |
 | `design/` | Design tokens and the logo. |
@@ -34,10 +34,10 @@ Android emulators have no AICore with Gemini Nano. The Android backend is unit-t
 
 ```sh
 ./gradlew spotlessApply          # format
-./gradlew spotlessCheck apiCheck :proctor-android:checkKotlinAbi koverVerify
+./gradlew spotlessCheck apiCheck :proctor-mlkit:checkKotlinAbi koverVerify
 ```
 
-If the public API changed, run `./gradlew apiDump :proctor-android:updateKotlinAbi` and commit the dumps. Coverage gates are 90% lines and 78% branches per module.
+If the public API changed, run `./gradlew apiDump :proctor-mlkit:updateKotlinAbi` and commit the dumps. Coverage gates are 90% lines and 78% branches per module.
 
 ## Pull requests
 
