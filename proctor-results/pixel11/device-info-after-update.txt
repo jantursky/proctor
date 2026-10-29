@@ -1,0 +1,7 @@
+date: Thu 29 Oct 2026 14:07:08 CET
+ro.product.model=Pixel 11 Pro
+ro.build.fingerprint=google/grizzly/grizzly:17/CD1A.260905.001.B1/16238327:user/release-keys
+ro.build.version.release=17
+ro.build.version.security_patch=2026-09-01
+ro.boot.verifiedbootstate=green
+    versionName=0.release.prod_aicore_20260917.00_RC01

@@ -1,0 +1,10 @@
+date: Thu 29 Oct 2026 13:47:52 CET
+ro.product.model=Pixel 11 Pro
+ro.build.fingerprint=google/grizzly/grizzly:17/CD1A.260618.001.A7/15768489:user/release-keys
+ro.build.version.release=17
+ro.build.version.security_patch=2026-06-05
+ro.boot.verifiedbootstate=green
+ro.boot.flash.locked=1
+    versionCode=395592 minSdk=33 targetSdk=37
+    versionName=0.stub.stub_aicore_20260302.01_RC00.877448964
+    versionName=26.18.40 (260400-925571564)

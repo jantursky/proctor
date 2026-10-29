@@ -17,7 +17,13 @@ Docs in `apps/docs` · [Maven Central](https://central.sonatype.com/artifact/io.
 <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-home-dark.png"><img alt="Sample app home screen with model status and the Edit cases button" src=".github/assets/ios-home-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-history-dark.png"><img alt="History screen with saved runs grouped by run" src=".github/assets/ios-history-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/ios-detail-dark.png"><img alt="Case detail with passed and failed cases" src=".github/assets/ios-detail-light.png" width="240"></picture>
 </p>
 
-<p align="center"><sub>The sample app (`samples/iosApp`) on an iOS 27.0 simulator, using the Mac host's Foundation Models. The Android sample screens look the same and have run against Gemini Nano on a Pixel 11 Pro.</sub></p>
+<p align="center"><sub>The sample app (`samples/iosApp`) on an iOS 27.0 simulator, using the Mac host's Foundation Models.</sub></p>
+
+<p align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/android-results-dark.png"><img alt="Android sample app results for the three sample runs" src=".github/assets/android-results-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/android-history-dark.png"><img alt="Android History screen with the three saved runs" src=".github/assets/android-history-light.png" width="240"></picture> <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/android-detail-dark.png"><img alt="Android case detail with the failed extraction case" src=".github/assets/android-detail-light.png" width="240"></picture>
+</p>
+
+<p align="center"><sub>The sample app (`samples/androidApp`) on a Pixel 11 Pro, Android 17, using Gemini Nano (nano-v4-full).</sub></p>
 
 ## Why
 
