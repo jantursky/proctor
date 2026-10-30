@@ -17,7 +17,11 @@ export default defineConfig({
     dir: 'apps/docs',
   },
   navigation: {
-    actions: [{ href: 'https://central.sonatype.com/artifact/io.github.jantursky/proctor', label: 'Maven Central' }],
+    actions: [
+      { href: 'https://proctor-demo.vercel.app', label: 'Demo' },
+      { href: 'https://github.com/jantursky/proctor', label: 'GitHub' },
+      { href: 'https://central.sonatype.com/artifact/io.github.jantursky/proctor', label: 'Maven Central' },
+    ],
   },
   content: {
     root: 'docs',

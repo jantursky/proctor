@@ -26,3 +26,6 @@ apps/docs/public/api/
 !docs/samples/*.proctor.json
 
 apps/docs/public/sample-report/
+.vercel
+.env*
+demo-dist/

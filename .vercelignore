@@ -1,0 +1,8 @@
+.codegraph
+.gradle
+.kotlin
+.claude
+proctor-results
+build
+**/build
+local.properties
