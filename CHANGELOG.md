@@ -4,6 +4,12 @@ All notable changes to `io.github.jantursky:proctor` are listed here. The format
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-15
+
+### Added
+
+- `proctor`: graders `contains`, `containsAny`, `containsAll`, `startsWith`, `isJson` and `lengthBetween`, and `not(grader)` to invert a grader.
+
 ## [1.0.0] - 2026-10-29
 
 ### Added

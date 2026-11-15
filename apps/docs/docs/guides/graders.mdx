@@ -1,6 +1,6 @@
 ---
 title: Graders
-description: Exact match, regex, JSON schema, semantic similarity, LLM judge and custom graders.
+description: Exact match, regex, contains, JSON, length, semantic similarity, LLM judge, negation and custom graders.
 ---
 
 A grader scores one attempt. A case passes when every grader passes. Add graders inside `graders { }`.
@@ -9,6 +9,13 @@ A grader scores one attempt. A case passes when every grader passes. Add graders
 | --- | --- | --- |
 | `exactMatch(ignoreCase)` | The trimmed output equals the expected value | `expect(...)` on the case |
 | `regex(pattern)` | The pattern matches the whole trimmed output | |
+| `contains(text, ignoreCase)` | The output contains the text | |
+| `containsAny(a, b, ...)` | The output contains at least one of the texts | |
+| `containsAll(a, b, ...)` | The output contains every text | |
+| `startsWith(prefix, ignoreCase)` | The trimmed output starts with the prefix | |
+| `isJson()` | The output, after removing Markdown fences, is valid JSON of any shape | |
+| `lengthBetween(min, max)` | The trimmed output has between `min` and `max` characters | |
+| `not(grader)` | The wrapped grader fails. A "not graded" result stays "not graded" | Another grader |
 | `jsonSchema<T>()` | The output, after removing Markdown fences, decodes into `T` | A `@Serializable` type |
 | `semanticSimilarity(embedder, threshold)` | Cosine similarity to the expected value reaches the threshold | An `EmbeddingProvider` and `expect(...)` |
 | `llmJudge(rubric, judge)` | A judge model scores the output 3 or 4 on a 1 to 4 scale | A `Judge` |

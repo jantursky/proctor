@@ -324,23 +324,45 @@ public final class com/jantursky/proctor/GraderResult$Companion {
 
 public final class com/jantursky/proctor/GradersBuilder {
 	public final fun add (Lcom/jantursky/proctor/Grader;)V
+	public final fun contains (Ljava/lang/String;Z)V
+	public static synthetic fun contains$default (Lcom/jantursky/proctor/GradersBuilder;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun containsAll ([Ljava/lang/String;Z)V
+	public static synthetic fun containsAll$default (Lcom/jantursky/proctor/GradersBuilder;[Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun containsAny ([Ljava/lang/String;Z)V
+	public static synthetic fun containsAny$default (Lcom/jantursky/proctor/GradersBuilder;[Ljava/lang/String;ZILjava/lang/Object;)V
 	public final fun exactMatch (Z)V
 	public static synthetic fun exactMatch$default (Lcom/jantursky/proctor/GradersBuilder;ZILjava/lang/Object;)V
+	public final fun isJson ()V
+	public final fun lengthBetween (II)V
 	public final fun llmJudge (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)V
+	public final fun not (Lcom/jantursky/proctor/Grader;)V
 	public final fun regex (Lkotlin/text/Regex;)V
 	public final fun semanticSimilarity (Lcom/jantursky/proctor/EmbeddingProvider;D)V
 	public static synthetic fun semanticSimilarity$default (Lcom/jantursky/proctor/GradersBuilder;Lcom/jantursky/proctor/EmbeddingProvider;DILjava/lang/Object;)V
+	public final fun startsWith (Ljava/lang/String;Z)V
+	public static synthetic fun startsWith$default (Lcom/jantursky/proctor/GradersBuilder;Ljava/lang/String;ZILjava/lang/Object;)V
 }
 
 public final class com/jantursky/proctor/GradersKt {
+	public static final fun containsAllGrader ([Ljava/lang/String;Z)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun containsAllGrader$default ([Ljava/lang/String;ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun containsAnyGrader ([Ljava/lang/String;Z)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun containsAnyGrader$default ([Ljava/lang/String;ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun containsGrader (Ljava/lang/String;Z)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun containsGrader$default (Ljava/lang/String;ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
 	public static final fun exactMatchGrader (Z)Lcom/jantursky/proctor/Grader;
 	public static synthetic fun exactMatchGrader$default (ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun isJsonGrader ()Lcom/jantursky/proctor/Grader;
 	public static final fun jsonSchemaGrader (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;)Lcom/jantursky/proctor/Grader;
 	public static synthetic fun jsonSchemaGrader$default (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;ILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun lengthBetweenGrader (II)Lcom/jantursky/proctor/Grader;
 	public static final fun llmJudgeGrader (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)Lcom/jantursky/proctor/Grader;
+	public static final fun notGrader (Lcom/jantursky/proctor/Grader;)Lcom/jantursky/proctor/Grader;
 	public static final fun regexGrader (Lkotlin/text/Regex;)Lcom/jantursky/proctor/Grader;
 	public static final fun semanticSimilarityGrader (Lcom/jantursky/proctor/EmbeddingProvider;D)Lcom/jantursky/proctor/Grader;
 	public static synthetic fun semanticSimilarityGrader$default (Lcom/jantursky/proctor/EmbeddingProvider;DILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun startsWithGrader (Ljava/lang/String;Z)Lcom/jantursky/proctor/Grader;
+	public static synthetic fun startsWithGrader$default (Ljava/lang/String;ZILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
 }
 
 public abstract interface class com/jantursky/proctor/Judge {

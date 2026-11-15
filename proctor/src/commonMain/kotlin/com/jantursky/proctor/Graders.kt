@@ -38,6 +38,129 @@ public fun regexGrader(pattern: Regex): Grader =
             }
     }
 
+/** Passes when the output contains [text]. */
+public fun containsGrader(
+    text: String,
+    ignoreCase: Boolean = false,
+): Grader =
+    object : Grader {
+        override val name = "contains"
+
+        override suspend fun grade(context: GradeContext): Grade =
+            if (context.output.contains(text, ignoreCase)) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Output does not contain \"$text\"")
+            }
+    }
+
+/** Passes when the output contains at least one of [texts]. */
+public fun containsAnyGrader(
+    vararg texts: String,
+    ignoreCase: Boolean = false,
+): Grader {
+    require(texts.isNotEmpty()) { "containsAny needs at least one text" }
+    return object : Grader {
+        override val name = "containsAny"
+
+        override suspend fun grade(context: GradeContext): Grade =
+            if (texts.any { context.output.contains(it, ignoreCase) }) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Output contains none of ${texts.joinToString { "\"$it\"" }}")
+            }
+    }
+}
+
+/** Passes when the output contains every one of [texts]. */
+public fun containsAllGrader(
+    vararg texts: String,
+    ignoreCase: Boolean = false,
+): Grader {
+    require(texts.isNotEmpty()) { "containsAll needs at least one text" }
+    return object : Grader {
+        override val name = "containsAll"
+
+        override suspend fun grade(context: GradeContext): Grade {
+            val missing = texts.filterNot { context.output.contains(it, ignoreCase) }
+            return if (missing.isEmpty()) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Output does not contain ${missing.joinToString { "\"$it\"" }}")
+            }
+        }
+    }
+}
+
+/** Passes when the trimmed output starts with [prefix]. */
+public fun startsWithGrader(
+    prefix: String,
+    ignoreCase: Boolean = false,
+): Grader =
+    object : Grader {
+        override val name = "startsWith"
+
+        override suspend fun grade(context: GradeContext): Grade =
+            if (context.output.trim().startsWith(prefix, ignoreCase)) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Output does not start with \"$prefix\"")
+            }
+    }
+
+/** Passes when the output, after removing Markdown code fences, is valid JSON of any shape. */
+public fun isJsonGrader(): Grader =
+    object : Grader {
+        override val name = "isJson"
+
+        override suspend fun grade(context: GradeContext): Grade =
+            try {
+                Json.parseToJsonElement(extractJson(context.output))
+                Grade.passed()
+            } catch (e: SerializationException) {
+                Grade.failed(rationale = "Not valid JSON: ${e.message?.lineSequence()?.first()}")
+            }
+    }
+
+/** Passes when the trimmed output is between [min] and [max] characters long, both inclusive. */
+public fun lengthBetweenGrader(
+    min: Int,
+    max: Int,
+): Grader {
+    require(min in 0..max) { "lengthBetween needs 0 <= min <= max, got $min and $max" }
+    return object : Grader {
+        override val name = "lengthBetween"
+
+        override suspend fun grade(context: GradeContext): Grade {
+            val length = context.output.trim().length
+            return if (length in min..max) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Length $length is outside $min..$max")
+            }
+        }
+    }
+}
+
+/**
+ * Inverts [grader]: Passed becomes Failed and the other way round, a score becomes `1 - score`. Not graded stays
+ * not graded, so a quota error is never turned into a verdict.
+ */
+public fun notGrader(grader: Grader): Grader =
+    object : Grader {
+        override val name = "not(${grader.name})"
+
+        override suspend fun grade(context: GradeContext): Grade {
+            val inner = grader.grade(context)
+            val score = inner.score?.let { 1.0 - it }
+            return when (inner.status) {
+                Status.Passed -> Grade.failed(score ?: 0.0, "${grader.name} passed but was expected to fail")
+                Status.Failed -> Grade.passed(score ?: 1.0, "${grader.name} failed as expected: ${inner.rationale}")
+                Status.NotGraded -> inner
+            }
+        }
+    }
+
 /** Passes when the output, after removing Markdown code fences, decodes into [serializer]'s type. */
 public fun <T> jsonSchemaGrader(
     serializer: KSerializer<T>,

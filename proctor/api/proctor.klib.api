@@ -369,10 +369,17 @@ final class com.jantursky.proctor/GraderResult { // com.jantursky.proctor/Grader
 
 final class com.jantursky.proctor/GradersBuilder { // com.jantursky.proctor/GradersBuilder|null[0]
     final fun add(com.jantursky.proctor/Grader) // com.jantursky.proctor/GradersBuilder.add|add(com.jantursky.proctor.Grader){}[0]
+    final fun contains(kotlin/String, kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.contains|contains(kotlin.String;kotlin.Boolean){}[0]
+    final fun containsAll(kotlin/Array<out kotlin/String>..., kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.containsAll|containsAll(kotlin.Array<out|kotlin.String>...;kotlin.Boolean){}[0]
+    final fun containsAny(kotlin/Array<out kotlin/String>..., kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.containsAny|containsAny(kotlin.Array<out|kotlin.String>...;kotlin.Boolean){}[0]
     final fun exactMatch(kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.exactMatch|exactMatch(kotlin.Boolean){}[0]
+    final fun isJson() // com.jantursky.proctor/GradersBuilder.isJson|isJson(){}[0]
+    final fun lengthBetween(kotlin/Int, kotlin/Int) // com.jantursky.proctor/GradersBuilder.lengthBetween|lengthBetween(kotlin.Int;kotlin.Int){}[0]
     final fun llmJudge(kotlin/String, com.jantursky.proctor/Judge) // com.jantursky.proctor/GradersBuilder.llmJudge|llmJudge(kotlin.String;com.jantursky.proctor.Judge){}[0]
+    final fun not(com.jantursky.proctor/Grader) // com.jantursky.proctor/GradersBuilder.not|not(com.jantursky.proctor.Grader){}[0]
     final fun regex(kotlin.text/Regex) // com.jantursky.proctor/GradersBuilder.regex|regex(kotlin.text.Regex){}[0]
     final fun semanticSimilarity(com.jantursky.proctor/EmbeddingProvider, kotlin/Double = ...) // com.jantursky.proctor/GradersBuilder.semanticSimilarity|semanticSimilarity(com.jantursky.proctor.EmbeddingProvider;kotlin.Double){}[0]
+    final fun startsWith(kotlin/String, kotlin/Boolean = ...) // com.jantursky.proctor/GradersBuilder.startsWith|startsWith(kotlin.String;kotlin.Boolean){}[0]
     final inline fun <#A1: reified kotlin/Any?> jsonSchema(kotlinx.serialization.json/Json = ...) // com.jantursky.proctor/GradersBuilder.jsonSchema|jsonSchema(kotlinx.serialization.json.Json){0§<kotlin.Any?>}[0]
 }
 
@@ -590,8 +597,15 @@ final val com.jantursky.proctor/ProctorJson // com.jantursky.proctor/ProctorJson
     final fun <get-ProctorJson>(): kotlinx.serialization.json/Json // com.jantursky.proctor/ProctorJson.<get-ProctorJson>|<get-ProctorJson>(){}[0]
 
 final fun <#A: kotlin/Any?> com.jantursky.proctor/jsonSchemaGrader(kotlinx.serialization/KSerializer<#A>, kotlinx.serialization.json/Json = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/jsonSchemaGrader|jsonSchemaGrader(kotlinx.serialization.KSerializer<0:0>;kotlinx.serialization.json.Json){0§<kotlin.Any?>}[0]
+final fun com.jantursky.proctor/containsAllGrader(kotlin/Array<out kotlin/String>..., kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/containsAllGrader|containsAllGrader(kotlin.Array<out|kotlin.String>...;kotlin.Boolean){}[0]
+final fun com.jantursky.proctor/containsAnyGrader(kotlin/Array<out kotlin/String>..., kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/containsAnyGrader|containsAnyGrader(kotlin.Array<out|kotlin.String>...;kotlin.Boolean){}[0]
+final fun com.jantursky.proctor/containsGrader(kotlin/String, kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/containsGrader|containsGrader(kotlin.String;kotlin.Boolean){}[0]
 final fun com.jantursky.proctor/evalSuite(kotlin/String, kotlin/Function1<com.jantursky.proctor/EvalSuiteBuilder, kotlin/Unit>): com.jantursky.proctor/EvalSuite // com.jantursky.proctor/evalSuite|evalSuite(kotlin.String;kotlin.Function1<com.jantursky.proctor.EvalSuiteBuilder,kotlin.Unit>){}[0]
 final fun com.jantursky.proctor/exactMatchGrader(kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/exactMatchGrader|exactMatchGrader(kotlin.Boolean){}[0]
+final fun com.jantursky.proctor/isJsonGrader(): com.jantursky.proctor/Grader // com.jantursky.proctor/isJsonGrader|isJsonGrader(){}[0]
+final fun com.jantursky.proctor/lengthBetweenGrader(kotlin/Int, kotlin/Int): com.jantursky.proctor/Grader // com.jantursky.proctor/lengthBetweenGrader|lengthBetweenGrader(kotlin.Int;kotlin.Int){}[0]
 final fun com.jantursky.proctor/llmJudgeGrader(kotlin/String, com.jantursky.proctor/Judge): com.jantursky.proctor/Grader // com.jantursky.proctor/llmJudgeGrader|llmJudgeGrader(kotlin.String;com.jantursky.proctor.Judge){}[0]
+final fun com.jantursky.proctor/notGrader(com.jantursky.proctor/Grader): com.jantursky.proctor/Grader // com.jantursky.proctor/notGrader|notGrader(com.jantursky.proctor.Grader){}[0]
 final fun com.jantursky.proctor/regexGrader(kotlin.text/Regex): com.jantursky.proctor/Grader // com.jantursky.proctor/regexGrader|regexGrader(kotlin.text.Regex){}[0]
 final fun com.jantursky.proctor/semanticSimilarityGrader(com.jantursky.proctor/EmbeddingProvider, kotlin/Double = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/semanticSimilarityGrader|semanticSimilarityGrader(com.jantursky.proctor.EmbeddingProvider;kotlin.Double){}[0]
+final fun com.jantursky.proctor/startsWithGrader(kotlin/String, kotlin/Boolean = ...): com.jantursky.proctor/Grader // com.jantursky.proctor/startsWithGrader|startsWithGrader(kotlin.String;kotlin.Boolean){}[0]

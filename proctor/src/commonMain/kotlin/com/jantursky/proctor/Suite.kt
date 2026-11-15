@@ -151,6 +151,50 @@ public class GradersBuilder internal constructor() {
         add(regexGrader(pattern))
     }
 
+    public fun contains(
+        text: String,
+        ignoreCase: Boolean = false,
+    ) {
+        add(containsGrader(text, ignoreCase))
+    }
+
+    public fun containsAny(
+        vararg texts: String,
+        ignoreCase: Boolean = false,
+    ) {
+        add(containsAnyGrader(*texts, ignoreCase = ignoreCase))
+    }
+
+    public fun containsAll(
+        vararg texts: String,
+        ignoreCase: Boolean = false,
+    ) {
+        add(containsAllGrader(*texts, ignoreCase = ignoreCase))
+    }
+
+    public fun startsWith(
+        prefix: String,
+        ignoreCase: Boolean = false,
+    ) {
+        add(startsWithGrader(prefix, ignoreCase))
+    }
+
+    public fun isJson() {
+        add(isJsonGrader())
+    }
+
+    public fun lengthBetween(
+        min: Int,
+        max: Int,
+    ) {
+        add(lengthBetweenGrader(min, max))
+    }
+
+    /** Adds the inverse of [grader]; see [notGrader]. */
+    public fun not(grader: Grader) {
+        add(notGrader(grader))
+    }
+
     public inline fun <reified T> jsonSchema(json: Json = Json.Default) {
         add(jsonSchemaGrader(serializer<T>(), json))
     }

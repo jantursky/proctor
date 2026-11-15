@@ -130,6 +130,86 @@ class GradersTest {
         assertNull(cosine(listOf(0f), listOf(1f)))
         assertEquals(1.0, cosine(listOf(2f, 0f), listOf(1f, 0f)))
     }
+
+    @Test
+    fun containsGradersCheckSubstrings() =
+        runTest {
+            assertEquals(Status.Passed, containsGrader("refund").grade(context("Your refund is on its way")).status)
+            val missing = containsGrader("refund").grade(context("Hello"))
+            assertEquals(Status.Failed, missing.status)
+            assertTrue(missing.rationale.contains("refund"))
+            assertEquals(Status.Failed, containsGrader("Refund").grade(context("refund")).status)
+            assertEquals(Status.Passed, containsGrader("Refund", ignoreCase = true).grade(context("refund")).status)
+            assertEquals(Status.Passed, containsAnyGrader("a", "b").grade(context("xb")).status)
+            val none = containsAnyGrader("a", "b").grade(context("xyz"))
+            assertEquals(Status.Failed, none.status)
+            assertTrue(none.rationale.contains("\"a\""))
+            assertEquals(Status.Passed, containsAllGrader("order", "refund").grade(context("order refund")).status)
+            val partial = containsAllGrader("order", "refund").grade(context("order only"))
+            assertEquals(Status.Failed, partial.status)
+            assertTrue(partial.rationale.contains("refund") && !partial.rationale.contains("order\""))
+            assertEquals(Status.Passed, containsAllGrader("ORDER", ignoreCase = true).grade(context("order")).status)
+        }
+
+    @Test
+    fun containsAnyAndAllNeedATextToLookFor() {
+        assertFailsWithMessage<IllegalArgumentException>("containsAny") { containsAnyGrader() }
+        assertFailsWithMessage<IllegalArgumentException>("containsAll") { containsAllGrader() }
+    }
+
+    @Test
+    fun startsWithIgnoresLeadingWhitespace() =
+        runTest {
+            assertEquals(Status.Passed, startsWithGrader("Billing").grade(context("  Billing: card")).status)
+            val wrong = startsWithGrader("Billing").grade(context("Bug: billing"))
+            assertEquals(Status.Failed, wrong.status)
+            assertTrue(wrong.rationale.contains("Billing"))
+            assertEquals(Status.Passed, startsWithGrader("billing", ignoreCase = true).grade(context("Billing")).status)
+        }
+
+    @Test
+    fun isJsonAcceptsAnyJsonShapeAfterStrippingFences() =
+        runTest {
+            val grader = isJsonGrader()
+            assertEquals(Status.Passed, grader.grade(context("{\"a\":1}")).status)
+            assertEquals(Status.Passed, grader.grade(context("```json\n{\"a\":1}\n```")).status)
+            assertEquals(Status.Passed, grader.grade(context("Sure: [1,2] done")).status)
+            assertEquals(Status.Failed, grader.grade(context("no json")).status)
+            assertEquals(Status.Failed, grader.grade(context("{\"a\":")).status)
+            assertEquals(Status.Failed, grader.grade(context("")).status)
+        }
+
+    @Test
+    fun lengthBetweenIsInclusiveOnTheTrimmedOutput() =
+        runTest {
+            val grader = lengthBetweenGrader(2, 4)
+            assertEquals(Status.Failed, grader.grade(context("a")).status)
+            assertEquals(Status.Passed, grader.grade(context("ab")).status)
+            assertEquals(Status.Passed, grader.grade(context(" abcd ")).status)
+            val long = grader.grade(context("abcde"))
+            assertEquals(Status.Failed, long.status)
+            assertTrue(long.rationale.contains("5") && long.rationale.contains("2..4"))
+        }
+
+    @Test
+    fun lengthBetweenRejectsAnInvalidRange() {
+        assertFailsWithMessage<IllegalArgumentException>("lengthBetween") { lengthBetweenGrader(5, 2) }
+        assertFailsWithMessage<IllegalArgumentException>("lengthBetween") { lengthBetweenGrader(-1, 2) }
+    }
+
+    @Test
+    fun notInvertsVerdictsAndKeepsNotGraded() =
+        runTest {
+            val inverted = notGrader(containsGrader("x"))
+            assertEquals("not(contains)", inverted.name)
+            val failed = inverted.grade(context("has x"))
+            assertEquals(Status.Failed, failed.status)
+            assertEquals(0.0, failed.score)
+            val passed = inverted.grade(context("none"))
+            assertEquals(Status.Passed, passed.status)
+            assertEquals(1.0, passed.score)
+            assertEquals(Status.NotGraded, notGrader(exactMatchGrader()).grade(context("a")).status)
+        }
 }
 
 internal inline fun <reified T : Throwable> assertFailsWithMessage(

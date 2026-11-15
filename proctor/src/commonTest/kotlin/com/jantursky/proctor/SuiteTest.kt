@@ -50,6 +50,35 @@ class SuiteTest {
     }
 
     @Test
+    fun registersTheDeterministicGraders() {
+        val suite =
+            suite {
+                graders {
+                    contains("a")
+                    containsAny("a", "b")
+                    containsAll("a", "b")
+                    startsWith("a")
+                    isJson()
+                    lengthBetween(1, 5)
+                    not(containsGrader("z"))
+                }
+            }
+        assertEquals(
+            listOf(
+                "exactMatch",
+                "contains",
+                "containsAny",
+                "containsAll",
+                "startsWith",
+                "isJson",
+                "lengthBetween",
+                "not(contains)",
+            ),
+            suite.graders.map { it.name },
+        )
+    }
+
+    @Test
     fun keepsRepeatSamplingAndPromptVersions() {
         val sampling = Sampling(temperature = 0.2, topK = 16)
         val suite =
