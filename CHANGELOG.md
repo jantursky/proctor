@@ -4,6 +4,18 @@ All notable changes to `io.github.jantursky:proctor` are listed here. The format
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-25
+
+### Added
+
+- `proctor`: `latencyUnder(millis)` grader, which fails an attempt that took longer than the limit, and `latencyUnderGrader(millis)` for use outside the DSL.
+- `proctor`: `SuiteScore.p95LatencyMillis`, so `passWhen` can gate on latency, and `nearestRankPercentile` for latency statistics.
+- `proctor-report`: p50, p95 and max latency per run in the HTML and Markdown reports, and the p50 and p95 latency change against the baseline in run diffs.
+
+### Changed
+
+- `proctor`: `GradeContext` has a `latencyMillis` field (default `0`), filled with the measured attempt latency. It is a public data class, so `copy` and `componentN` change; callers that only read it or construct it with the existing parameters are unaffected.
+
 ## [1.1.0] - 2026-11-15
 
 ### Added

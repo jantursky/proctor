@@ -15,12 +15,15 @@ A grader scores one attempt. A case passes when every grader passes. Add graders
 | `startsWith(prefix, ignoreCase)` | The trimmed output starts with the prefix | |
 | `isJson()` | The output, after removing Markdown fences, is valid JSON of any shape | |
 | `lengthBetween(min, max)` | The trimmed output has between `min` and `max` characters | |
+| `latencyUnder(millis)` | The attempt took at most `millis` milliseconds. Slower attempts fail and the rationale gives both values | |
 | `not(grader)` | The wrapped grader fails. A "not graded" result stays "not graded" | Another grader |
 | `jsonSchema<T>()` | The output, after removing Markdown fences, decodes into `T` | A `@Serializable` type |
 | `semanticSimilarity(embedder, threshold)` | Cosine similarity to the expected value reaches the threshold | An `EmbeddingProvider` and `expect(...)` |
 | `llmJudge(rubric, judge)` | A judge model scores the output 3 or 4 on a 1 to 4 scale | A `Judge` |
 
 A grader that cannot do its job, such as `exactMatch` on a case without an expected value, returns "not graded", not "failed".
+
+Latency is the time the backend took for that attempt, measured around the model call only. Use `repeat` and a warm-up case when you compare latency: the first call after a cold start is often slower.
 
 ## Custom graders
 

@@ -123,52 +123,70 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <th>Failed</th>
 <th>Not graded</th>
 <th>Mean score</th>
+<th>p50</th>
+<th>p95</th>
+<th>Max</th>
 <th>Verdict</th>
 </tr></thead><tbody>
 <tr><td>ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</td><td>12</td><td>11</td><td>1</td>
 <td>0</td><td>92%</td>
+<td>340 ms</td><td>402 ms</td><td>1939 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2</td><td>12</td><td>11</td><td>1</td>
 <td>0</td><td>97%</td>
+<td>347 ms</td><td>365 ms</td><td>367 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-fast · prompt v1</td><td>12</td><td>11</td><td>1</td>
 <td>0</td><td>97%</td>
+<td>143 ms</td><td>165 ms</td><td>206 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-fast · prompt v2</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>140 ms</td><td>156 ms</td><td>162 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-full · prompt v1</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>245 ms</td><td>274 ms</td><td>1897 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-full · prompt v2</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>243 ms</td><td>259 ms</td><td>262 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-full · prompt v1</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>135 ms</td><td>159 ms</td><td>165 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-full · prompt v2</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>138 ms</td><td>154 ms</td><td>154 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-fast · prompt v1</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>134 ms</td><td>147 ms</td><td>148 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-classifier · android nano-v4-fast · prompt v2</td><td>12</td><td>12</td><td>0</td>
 <td>0</td><td>100%</td>
+<td>136 ms</td><td>155 ms</td><td>162 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1</td><td>4</td><td>2</td><td>2</td>
 <td>0</td><td>92%</td>
+<td>606 ms</td><td>740 ms</td><td>740 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-extraction · android nano-v4-fast · prompt v1</td><td>4</td><td>3</td><td>1</td>
 <td>0</td><td>96%</td>
+<td>362 ms</td><td>422 ms</td><td>422 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-extraction · android nano-v4-full · prompt v1</td><td>4</td><td>3</td><td>1</td>
 <td>0</td><td>99%</td>
+<td>566 ms</td><td>760 ms</td><td>760 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-extraction · android nano-v4-full · prompt v1</td><td>4</td><td>3</td><td>1</td>
 <td>0</td><td>96%</td>
+<td>358 ms</td><td>413 ms</td><td>413 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 <tr><td>ticket-extraction · android nano-v4-fast · prompt v1</td><td>4</td><td>3</td><td>1</td>
 <td>0</td><td>96%</td>
+<td>377 ms</td><td>416 ms</td><td>416 ms</td>
 <td><span class="tag pass">pass</span></td></tr>
 </tbody></table></div>
 <p class="note">Not graded means no verdict, for example the quota ran out. It is not a failure.</p>
@@ -178,6 +196,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in prompt version: v1 to v2.</p>
 <p>Score 92% to 97% 
 (+6 pts). 0 regressed, 0 improved.</p>
+<p>Latency p50 +7 ms (+2%), p95 -37 ms (-9%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -235,6 +254,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt preview/fast.</p>
 <p>Score 92% to 97% 
 (+6 pts). 0 regressed, 0 improved.</p>
+<p>Latency p50 -197 ms (-58%), p95 -237 ms (-59%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -292,6 +312,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt preview/fast; prompt version: v1 to v2.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -200 ms (-59%), p95 -246 ms (-61%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -349,6 +370,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt preview/full.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -95 ms (-28%), p95 -128 ms (-32%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -406,6 +428,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt preview/full; prompt version: v1 to v2.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -97 ms (-29%), p95 -143 ms (-36%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -463,6 +486,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt stable/full.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -205 ms (-60%), p95 -243 ms (-60%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -520,6 +544,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt stable/full; prompt version: v1 to v2.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -202 ms (-59%), p95 -248 ms (-62%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -577,6 +602,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt stable/fast.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -206 ms (-61%), p95 -255 ms (-63%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -634,6 +660,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt stable/fast; prompt version: v1 to v2.</p>
 <p>Score 92% to 100% 
 (+8 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -204 ms (-60%), p95 -247 ms (-61%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">double-charge</td><td>My card was charged twice for the same order</td>
@@ -691,6 +718,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt preview/fast.</p>
 <p>Score 92% to 96% 
 (+4 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -244 ms (-40%), p95 -318 ms (-43%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">blender</td><td>Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.</td>
@@ -716,6 +744,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt preview/full.</p>
 <p>Score 92% to 99% 
 (+7 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -40 ms (-7%), p95 +20 ms (+3%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">blender</td><td>Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.</td>
@@ -741,6 +770,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt stable/full.</p>
 <p>Score 92% to 96% 
 (+4 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -248 ms (-41%), p95 -327 ms (-44%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">blender</td><td>Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.</td>
@@ -766,6 +796,7 @@ pre{white-space:pre-wrap;background:var(--band);border-radius:4px;padding:8px 12
 <p>Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt stable/fast.</p>
 <p>Score 92% to 96% 
 (+4 pts). 0 regressed, 1 improved.</p>
+<p>Latency p50 -229 ms (-38%), p95 -324 ms (-44%).</p>
 <div class="scroll"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>
 <th>Change</th></tr></thead><tbody>
 <tr><td class="mono">blender</td><td>Order 48213: the blender stopped working. This is urgent, I need it for an event tomorrow.</td>

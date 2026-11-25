@@ -3,6 +3,8 @@ package com.jantursky.proctor
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Serializable
@@ -98,6 +100,13 @@ class SuiteTest {
         assertTrue(SuiteScore(1.0, 2, 2, 0, 0).verdict(verdict))
         assertTrue(!SuiteScore(0.5, 2, 1, 1, 0).verdict(verdict))
         assertTrue(!SuiteScore(0.0, 2, 0, 0, 2).verdict(verdict))
+    }
+
+    @Test
+    fun p95LatencyIsCarriedForPassWhen() {
+        assertEquals(900L, SuiteScore(0.5, 2, 1, 1, 0, 900L).p95LatencyMillis)
+        assertNull(SuiteScore(0.0, 2, 0, 0, 2).p95LatencyMillis)
+        assertFalse(SuiteScore(1.0, 1, 1, 0, 0, 900L).let { it.p95LatencyMillis!! <= 800 })
     }
 
     @Test

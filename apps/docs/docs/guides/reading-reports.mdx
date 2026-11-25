@@ -12,9 +12,15 @@ One file per suite, platform, model version, prompt version and run time. The fi
 ## Sections
 
 - **Checked on**: device, OS, model version, backend and run time of every run. This is the table to copy into a README.
-- **Results**: passed, failed and not graded per run, the mean score and the verdict.
-- **Compare**: the oldest run of each suite (or the one you name as `baseline`) against every other run of that suite. The report says what differs: platform, model version, prompt version, or several at once. Per case it shows same, regressed or improved.
+- **Results**: passed, failed and not graded per run, the mean score, p50, p95 and max latency, and the verdict.
+- **Compare**: the oldest run of each suite (or the one you name as `baseline`) against every other run of that suite. The report says what differs: platform, model version, prompt version, or several at once. Per case it shows same, regressed or improved. It also shows the p50 and p95 latency change in milliseconds and percent.
 - **Cases**: input, expected value, first output, result, score and spread per case.
+
+## Latency
+
+Latency is the time the backend took per attempt, in milliseconds. The p50, p95 and max figures use the nearest-rank method, so every figure is a latency some attempt actually took. Only graded attempts count: an attempt that ran into quota or lost the foreground does not, because its time is the time to an error. A run with no graded attempt shows no latency figures.
+
+`passWhen` can gate on latency. `p95LatencyMillis` is `null` when no attempt was graded, so treat that as a failure: `passWhen { (p95LatencyMillis ?: Long.MAX_VALUE) <= 800 }`.
 
 ## Passed, failed, not graded
 

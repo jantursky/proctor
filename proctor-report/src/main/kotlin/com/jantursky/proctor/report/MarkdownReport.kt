@@ -33,8 +33,8 @@ internal object MarkdownReport {
             appendLine()
             appendLine("## Results")
             appendLine()
-            appendLine("| Run | Cases | Passed | Failed | Not graded | Mean score | Verdict |")
-            appendLine("| --- | --- | --- | --- | --- | --- | --- |")
+            appendLine("| Run | Cases | Passed | Failed | Not graded | Mean score | p50 | p95 | Max | Verdict |")
+            appendLine("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
             for (run in report.runs) {
                 val s = run.summary
                 appendLine(
@@ -45,6 +45,9 @@ internal object MarkdownReport {
                         "${s.failed}",
                         "${s.notGraded}",
                         s.meanScore.percent(),
+                        latencyOf(run)?.p50.millis(),
+                        latencyOf(run)?.p95.millis(),
+                        latencyOf(run)?.max.millis(),
                         if (s.suitePassed) "pass" else "fail",
                     ),
                 )
@@ -64,6 +67,8 @@ internal object MarkdownReport {
             "Score ${diff.base.summary.meanScore.percent()} to ${diff.other.summary.meanScore.percent()} " +
                 "(${diff.scoreDelta.signed()}). ${diff.regressions} regressed, ${diff.improvements} improved.",
         )
+        appendLine()
+        appendLine("Latency p50 ${diff.p50Latency.describeOrDash()}, p95 ${diff.p95Latency.describeOrDash()}.")
         appendLine()
         appendLine("| Case | Base | Other | Change |")
         appendLine("| --- | --- | --- | --- |")

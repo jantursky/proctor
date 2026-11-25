@@ -32,6 +32,13 @@ public final class com/jantursky/proctor/report/DiffAxis : java/lang/Enum {
 	public static fun values ()[Lcom/jantursky/proctor/report/DiffAxis;
 }
 
+public final class com/jantursky/proctor/report/LatencyChange {
+	public final fun getBaseMillis ()J
+	public final fun getDeltaMillis ()J
+	public final fun getOtherMillis ()J
+	public final fun getPercent ()Ljava/lang/Double;
+}
+
 public final class com/jantursky/proctor/report/Report {
 	public static final field Companion Lcom/jantursky/proctor/report/Report$Companion;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -74,6 +81,8 @@ public final class com/jantursky/proctor/report/RunDiff {
 	public final fun getCases ()Ljava/util/List;
 	public final fun getImprovements ()I
 	public final fun getOther ()Lcom/jantursky/proctor/RunResult;
+	public final fun getP50Latency ()Lcom/jantursky/proctor/report/LatencyChange;
+	public final fun getP95Latency ()Lcom/jantursky/proctor/report/LatencyChange;
 	public final fun getRegressions ()I
 	public final fun getScoreDelta ()Ljava/lang/Double;
 }

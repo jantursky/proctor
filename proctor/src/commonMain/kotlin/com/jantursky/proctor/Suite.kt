@@ -25,6 +25,8 @@ public class SuiteScore internal constructor(
     public val passed: Int,
     public val failed: Int,
     public val notGraded: Int,
+    /** 95th-percentile attempt latency over graded attempts, in milliseconds. `null` when no attempt was graded. */
+    public val p95LatencyMillis: Long? = null,
 ) {
     /** Share of graded cases that passed, `0.0` when nothing was graded. */
     public val passRate: Double get() = if (passed + failed == 0) 0.0 else passed.toDouble() / (passed + failed)
@@ -188,6 +190,11 @@ public class GradersBuilder internal constructor() {
         max: Int,
     ) {
         add(lengthBetweenGrader(min, max))
+    }
+
+    /** Passes when the attempt took at most [millis] milliseconds; see [latencyUnderGrader]. */
+    public fun latencyUnder(millis: Long) {
+        add(latencyUnderGrader(millis))
     }
 
     /** Adds the inverse of [grader]; see [notGrader]. */

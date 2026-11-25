@@ -198,6 +198,37 @@ class GradersTest {
     }
 
     @Test
+    fun latencyUnderPassesAtAndBelowTheLimitAndFailsAbove() =
+        runTest {
+            val grader = latencyUnderGrader(500)
+
+            fun at(millis: Long) = GradeContext("input", "prompt", "out", null, millis)
+            assertEquals(Status.Passed, grader.grade(at(0)).status)
+            assertEquals(Status.Passed, grader.grade(at(499)).status)
+            assertEquals(Status.Passed, grader.grade(at(500)).status)
+            val slow = grader.grade(at(800))
+            assertEquals(Status.Failed, slow.status)
+            assertTrue(slow.rationale.contains("800") && slow.rationale.contains("500"))
+        }
+
+    @Test
+    fun latencyUnderRejectsANegativeLimit() {
+        assertFailsWithMessage<IllegalArgumentException>("latencyUnder") { latencyUnderGrader(-1) }
+    }
+
+    @Test
+    fun latencyUnderIsAvailableInTheSuiteDsl() =
+        runTest {
+            val suite =
+                evalSuite("dsl") {
+                    prompt("v1") { it }
+                    case("a") { expect("A") }
+                    graders { latencyUnder(500) }
+                }
+            assertEquals(listOf("latencyUnder"), suite.graders.map { it.name })
+        }
+
+    @Test
     fun notInvertsVerdictsAndKeepsNotGraded() =
         runTest {
             val inverted = notGrader(containsGrader("x"))

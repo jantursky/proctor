@@ -2,6 +2,7 @@ package com.jantursky.proctor.report
 
 import com.jantursky.proctor.RunResult
 import com.jantursky.proctor.Status
+import com.jantursky.proctor.nearestRankPercentile
 import kotlin.math.roundToInt
 
 /** What turns a report into a failing CI step. A run whose own `passWhen` verdict is false always fails. */
@@ -75,6 +76,27 @@ internal fun label(run: RunResult): String {
     val env = run.environment
     return "${run.suite} · ${env.platform} ${env.modelVersion ?: "unknown model"} · prompt ${run.promptVersion}"
 }
+
+/** Latency of the graded attempts of one run, in milliseconds. Not graded attempts do not count. */
+internal class LatencyStats(
+    val p50: Long,
+    val p95: Long,
+    val max: Long,
+)
+
+/** `null` when the run has no graded attempt. */
+internal fun latencyOf(run: RunResult): LatencyStats? {
+    val values =
+        run.cases
+            .flatMap { it.attempts }
+            .filter { it.status != Status.NotGraded }
+            .map { it.latencyMillis }
+    val p50 = values.nearestRankPercentile(50.0) ?: return null
+    val p95 = values.nearestRankPercentile(95.0) ?: return null
+    return LatencyStats(p50, p95, values.max())
+}
+
+internal fun Long?.millis(): String = if (this == null) "–" else "$this ms"
 
 internal fun Status.symbol(): String =
     when (this) {

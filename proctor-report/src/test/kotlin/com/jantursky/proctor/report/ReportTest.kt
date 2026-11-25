@@ -173,4 +173,25 @@ class ReportTest {
         assertEquals("0.33", (1.0 / 3).twoDecimals())
         assertEquals("fail", Failed.symbol())
     }
+
+    @Test
+    fun latencyPercentilesCountGradedAttemptsOnly() {
+        val timed =
+            run(
+                case("a", Passed, latency = 100),
+                case("b", Passed, latency = 200),
+                case("c", Passed, latency = 300),
+                case("d", Passed, latency = 400),
+                case("quota", NotGraded, latency = 99_999),
+            )
+        assertTrue(Report.of(listOf(timed)).toMarkdown().contains("| 200 ms | 400 ms | 400 ms |"))
+        assertTrue(Report.of(listOf(timed)).toHtml().contains("<td>200 ms</td><td>400 ms</td><td>400 ms</td>"))
+    }
+
+    @Test
+    fun aRunWithoutGradedAttemptsShowsNoLatency() {
+        val ungraded = run(case("a", NotGraded))
+        assertTrue(Report.of(listOf(ungraded)).toMarkdown().contains("| – | – | – |"))
+        assertTrue(Report.of(listOf(ungraded)).toHtml().contains("<td>–</td><td>–</td><td>–</td>"))
+    }
 }

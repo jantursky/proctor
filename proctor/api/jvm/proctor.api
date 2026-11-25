@@ -267,16 +267,19 @@ public final class com/jantursky/proctor/Grade$Companion {
 }
 
 public final class com/jantursky/proctor/GradeContext {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/jantursky/proctor/GradeContext;
-	public static synthetic fun copy$default (Lcom/jantursky/proctor/GradeContext;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/jantursky/proctor/GradeContext;
+	public final fun component5 ()J
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/jantursky/proctor/GradeContext;
+	public static synthetic fun copy$default (Lcom/jantursky/proctor/GradeContext;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/jantursky/proctor/GradeContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getExpected ()Ljava/lang/String;
 	public final fun getInput ()Ljava/lang/String;
+	public final fun getLatencyMillis ()J
 	public final fun getOutput ()Ljava/lang/String;
 	public final fun getPrompt ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -333,6 +336,7 @@ public final class com/jantursky/proctor/GradersBuilder {
 	public final fun exactMatch (Z)V
 	public static synthetic fun exactMatch$default (Lcom/jantursky/proctor/GradersBuilder;ZILjava/lang/Object;)V
 	public final fun isJson ()V
+	public final fun latencyUnder (J)V
 	public final fun lengthBetween (II)V
 	public final fun llmJudge (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)V
 	public final fun not (Lcom/jantursky/proctor/Grader;)V
@@ -355,6 +359,7 @@ public final class com/jantursky/proctor/GradersKt {
 	public static final fun isJsonGrader ()Lcom/jantursky/proctor/Grader;
 	public static final fun jsonSchemaGrader (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;)Lcom/jantursky/proctor/Grader;
 	public static synthetic fun jsonSchemaGrader$default (Lkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;ILjava/lang/Object;)Lcom/jantursky/proctor/Grader;
+	public static final fun latencyUnderGrader (J)Lcom/jantursky/proctor/Grader;
 	public static final fun lengthBetweenGrader (II)Lcom/jantursky/proctor/Grader;
 	public static final fun llmJudgeGrader (Ljava/lang/String;Lcom/jantursky/proctor/Judge;)Lcom/jantursky/proctor/Grader;
 	public static final fun notGrader (Lcom/jantursky/proctor/Grader;)Lcom/jantursky/proctor/Grader;
@@ -493,6 +498,10 @@ public final class com/jantursky/proctor/Sampling$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class com/jantursky/proctor/StatsKt {
+	public static final fun nearestRankPercentile (Ljava/util/List;D)Ljava/lang/Long;
+}
+
 public final class com/jantursky/proctor/Status : java/lang/Enum {
 	public static final field Companion Lcom/jantursky/proctor/Status$Companion;
 	public static final field Failed Lcom/jantursky/proctor/Status;
@@ -514,6 +523,7 @@ public final class com/jantursky/proctor/SuiteKt {
 public final class com/jantursky/proctor/SuiteScore {
 	public final fun getFailed ()I
 	public final fun getNotGraded ()I
+	public final fun getP95LatencyMillis ()Ljava/lang/Long;
 	public final fun getPassRate ()D
 	public final fun getPassed ()I
 	public final fun getScore ()D

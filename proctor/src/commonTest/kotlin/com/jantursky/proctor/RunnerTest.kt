@@ -315,4 +315,54 @@ class RunnerTest {
             assertFailsWith<BackendException.Failed> { backend.generate("p", Sampling()) }
             assertEquals(listOf("p"), backend.prompts)
         }
+
+    @Test
+    fun graderSeesTheMeasuredLatencyOfTheAttempt() =
+        runTest {
+            val seen = mutableListOf<Long>()
+            val recorder =
+                object : Grader {
+                    override val name = "recorder"
+
+                    override suspend fun grade(context: GradeContext): Grade {
+                        seen += context.latencyMillis
+                        return Grade.passed()
+                    }
+                }
+            val suite =
+                evalSuite("latency") {
+                    prompt("v1") { it }
+                    case("a") { expect("A") }
+                    graders { add(recorder) }
+                }
+            val result = EvalRunner(FakeBackend { _, _ -> "A" }, quickRun).run(suite)
+            val attempt =
+                result.cases
+                    .single()
+                    .attempts
+                    .single()
+            assertEquals(listOf(attempt.latencyMillis), seen)
+        }
+
+    @Test
+    fun passWhenSeesThePercentileLatencyOfGradedAttemptsOnly() =
+        runTest {
+            val seen = mutableListOf<SuiteScore>()
+            val suite =
+                evalSuite("gate") {
+                    prompt("v1") { it }
+                    case("a") { expect("A") }
+                    graders { exactMatch() }
+                    passWhen {
+                        seen += this
+                        true
+                    }
+                }
+            EvalRunner(FakeBackend { _, _ -> "A" }, quickRun).run(suite)
+            assertTrue(seen.single().p95LatencyMillis != null)
+
+            seen.clear()
+            EvalRunner(FakeBackend { _, _ -> throw BackendException.Failed("down") }, quickRun).run(suite)
+            assertNull(seen.single().p95LatencyMillis)
+        }
 }

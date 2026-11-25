@@ -23,6 +23,7 @@ internal fun case(
             null
         },
     input: String = "input $id",
+    latency: Long = 0,
 ) = CaseResult(
     id = id,
     input = input,
@@ -34,6 +35,7 @@ internal fun case(
         listOf(
             Attempt(
                 output = output,
+                latencyMillis = latency,
                 status = status,
                 score = score,
                 graders = listOf(GraderResult("exactMatch", status, score, "because")),

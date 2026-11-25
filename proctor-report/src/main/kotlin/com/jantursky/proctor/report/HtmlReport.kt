@@ -39,13 +39,17 @@ internal object HtmlReport {
 
     private fun StringBuilder.results(report: Report) {
         appendLine("<h2>Results</h2><div class=\"scroll\"><table><thead><tr>")
-        listOf("Run", "Cases", "Passed", "Failed", "Not graded", "Mean score", "Verdict")
+        listOf("Run", "Cases", "Passed", "Failed", "Not graded", "Mean score", "p50", "p95", "Max", "Verdict")
             .forEach { appendLine("<th>${esc(it)}</th>") }
         appendLine("</tr></thead><tbody>")
         for (run in report.runs) {
             val s = run.summary
             appendLine("<tr><td>${esc(label(run))}</td><td>${s.total}</td><td>${s.passed}</td><td>${s.failed}</td>")
             appendLine("<td>${s.notGraded}</td><td>${s.meanScore.percent()}</td>")
+            val latency = latencyOf(run)
+            appendLine(
+                "<td>${latency?.p50.millis()}</td><td>${latency?.p95.millis()}</td><td>${latency?.max.millis()}</td>",
+            )
             appendLine("<td>${tag(if (s.suitePassed) Status.Passed else Status.Failed)}</td></tr>")
         }
         appendLine("</tbody></table></div>")
@@ -62,6 +66,11 @@ internal object HtmlReport {
         appendLine("<p>Score ${diff.base.summary.meanScore.percent()} to ${diff.other.summary.meanScore.percent()} ")
         appendLine(
             "(${esc(diff.scoreDelta.signed())}). ${diff.regressions} regressed, ${diff.improvements} improved.</p>",
+        )
+        appendLine(
+            "<p>Latency p50 ${esc(
+                diff.p50Latency.describeOrDash(),
+            )}, p95 ${esc(diff.p95Latency.describeOrDash())}.</p>",
         )
         appendLine("<div class=\"scroll\"><table><thead><tr><th>Case</th><th>Input</th><th>Base</th><th>Other</th>")
         appendLine("<th>Change</th></tr></thead><tbody>")

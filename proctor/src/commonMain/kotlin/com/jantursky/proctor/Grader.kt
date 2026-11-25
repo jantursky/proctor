@@ -6,6 +6,8 @@ public data class GradeContext(
     val prompt: String,
     val output: String,
     val expected: String?,
+    /** How long the backend took for this attempt, in milliseconds. `0` when the caller does not measure it. */
+    val latencyMillis: Long = 0,
 )
 
 /** A grader's verdict; the runner adds the grader's name. */

@@ -144,7 +144,7 @@ public class EvalRunner(
         output: String,
         latency: Long,
     ): Attempt {
-        val context = GradeContext(case.input, prompt, output, case.expected)
+        val context = GradeContext(case.input, prompt, output, case.expected, latency)
         val results =
             suite.graders.map { grader ->
                 val grade =
@@ -206,7 +206,13 @@ public class EvalRunner(
         val passed = cases.count { it.status == Status.Passed }
         val failed = cases.count { it.status == Status.Failed }
         val notGraded = cases.count { it.status == Status.NotGraded }
-        val score = SuiteScore(meanScore ?: 0.0, cases.size, passed, failed, notGraded)
+        val p95 =
+            cases
+                .flatMap { it.attempts }
+                .filter { it.status != Status.NotGraded }
+                .map { it.latencyMillis }
+                .nearestRankPercentile(95.0)
+        val score = SuiteScore(meanScore ?: 0.0, cases.size, passed, failed, notGraded, p95)
         return Summary(cases.size, passed, failed, notGraded, meanScore, suite.passWhen(score))
     }
 

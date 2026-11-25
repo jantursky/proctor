@@ -10,6 +10,28 @@ import kotlin.test.assertNull
 
 class RunDiffTest {
     @Test
+    fun latencyChangeIsReportedInMillisAndPercentOfTheBase() {
+        val base = run(case("a", Passed, latency = 100), case("b", Passed, latency = 600))
+        val slower = run(case("a", Passed, latency = 100), case("b", Passed, latency = 900))
+        val diff = RunDiff.of(base, slower)
+        assertEquals(600L, diff.p95Latency?.baseMillis)
+        assertEquals(900L, diff.p95Latency?.otherMillis)
+        assertEquals(300L, diff.p95Latency?.deltaMillis)
+        assertEquals(50.0, diff.p95Latency?.percent)
+        assertEquals("+300 ms (+50%)", diff.p95Latency?.describe())
+        assertEquals("0 ms (0%)", diff.p50Latency?.describe())
+    }
+
+    @Test
+    fun latencyChangeIsAbsentWhenARunHasNoGradedAttempt() {
+        val graded = run(case("a", Passed, latency = 100))
+        val ungraded = run(case("a", NotGraded, latency = 9000))
+        val diff = RunDiff.of(graded, ungraded)
+        assertNull(diff.p50Latency)
+        assertNull(diff.p95Latency)
+    }
+
+    @Test
     fun classifiesEveryCaseMovement() {
         val base =
             run(

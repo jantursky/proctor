@@ -22,23 +22,23 @@
 
 ## Results
 
-| Run | Cases | Passed | Failed | Not graded | Mean score | Verdict |
-| --- | --- | --- | --- | --- | --- | --- |
-| ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1 | 12 | 11 | 1 | 0 | 92% | pass |
-| ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2 | 12 | 11 | 1 | 0 | 97% | pass |
-| ticket-classifier · android nano-v4-fast · prompt v1 | 12 | 11 | 1 | 0 | 97% | pass |
-| ticket-classifier · android nano-v4-fast · prompt v2 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-full · prompt v1 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-full · prompt v2 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-full · prompt v1 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-full · prompt v2 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-fast · prompt v1 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-classifier · android nano-v4-fast · prompt v2 | 12 | 12 | 0 | 0 | 100% | pass |
-| ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1 | 4 | 2 | 2 | 0 | 92% | pass |
-| ticket-extraction · android nano-v4-fast · prompt v1 | 4 | 3 | 1 | 0 | 96% | pass |
-| ticket-extraction · android nano-v4-full · prompt v1 | 4 | 3 | 1 | 0 | 99% | pass |
-| ticket-extraction · android nano-v4-full · prompt v1 | 4 | 3 | 1 | 0 | 96% | pass |
-| ticket-extraction · android nano-v4-fast · prompt v1 | 4 | 3 | 1 | 0 | 96% | pass |
+| Run | Cases | Passed | Failed | Not graded | Mean score | p50 | p95 | Max | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1 | 12 | 11 | 1 | 0 | 92% | 340 ms | 402 ms | 1939 ms | pass |
+| ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v2 | 12 | 11 | 1 | 0 | 97% | 347 ms | 365 ms | 367 ms | pass |
+| ticket-classifier · android nano-v4-fast · prompt v1 | 12 | 11 | 1 | 0 | 97% | 143 ms | 165 ms | 206 ms | pass |
+| ticket-classifier · android nano-v4-fast · prompt v2 | 12 | 12 | 0 | 0 | 100% | 140 ms | 156 ms | 162 ms | pass |
+| ticket-classifier · android nano-v4-full · prompt v1 | 12 | 12 | 0 | 0 | 100% | 245 ms | 274 ms | 1897 ms | pass |
+| ticket-classifier · android nano-v4-full · prompt v2 | 12 | 12 | 0 | 0 | 100% | 243 ms | 259 ms | 262 ms | pass |
+| ticket-classifier · android nano-v4-full · prompt v1 | 12 | 12 | 0 | 0 | 100% | 135 ms | 159 ms | 165 ms | pass |
+| ticket-classifier · android nano-v4-full · prompt v2 | 12 | 12 | 0 | 0 | 100% | 138 ms | 154 ms | 154 ms | pass |
+| ticket-classifier · android nano-v4-fast · prompt v1 | 12 | 12 | 0 | 0 | 100% | 134 ms | 147 ms | 148 ms | pass |
+| ticket-classifier · android nano-v4-fast · prompt v2 | 12 | 12 | 0 | 0 | 100% | 136 ms | 155 ms | 162 ms | pass |
+| ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derived) · prompt v1 | 4 | 2 | 2 | 0 | 92% | 606 ms | 740 ms | 740 ms | pass |
+| ticket-extraction · android nano-v4-fast · prompt v1 | 4 | 3 | 1 | 0 | 96% | 362 ms | 422 ms | 422 ms | pass |
+| ticket-extraction · android nano-v4-full · prompt v1 | 4 | 3 | 1 | 0 | 99% | 566 ms | 760 ms | 760 ms | pass |
+| ticket-extraction · android nano-v4-full · prompt v1 | 4 | 3 | 1 | 0 | 96% | 358 ms | 413 ms | 413 ms | pass |
+| ticket-extraction · android nano-v4-fast · prompt v1 | 4 | 3 | 1 | 0 | 96% | 377 ms | 416 ms | 416 ms | pass |
 
 ## Compare: ticket-classifier
 
@@ -46,6 +46,8 @@ Base ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in prompt version: v1 to v2.
 
 Score 92% to 97% (+6 pts). 0 regressed, 0 improved.
+
+Latency p50 +7 ms (+2%), p95 -37 ms (-9%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -68,6 +70,8 @@ Base ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt preview/fast.
 
 Score 92% to 97% (+6 pts). 0 regressed, 0 improved.
+
+Latency p50 -197 ms (-58%), p95 -237 ms (-59%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -91,6 +95,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
 
+Latency p50 -200 ms (-59%), p95 -246 ms (-61%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | double-charge | pass | pass | Same |
@@ -112,6 +118,8 @@ Base ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt preview/full.
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
+
+Latency p50 -95 ms (-28%), p95 -128 ms (-32%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -135,6 +143,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
 
+Latency p50 -97 ms (-29%), p95 -143 ms (-36%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | double-charge | pass | pass | Same |
@@ -156,6 +166,8 @@ Base ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt stable/full.
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
+
+Latency p50 -205 ms (-60%), p95 -243 ms (-60%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -179,6 +191,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
 
+Latency p50 -202 ms (-59%), p95 -248 ms (-62%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | double-charge | pass | pass | Same |
@@ -200,6 +214,8 @@ Base ticket-classifier · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt stable/fast.
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
+
+Latency p50 -206 ms (-61%), p95 -255 ms (-63%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -223,6 +239,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 100% (+8 pts). 0 regressed, 1 improved.
 
+Latency p50 -204 ms (-60%), p95 -247 ms (-61%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | double-charge | pass | pass | Same |
@@ -245,6 +263,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 96% (+4 pts). 0 regressed, 1 improved.
 
+Latency p50 -244 ms (-40%), p95 -318 ms (-43%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | blender | pass | pass | Same |
@@ -258,6 +278,8 @@ Base ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-full; backend: foundation-models to mlkit-genai-prompt preview/full.
 
 Score 92% to 99% (+7 pts). 0 regressed, 1 improved.
+
+Latency p50 -40 ms (-7%), p95 +20 ms (+3%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
@@ -273,6 +295,8 @@ Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixe
 
 Score 92% to 96% (+4 pts). 0 regressed, 1 improved.
 
+Latency p50 -248 ms (-41%), p95 -327 ms (-44%).
+
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |
 | blender | pass | pass | Same |
@@ -286,6 +310,8 @@ Base ticket-extraction · ios-simulator iOS 27.0 sim on Darwin 27.0.0 (os-derive
 Differs in platform: ios-simulator to android; device: iPhone19,2 to Google Pixel 11 Pro; OS version: Version 27.0 (Build 24A434), simulator on host Darwin 27.0.0 to Android 17 (API 37, build CD1A.261005.003); model version: iOS 27.0 sim on Darwin 27.0.0 (os-derived) to nano-v4-fast; backend: foundation-models to mlkit-genai-prompt stable/fast.
 
 Score 92% to 96% (+4 pts). 0 regressed, 1 improved.
+
+Latency p50 -229 ms (-38%), p95 -324 ms (-44%).
 
 | Case | Base | Other | Change |
 | --- | --- | --- | --- |

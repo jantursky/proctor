@@ -3,6 +3,7 @@ package com.jantursky.proctor.report
 import com.jantursky.proctor.CaseResult
 import com.jantursky.proctor.RunResult
 import com.jantursky.proctor.Status
+import kotlin.math.roundToInt
 
 /** What differs between two runs of the same suite. */
 public enum class DiffAxis(
@@ -39,6 +40,27 @@ public class CaseDiff internal constructor(
     public val scoreDelta: Double? get() = other?.meanScore?.let { o -> base?.meanScore?.let { o - it } }
 }
 
+/** How a latency moved from the base run to the other run. */
+public class LatencyChange internal constructor(
+    public val baseMillis: Long,
+    public val otherMillis: Long,
+) {
+    /** Other minus base, in milliseconds. */
+    public val deltaMillis: Long get() = otherMillis - baseMillis
+
+    /** The change relative to the base, `null` when the base is 0 ms. */
+    public val percent: Double? get() = if (baseMillis == 0L) null else deltaMillis * 100.0 / baseMillis
+
+    /** Such as `+300 ms (+50%)`. */
+    internal fun describe(): String {
+        val sign = if (deltaMillis > 0) "+" else ""
+        val relative = percent?.let { " ($sign${it.roundToInt()}%)" }.orEmpty()
+        return "$sign$deltaMillis ms$relative"
+    }
+}
+
+internal fun LatencyChange?.describeOrDash(): String = this?.describe() ?: "–"
+
 /** Two runs of one suite, compared case by case. */
 public class RunDiff internal constructor(
     public val base: RunResult,
@@ -46,6 +68,12 @@ public class RunDiff internal constructor(
     public val cases: List<CaseDiff>,
 ) {
     public val axes: List<DiffAxis> = axesOf(base, other)
+
+    /** Change of the p50 latency, `null` when either run has no graded attempt. */
+    public val p50Latency: LatencyChange? = latencyChange(base, other) { it.p50 }
+
+    /** Change of the p95 latency, `null` when either run has no graded attempt. */
+    public val p95Latency: LatencyChange? = latencyChange(base, other) { it.p95 }
 
     public val regressions: Int get() = cases.count { it.change == Change.Regressed }
     public val improvements: Int get() = cases.count { it.change == Change.Improved }
@@ -110,6 +138,16 @@ internal fun value(
         DiffAxis.Backend -> run.environment.backend
         DiffAxis.PromptVersion -> run.promptVersion
     }
+
+private fun latencyChange(
+    base: RunResult,
+    other: RunResult,
+    pick: (LatencyStats) -> Long,
+): LatencyChange? {
+    val b = latencyOf(base) ?: return null
+    val o = latencyOf(other) ?: return null
+    return LatencyChange(pick(b), pick(o))
+}
 
 private fun axesOf(
     base: RunResult,

@@ -143,6 +143,26 @@ public fun lengthBetweenGrader(
 }
 
 /**
+ * Passes when the attempt took at most [limitMillis] milliseconds, the limit itself included. A slower attempt fails
+ * and the rationale states both values. An attempt whose latency was not measured counts as `0` and passes.
+ */
+public fun latencyUnderGrader(limitMillis: Long): Grader {
+    require(limitMillis >= 0) { "latencyUnder needs a limit of at least 0 ms, got $limitMillis" }
+    return object : Grader {
+        override val name = "latencyUnder"
+
+        override suspend fun grade(context: GradeContext): Grade {
+            val latency = context.latencyMillis
+            return if (latency <= limitMillis) {
+                Grade.passed()
+            } else {
+                Grade.failed(rationale = "Took $latency ms, over the limit of $limitMillis ms")
+            }
+        }
+    }
+}
+
+/**
  * Inverts [grader]: Passed becomes Failed and the other way round, a score becomes `1 - score`. Not graded stays
  * not graded, so a quota error is never turned into a verdict.
  */
